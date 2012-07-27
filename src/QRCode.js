@@ -20,6 +20,7 @@ qrcode.imagedata = null;
 qrcode.width = 0;
 qrcode.height = 0;
 qrcode.qrCodeSymbol = null;
+qrcode.debug = false;
 
 qrcode.sizeOfDataLengthInfo =  [  [ 10, 9, 8, 8 ],  [ 12, 11, 16, 10 ],  [ 14, 13, 16, 12 ] ];
 
@@ -83,23 +84,32 @@ qrcode.decode = function(src){
 	}
 }
 
+qrcode.decode_utf8 = function ( s )
+{
+  return decodeURIComponent( escape( s ) );
+}
+
 qrcode.process = function(ctx){
 	
 	var start = new Date().getTime();
-	
+
 	var image = qrcode.grayScaleToBitmap(qrcode.grayscale());
-	/*
-	for (var y = 0; y < qrcode.height; y++)
-	{
-		for (var x = 0; x < qrcode.width; x++)
-		{
-			var point = (x * 4) + (y * qrcode.width * 4);
-			qrcode.imagedata.data[point] = image[x+y*qrcode.width]?0:0;
-			qrcode.imagedata.data[point+1] = image[x+y*qrcode.width]?0:0;
-			qrcode.imagedata.data[point+2] = image[x+y*qrcode.width]?255:0;
-		}
-	}
-	ctx.putImageData(qrcode.imagedata, 0, 0);*/
+    //var image = qrcode.binarize(128);
+	
+    if(qrcode.debug)
+    {
+        for (var y = 0; y < qrcode.height; y++)
+        {
+            for (var x = 0; x < qrcode.width; x++)
+            {
+                var point = (x * 4) + (y * qrcode.width * 4);
+                qrcode.imagedata.data[point] = image[x+y*qrcode.width]?0:0;
+                qrcode.imagedata.data[point+1] = image[x+y*qrcode.width]?0:0;
+                qrcode.imagedata.data[point+2] = image[x+y*qrcode.width]?255:0;
+            }
+        }
+        ctx.putImageData(qrcode.imagedata, 0, 0);
+    }
 	
 	//var finderPatternInfo = new FinderPatternFinder().findFinderPattern(image);
 	
@@ -117,7 +127,8 @@ qrcode.process = function(ctx){
 			qrcode.imagedata.data[point+2] = qRCodeMatrix.bits.get_Renamed(x,y)?255:0;
 		}
 	}*/
-	ctx.putImageData(qrcode.imagedata, 0, 0);
+    if(qrcode.debug)
+        ctx.putImageData(qrcode.imagedata, 0, 0);
 	
 	var reader = Decoder.decode(qRCodeMatrix.bits);
 	var data = reader.DataByte;
@@ -132,7 +143,7 @@ qrcode.process = function(ctx){
 	var time = end - start;
 	console.log(time);
     
-	return str;
+	return qrcode.decode_utf8(str);
 	//alert("Time:" + time + " Code: "+str);
 }
 
@@ -144,7 +155,7 @@ qrcode.getPixel = function(x,y){
 		throw "point error";
 	}
 	point = (x * 4) + (y * qrcode.width * 4);
-	p = (qrcode.imagedata.data[point]*30 + qrcode.imagedata.data[point + 1]*59 + qrcode.imagedata.data[point + 2]*11)/100;
+	p = (qrcode.imagedata.data[point]*33 + qrcode.imagedata.data[point + 1]*34 + qrcode.imagedata.data[point + 2]*33)/100;
 	return p;
 }
 
