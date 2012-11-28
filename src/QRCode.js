@@ -28,9 +28,18 @@ qrcode.callback = null;
 
 qrcode.decode = function(src){
 	
-	if(arguments.length==0)
+	if(arguments.length==0 || src.getContext)
 	{
-		var canvas_qr = document.getElementById("qr-canvas");
+		var canvas_qr;
+        // If the object passed in appears to be a canvas then lets use that
+        if (arguments.length == 0) 
+        {
+            canvas_qr = document.getElementById("qr-canvas");
+        }
+        else
+        {
+            canvas_qr = src;
+        }
 		var context = canvas_qr.getContext('2d');
 		qrcode.width = canvas_qr.width;
 		qrcode.height = canvas_qr.height;
