@@ -32,13 +32,13 @@ qrcode.decode = function(src){
 	{
 		var canvas_qr;
         // If the object passed in appears to be a canvas then lets use that
-        if (src.getContext)
+        if (arguments.length == 0) 
         {
-            canvas_qr = src;
+            canvas_qr = document.getElementById("qr-canvas");
         }
         else
         {
-            canvas_qr = document.getElementById("qr-canvas");
+            canvas_qr = src;
         }
 		var context = canvas_qr.getContext('2d');
 		qrcode.width = canvas_qr.width;
