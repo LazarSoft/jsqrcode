@@ -415,11 +415,14 @@ function FinderPatternFinder()
 				}
 			}
 			
-			if (this.possibleCenters.Count > 3)
+			if (this.possibleCenters.length > 3)
 			{
 				// Throw away all but those first size candidate points we found.
-				//Collections.insertionSort(possibleCenters, new CenterComparator());
-				//SupportClass.SetCapacity(possibleCenters, 3);
+				this.possibleCenters.sort(function(a, b){
+					if (a.count > b.count){return -1;}
+					if (a.count < b.count){return 1;}
+					return 0;
+				});
 			}
 			
 			return new Array( this.possibleCenters[0],  this.possibleCenters[1],  this.possibleCenters[2]);
