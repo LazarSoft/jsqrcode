@@ -54,7 +54,7 @@ Decoder.correctErrors=function( codewordBytes,  numDataCodewords)
 	}
 }
 
-Decoder.decode=function(bits)
+Decoder.decode=function(bits,qrcode)
 {
 	var parser = new BitMatrixParser(bits);
 	var version = parser.readVersion();
@@ -89,7 +89,7 @@ Decoder.decode=function(bits)
 	}
 	
 	// Decode the contents of that stream of bytes
-	var reader = new QRCodeDataBlockReader(resultBytes, version.VersionNumber, ecLevel.Bits);
+	var reader = new QRCodeDataBlockReader(resultBytes, version.VersionNumber, ecLevel.Bits,qrcode);
 	return reader;
 	//return DecodedBitStreamParser.decode(resultBytes, version, ecLevel);
 }

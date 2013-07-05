@@ -28,7 +28,7 @@ var MAX_MODULES = 57;
 var INTEGER_MATH_SHIFT = 8;
 var CENTER_QUORUM = 2;
 
-qrcode.orderBestPatterns=function(patterns)
+QrCode.prototype.orderBestPatterns=function(patterns)
 		{
 			
 			function distance( pattern1,  pattern2)
@@ -148,8 +148,10 @@ function FinderPatternInfo(patternCenters)
 	}); 
 }
 
-function FinderPatternFinder()
+function FinderPatternFinder(qrcode)
 {
+	if (qrcode==null) 
+		throw ('no qrcode defined!!')
 	this.image=null;
 	this.possibleCenters = [];
 	this.hasSkipped = false;
@@ -193,6 +195,8 @@ function FinderPatternFinder()
 		}
 	this.crossCheckVertical=function( startI,  centerJ,  maxCount,  originalStateCountTotal)
 		{
+			if (qrcode==null)
+				throw ('qrcode not defined')
 			var image = this.image;
 			
 			var maxI = qrcode.height;
@@ -391,7 +395,7 @@ function FinderPatternFinder()
 			if (startSize < 3)
 			{
 				// Couldn't find enough finder patterns
-				throw "Couldn't find enough finder patterns";
+				throw "Couldn't find enough finder patterns:"+startSize+" patterns found";
 			}
 			
 			// Filter outlier possibilities whose module size is too different
@@ -415,14 +419,18 @@ function FinderPatternFinder()
 				}
 			}
 			
-			if (this.possibleCenters.length > 3)
+ 			if (this.possibleCenters.length > 3)
 			{
 				// Throw away all but those first size candidate points we found.
+				//Collections.insertionSort(possibleCenters, new CenterComparator());
+				//SupportClass.SetCapacity(possibleCenters, 3);
+
 				this.possibleCenters.sort(function(a, b){
-					if (a.count > b.count){return -1;}
-					if (a.count < b.count){return 1;}
-					return 0;
-				});
+				          if (a.count > b.count){return -1;}
+				          if (a.count < b.count){return 1;}
+				          return 0;
+				        });
+
 			}
 			
 			return new Array( this.possibleCenters[0],  this.possibleCenters[1],  this.possibleCenters[2]);

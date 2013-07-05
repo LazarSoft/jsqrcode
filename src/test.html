@@ -62,7 +62,7 @@ function handleFiles(f)
 
       reader.onload = (function(theFile) {
         return function(e) {
-          qrcode.decode(e.target.result);
+          qr.decode(e.target.result);
         };
       })(f[i]);
 
@@ -72,14 +72,14 @@ function handleFiles(f)
 	
 function read(a)
 {
-	alert(a);
+	alert('Decoded'+a);
 }	
 	
 function load()
 {
 	initCanvas(640,480);
-	qrcode.callback = read;
-	qrcode.decode("meqrthumb.png");
+	window.qr= new QrCode(); //instantiate a QrCode reader
+	qr.callback=read;
 }
 
 function initCanvas(ww,hh)
@@ -143,7 +143,7 @@ function initCanvas(ww,hh)
 	
     </div>
 <button onclick="captureToCanvas()">Capture</button><br>
-<canvas id="qr-canvas" width="640" height="480"></canvas>
+<canvas id="qr-canvas" width="640" height="480" style="border:2px dashed black"></canvas>
 </body>
 
 </html>

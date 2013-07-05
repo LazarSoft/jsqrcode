@@ -122,7 +122,7 @@ function DetectorResult(bits,  points)
 }
 
 
-function Detector(image)
+function Detector(image,qrcode)
 {
 	this.image=image;
 	this.resultPointCallback = null;
@@ -282,6 +282,8 @@ function Detector(image)
 					break;
 				
 				case 3: 
+					// dimension-=2;
+					debugger;
 					throw "Error";
 				}
 			return dimension;
@@ -302,7 +304,7 @@ function Detector(image)
 			var alignmentAreaTopY = Math.max(0, estAlignmentY - allowance);
 			var alignmentAreaBottomY = Math.min(qrcode.height - 1, estAlignmentY + allowance);
 			
-			var alignmentFinder = new AlignmentPatternFinder(this.image, alignmentAreaLeftX, alignmentAreaTopY, alignmentAreaRightX - alignmentAreaLeftX, alignmentAreaBottomY - alignmentAreaTopY, overallEstModuleSize, this.resultPointCallback);
+			var alignmentFinder = new AlignmentPatternFinder(this.image, alignmentAreaLeftX, alignmentAreaTopY, alignmentAreaRightX - alignmentAreaLeftX, alignmentAreaBottomY - alignmentAreaTopY, overallEstModuleSize, this.resultPointCallback,qrcode);
 			return alignmentFinder.find();
 		}
 		
@@ -336,7 +338,7 @@ function Detector(image)
 		{
 			
 			var sampler = GridSampler;
-			return sampler.sampleGrid3(image, dimension, transform);
+			return sampler.sampleGrid3(image, dimension, transform,qrcode);
 		}
 	
 	this.processFinderPatternInfo = function( info)
@@ -354,7 +356,7 @@ function Detector(image)
 			var dimension = this.computeDimension(topLeft, topRight, bottomLeft, moduleSize);
 			var provisionalVersion = Version.getProvisionalVersionForDimension(dimension);
 			var modulesBetweenFPCenters = provisionalVersion.DimensionForVersion - 7;
-			
+			// debugger;
 			var alignmentPattern = null;
 			// Anything above version 1 has an alignment pattern
 			if (provisionalVersion.AlignmentPatternCenters.length > 0)
@@ -406,7 +408,7 @@ function Detector(image)
 	
 	this.detect=function()
 	{
-		var info =  new FinderPatternFinder().findFinderPattern(this.image);
+		var info =  new FinderPatternFinder(qrcode).findFinderPattern(this.image);
 			
 		return this.processFinderPatternInfo(info); 
 	}

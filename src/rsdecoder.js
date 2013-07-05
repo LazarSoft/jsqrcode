@@ -146,6 +146,8 @@ function ReedSolomonDecoder(field)
 			}
 			if (e != numErrors)
 			{
+				debugger;
+				console.log('heh')
 				throw "Error locator degree does not match number of roots";
 			}
 			return result;

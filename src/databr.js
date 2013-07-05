@@ -23,8 +23,9 @@
 */
 
 
-function QRCodeDataBlockReader(blocks,  version,  numErrorCorrectionCode)
+function QRCodeDataBlockReader(blocks,  version,  numErrorCorrectionCode,qrcode)
 {
+	if (qrcode==null) throw 'no qrcode'
 	this.blockPointer = 0;
 	this.bitPointer = 7;
 	this.dataLength = 0;
