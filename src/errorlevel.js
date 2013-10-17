@@ -44,7 +44,7 @@ function ErrorCorrectionLevel(ordinal,  bits, name)
 
 ErrorCorrectionLevel.forBits=function( bits)
 {
-	if (bits < 0 || bits >= FOR_BITS.Length)
+	if (bits < 0 || bits >= FOR_BITS.length)
 	{
 		throw "ArgumentException";
 	}
