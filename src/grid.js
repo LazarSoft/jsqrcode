@@ -31,7 +31,7 @@ GridSampler.checkAndNudgePoints=function( image,  points)
 			var height = qrcode.height;
 			// Check and nudge points from start until we see some that are OK:
 			var nudged = true;
-			for (var offset = 0; offset < points.Length && nudged; offset += 2)
+			for (var offset = 0; offset < points.length && nudged; offset += 2)
 			{
 				var x = Math.floor (points[offset]);
 				var y = Math.floor( points[offset + 1]);
@@ -63,7 +63,7 @@ GridSampler.checkAndNudgePoints=function( image,  points)
 			}
 			// Check and nudge points from end:
 			nudged = true;
-			for (var offset = points.Length - 2; offset >= 0 && nudged; offset -= 2)
+			for (var offset = points.length - 2; offset >= 0 && nudged; offset -= 2)
 			{
 				var x = Math.floor( points[offset]);
 				var y = Math.floor( points[offset + 1]);
