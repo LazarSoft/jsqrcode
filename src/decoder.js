@@ -68,7 +68,7 @@ Decoder.decode=function(bits)
 	
 	// Count total number of data bytes
 	var totalBytes = 0;
-	for (var i = 0; i < dataBlocks.Length; i++)
+	for (var i = 0; i < dataBlocks.length; i++)
 	{
 		totalBytes += dataBlocks[i].NumDataCodewords;
 	}
