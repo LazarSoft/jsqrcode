@@ -32,4 +32,5 @@ Set qrcode.callback to function "func(data)", where data will get the decoded in
 Decode image with: qrcode.decode(url or DataURL).
 Decode from canvas with "qr-canvas" ID: qrcode.decode()
 
-For webcam qrcode decoding (included in the test.html) you will need the camcanvas.swf from http://www.taboca.com/p/camcanvas/
+[new from 2014.01.09]
+For webcam qrcode decoding (included in the test.html) you will need a browser with getUserMedia (WebRTC) capability.
