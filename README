@@ -34,3 +34,8 @@ Decode from canvas with "qr-canvas" ID: qrcode.decode()
 
 [new from 2014.01.09]
 For webcam qrcode decoding (included in the test.html) you will need a browser with getUserMedia (WebRTC) capability.
+
+[new from 2014.08.14]
+Install it from bower package manager with `bower install jsqrcode`.
+All the scripts are concatenated in the right order in a single file in the dist folder.
+More info at http://bower.io
