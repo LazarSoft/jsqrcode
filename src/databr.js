@@ -318,7 +318,6 @@ function QRCodeDataBlockReader(blocks,  version,  numErrorCorrectionCode,qrcode)
 							}
 						//			
 						//canvas.println("DataLength: " + dataLength);
-						//Console.out.println(dataString);
 					}
 					while (true);
 		return output;

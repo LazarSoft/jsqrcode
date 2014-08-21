@@ -27,7 +27,7 @@ this.sizeOfDataLengthInfo =  [  [ 10, 9, 8, 8 ],  [ 12, 11, 16, 10 ],  [ 14, 13,
 
 this.callback = null;
 
-this.decode = function(src){
+this.decode = function(src,data){
 	
 	if(arguments.length==0)
 	{
@@ -36,14 +36,29 @@ this.decode = function(src){
 		this.width = canvas_qr.width;
 		this.height = canvas_qr.height;
 		this.imagedata = context.getImageData(0, 0, this.width, this.height);
-        this.result = this.process(context);
+        // this.result = this.process(context);
         if(this.callback!=null)
             this.callback(this.result);
 		return this.result;
 	}
+	else if (src.width!=undefined) {
+
+		this.width=src.width
+		this.height=src.height
+		this.imagedata={"data":data}
+		// this.imagedata.data=[]
+		// this.imagedata.data=data
+		this.imagedata.width=src.width
+		this.imagedata.height=src.height
+
+
+			this.result = this.process(null);
+
+		if(this.callback!=null)
+            this.callback(this.result);
+	}
 	else
 	{
-		// debugger;
 		var image = new Image();
 		var _this=this
 		image.onload=function(){
@@ -81,13 +96,11 @@ this.decode = function(src){
 
             try
             {
+            	window.context=context
                 _this.result = _this.process(context);
             }
             catch(e)
             {
-            	// debugger;
-				// console.log('error:',e);
-				// console.log(e.getStack())
                 _this.result = "error decoding QR Code:"+e;
             }
 			if(_this.callback!=null)
@@ -108,8 +121,8 @@ this.decode_utf8 = function ( s )
 this.process = function(ctx){
 	
 	var start = new Date().getTime();
-
 	var image = this.grayScaleToBitmap(this.grayscale());
+
     //var image = this.binarize(128);
 	
     if(this.debug)
@@ -157,7 +170,6 @@ this.process = function(ctx){
 	
 	var end = new Date().getTime();
 	var time = end - start;
-	// console.log(time);
     
 	return this.decode_utf8(str);
 	//alert("Time:" + time + " Code: "+str);
@@ -281,11 +293,6 @@ this.grayscale = function(){
 }
 
   }
-
-
-
-
-
 
 function URShift( number,  bits)
 {

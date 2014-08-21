@@ -282,8 +282,6 @@ function Detector(image,qrcode)
 					break;
 				
 				case 3: 
-					// dimension-=2;
-					debugger;
 					throw "Error";
 				}
 			return dimension;
@@ -356,7 +354,6 @@ function Detector(image,qrcode)
 			var dimension = this.computeDimension(topLeft, topRight, bottomLeft, moduleSize);
 			var provisionalVersion = Version.getProvisionalVersionForDimension(dimension);
 			var modulesBetweenFPCenters = provisionalVersion.DimensionForVersion - 7;
-			// debugger;
 			var alignmentPattern = null;
 			// Anything above version 1 has an alignment pattern
 			if (provisionalVersion.AlignmentPatternCenters.length > 0)

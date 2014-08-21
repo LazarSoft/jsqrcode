@@ -164,7 +164,6 @@ Version.getVersionForNumber=function( versionNumber)
 {
 	if (versionNumber < 1 || versionNumber > 40)
 	{
-		debugger;
 		throw "ArgumentException";
 	}
 	return Version.VERSIONS[versionNumber - 1];
