@@ -19,6 +19,8 @@
   "devDependencies": {
     "gulp": "^3.8.7",
     "gulp-concat": "^2.3.4",
-    "gulp-watch": "^0.6.9"
+    "gulp-watch": "^0.6.9",
+    "chai": "^1.9.1",
+    "png-js": "^0.1.1"
   }
 }
