@@ -428,7 +428,9 @@ function FinderPatternFinder()
 					//if (Math.abs(pattern.EstimatedModuleSize - average) > 0.2 * average)
                     if (Math.abs(pattern.EstimatedModuleSize - average) > limit)
 					{
-						this.possibleCenters.remove(i);
+            var rest = this.slice((this.possibleCenters) + 1 || this.length);
+            this.length = this.possibleCenters < 0 ? this.length + this.possibleCenters : this.possibleCenters;
+            this.push.apply(this, rest);
 						i--;
 					}
 				}
