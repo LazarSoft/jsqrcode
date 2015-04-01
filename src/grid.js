@@ -23,7 +23,7 @@
 */
 
 
-var GridSampler = {}; // changed from Global to File-Local
+var GridSampler = {};
 
 GridSampler.checkAndNudgePoints=function( image,  points)
 		{
