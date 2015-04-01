@@ -93,6 +93,12 @@ qrcode.decode = function(src){
                 qrcode.callback(true, qrcode.result);
             }, 0);
         }
+		image.onerror = function ()
+		{
+			if(qrcode.callback!=null) setTimeout(function () {
+                qrcode.callback(false, "Failed to load the image");
+            }, 0);
+		}
         image.src = src;
     }
 }
