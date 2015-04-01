@@ -38,7 +38,7 @@ qrcode.decode = function(src){
         qrcode.imagedata = context.getImageData(0, 0, qrcode.width, qrcode.height);
         qrcode.result = qrcode.process(context);
         if(qrcode.callback!=null) setTimeout(function () {
-            qrcode.callback(true, qrcode.result);
+            qrcode.callback(qrcode.result, true);
         }, 0);
         return qrcode.result;
     }
@@ -69,7 +69,7 @@ qrcode.decode = function(src){
             }catch(e){
                 qrcode.result = "Cross domain image reading not supported in your browser! Save it to your computer then drag and drop the file!";
                 if(qrcode.callback!=null) setTimeout(function () {
-                    qrcode.callback(false, qrcode.result);
+                    qrcode.callback(qrcode.result, false);
                 }, 0);
                 return;
             }
@@ -84,19 +84,19 @@ qrcode.decode = function(src){
                 if(e && e.message) qrcode.result = e.message;
 				else qrcode.result = e;
 				if(qrcode.callback!=null) setTimeout(function () {
-                    qrcode.callback(false, qrcode.result);
+                    qrcode.callback(qrcode.result, false);
                 }, 0);
 				return
             }
 
             if(qrcode.callback!=null) setTimeout(function () {
-                qrcode.callback(true, qrcode.result);
+                qrcode.callback(qrcode.result, true);
             }, 0);
         }
 		image.onerror = function ()
 		{
 			if(qrcode.callback!=null) setTimeout(function () {
-                qrcode.callback(false, "Failed to load the image");
+                qrcode.callback("Failed to load the image", false);
             }, 0);
 		}
         image.src = src;

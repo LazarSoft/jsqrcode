@@ -27,7 +27,7 @@ Include the scripts in the following order:
 <script type="text/javascript" src="alignpat.js"></script>
 <script type="text/javascript" src="databr.js"></script>
 
-Set qrcode.callback to function "func(isSuccessfulFlag, data)", where `isSuccessfulFlag`
+Set qrcode.callback to function "func(data, isSuccessfulFlag)", where `isSuccessfulFlag`
 is true when scanning succeeds, and false when it fails. `data` will get the
 decoded information when scanning succeeds, otherwise it is an error message (string).
 
