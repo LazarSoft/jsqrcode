@@ -23,7 +23,7 @@
 */
 
 
-DataMask = {};
+var DataMask = {}; // changed from Global to File-Local scope.
 
 DataMask.forReference = function(reference)
 {

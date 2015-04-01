@@ -23,7 +23,7 @@
 */
 
 
-Decoder={};
+var Decoder={}; // changed from Global to File-Local
 Decoder.rsDecoder = new ReedSolomonDecoder(GF256.QR_CODE_FIELD);
 
 Decoder.correctErrors=function( codewordBytes,  numDataCodewords)
