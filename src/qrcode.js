@@ -190,8 +190,8 @@ qrcode.getPixel = function(x,y){
     if (qrcode.height < y) {
         throw "point error";
     }
-    point = (x * 4) + (y * qrcode.width * 4);
-    p = (qrcode.imagedata.data[point]*33 + qrcode.imagedata.data[point + 1]*34 + qrcode.imagedata.data[point + 2]*33)/100;
+    var point = (x * 4) + (y * qrcode.width * 4);
+    var p = (qrcode.imagedata.data[point]*33 + qrcode.imagedata.data[point + 1]*34 + qrcode.imagedata.data[point + 2]*33)/100;
     return p;
 }
 

@@ -272,7 +272,7 @@ function QRCodeDataBlockReader(blocks,  version,  numErrorCorrectionCode)
 							canvas.println("Guessed mode: " + mode); */
 							throw "Invalid mode: " + mode + " in (block:" + this.blockPointer + " bit:" + this.bitPointer + ")";
 						}
-						dataLength = this.getDataLength(mode);
+						var dataLength = this.getDataLength(mode);
 						if (dataLength < 1)
 							throw "Invalid data length: " + dataLength;
 						//canvas.println("length: " + dataLength);
