@@ -23,9 +23,8 @@
 */
 
 
-function QRCodeDataBlockReader(blocks,  version,  numErrorCorrectionCode,qrcode)
+function QRCodeDataBlockReader(blocks,  version,  numErrorCorrectionCode)
 {
-	if (qrcode==null) throw 'no qrcode'
 	this.blockPointer = 0;
 	this.bitPointer = 7;
 	this.dataLength = 0;
@@ -296,7 +295,7 @@ function QRCodeDataBlockReader(blocks,  version,  numErrorCorrectionCode,qrcode)
 								for(var j=0;j<temp_str.length;j++)
 									ta[j]=temp_str.charCodeAt(j);
 								output.push(ta );
-								//output.Write(SystemUtils.ToByteArray(temp_sbyteArray2), 0, temp_sbyteArray2.Length);
+								//output.Write(SystemUtils.ToByteArray(temp_sbyteArray2), 0, temp_sbyteArray2.length);
 								break;
 							
 							case MODE_8BIT_BYTE: 
@@ -304,14 +303,14 @@ function QRCodeDataBlockReader(blocks,  version,  numErrorCorrectionCode,qrcode)
 								//sbyte[] temp_sbyteArray3;
 								var temp_sbyteArray3 = this.get8bitByteArray(dataLength);
 								output.push(temp_sbyteArray3);
-								//output.Write(SystemUtils.ToByteArray(temp_sbyteArray3), 0, temp_sbyteArray3.Length);
+								//output.Write(SystemUtils.ToByteArray(temp_sbyteArray3), 0, temp_sbyteArray3.length);
 								break;
 							
 							case MODE_KANJI: 
 								//canvas.println("Mode: Kanji");
 								//sbyte[] temp_sbyteArray4;
 								//temp_sbyteArray4 = SystemUtils.ToSByteArray(SystemUtils.ToByteArray(getKanjiString(dataLength)));
-								//output.Write(SystemUtils.ToByteArray(temp_sbyteArray4), 0, temp_sbyteArray4.Length);
+								//output.Write(SystemUtils.ToByteArray(temp_sbyteArray4), 0, temp_sbyteArray4.length);
                                 var temp_str = this.getKanjiString(dataLength);
 								output.push(temp_str);
 								break;

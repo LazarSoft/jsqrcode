@@ -122,7 +122,7 @@ function DetectorResult(bits,  points)
 }
 
 
-function Detector(image,qrcode)
+function Detector(image)
 {
 	this.image=image;
 	this.resultPointCallback = null;
@@ -156,14 +156,14 @@ function Detector(image,qrcode)
 				if (state == 1)
 				{
 					// In white pixels, looking for black
-					if (this.image[realX + realY*qrcode.width])
+					if (this.image.data[realX + realY*image.width])
 					{
 						state++;
 					}
 				}
 				else
 				{
-					if (!this.image[realX + realY*qrcode.width])
+					if (!this.image.data[realX + realY*image.width])
 					{
 						state++;
 					}
@@ -206,10 +206,10 @@ function Detector(image,qrcode)
 				scale =  fromX /  (fromX - otherToX);
 				otherToX = 0;
 			}
-			else if (otherToX >= qrcode.width)
+			else if (otherToX >= image.width)
 			{
-				scale =  (qrcode.width - 1 - fromX) /  (otherToX - fromX);
-				otherToX = qrcode.width - 1;
+				scale =  (image.width - 1 - fromX) /  (otherToX - fromX);
+				otherToX = image.width - 1;
 			}
 			var otherToY = Math.floor (fromY - (toY - fromY) * scale);
 			
@@ -219,10 +219,10 @@ function Detector(image,qrcode)
 				scale =  fromY /  (fromY - otherToY);
 				otherToY = 0;
 			}
-			else if (otherToY >= qrcode.height)
+			else if (otherToY >= image.height)
 			{
-				scale =  (qrcode.height - 1 - fromY) /  (otherToY - fromY);
-				otherToY = qrcode.height - 1;
+				scale =  (image.height - 1 - fromY) /  (otherToY - fromY);
+				otherToY = image.height - 1;
 			}
 			otherToX = Math.floor (fromX + (otherToX - fromX) * scale);
 			
@@ -293,16 +293,16 @@ function Detector(image,qrcode)
 			// should be
 			var allowance = Math.floor (allowanceFactor * overallEstModuleSize);
 			var alignmentAreaLeftX = Math.max(0, estAlignmentX - allowance);
-			var alignmentAreaRightX = Math.min(qrcode.width - 1, estAlignmentX + allowance);
+			var alignmentAreaRightX = Math.min(image.width - 1, estAlignmentX + allowance);
 			if (alignmentAreaRightX - alignmentAreaLeftX < overallEstModuleSize * 3)
 			{
 				throw "Error";
 			}
 			
 			var alignmentAreaTopY = Math.max(0, estAlignmentY - allowance);
-			var alignmentAreaBottomY = Math.min(qrcode.height - 1, estAlignmentY + allowance);
+			var alignmentAreaBottomY = Math.min(image.height - 1, estAlignmentY + allowance);
 			
-			var alignmentFinder = new AlignmentPatternFinder(this.image, alignmentAreaLeftX, alignmentAreaTopY, alignmentAreaRightX - alignmentAreaLeftX, alignmentAreaBottomY - alignmentAreaTopY, overallEstModuleSize, this.resultPointCallback,qrcode);
+			var alignmentFinder = new AlignmentPatternFinder(this.image, alignmentAreaLeftX, alignmentAreaTopY, alignmentAreaRightX - alignmentAreaLeftX, alignmentAreaBottomY - alignmentAreaTopY, overallEstModuleSize, this.resultPointCallback);
 			return alignmentFinder.find();
 		}
 		
@@ -336,7 +336,7 @@ function Detector(image,qrcode)
 		{
 			
 			var sampler = GridSampler;
-			return sampler.sampleGrid3(image, dimension, transform,qrcode);
+			return sampler.sampleGrid3(image, dimension, transform);
 		}
 	
 	this.processFinderPatternInfo = function( info)
@@ -354,6 +354,7 @@ function Detector(image,qrcode)
 			var dimension = this.computeDimension(topLeft, topRight, bottomLeft, moduleSize);
 			var provisionalVersion = Version.getProvisionalVersionForDimension(dimension);
 			var modulesBetweenFPCenters = provisionalVersion.DimensionForVersion - 7;
+
 			var alignmentPattern = null;
 			// Anything above version 1 has an alignment pattern
 			if (provisionalVersion.AlignmentPatternCenters.length > 0)
@@ -405,7 +406,7 @@ function Detector(image,qrcode)
 	
 	this.detect=function()
 	{
-		var info =  new FinderPatternFinder(qrcode).findFinderPattern(this.image);
+		var info =  new FinderPatternFinder().findFinderPattern(this.image);
 			
 		return this.processFinderPatternInfo(info); 
 	}

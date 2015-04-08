@@ -14,6 +14,8 @@
    limitations under the License.
 */
 
+var qrcode = {};
+qrcode.sizeOfDataLengthInfo =  [  [ 10, 9, 8, 8 ],  [ 12, 11, 16, 10 ],  [ 14, 13, 16, 12 ] ];
 
 QrCode= function ()
   {
@@ -23,7 +25,6 @@ QrCode= function ()
 	this.qrCodeSymbol = null;
 	this.debug = false;
 
-this.sizeOfDataLengthInfo =  [  [ 10, 9, 8, 8 ],  [ 12, 11, 16, 10 ],  [ 14, 13, 16, 12 ] ];
 
 this.callback = null;
 
@@ -36,7 +37,7 @@ this.decode = function(src,data){
 		this.width = canvas_qr.width;
 		this.height = canvas_qr.height;
 		this.imagedata = context.getImageData(0, 0, this.width, this.height);
-        // this.result = this.process(context);
+        this.result = this.process(imagedata);
         if(this.callback!=null)
             this.callback(this.result);
 		return this.result;
@@ -52,7 +53,7 @@ this.decode = function(src,data){
 		this.imagedata.height=src.height
 
 
-			this.result = this.process(null);
+			this.result = this.process(this.imagedata);
 
 		if(this.callback!=null)
             this.callback(this.result);
@@ -97,7 +98,7 @@ this.decode = function(src,data){
             try
             {
             	window.context=context
-                _this.result = _this.process(context);
+                _this.result = _this.process(_this.imagedata);
             }
             catch(e)
             {
@@ -118,48 +119,30 @@ this.decode_utf8 = function ( s )
   return decodeURIComponent( escape( s ) );
 }
 
-this.process = function(ctx){
-	
-	var start = new Date().getTime();
-	var image = this.grayScaleToBitmap(this.grayscale());
+this.process = function(imageData){
 
-    //var image = this.binarize(128);
-	
-    if(this.debug)
-    {
-        for (var y = 0; y < this.height; y++)
-        {
-            for (var x = 0; x < this.width; x++)
-            {
-                var point = (x * 4) + (y * this.width * 4);
-                this.imagedata.data[point] = image[x+y*this.width]?0:0;
-                this.imagedata.data[point+1] = image[x+y*this.width]?0:0;
-                this.imagedata.data[point+2] = image[x+y*this.width]?255:0;
-            }
-        }
-        ctx.putImageData(this.imagedata, 0, 0);
-    }
-	
+	var start = new Date().getTime();
+
+	var image = this.grayScaleToBitmap(this.grayscale(imageData));
+
 	//var finderPatternInfo = new FinderPatternFinder().findFinderPattern(image);
-	
-	var detector = new Detector(image,this);
+
+	var detector = new Detector(image);
 
 	var qRCodeMatrix = detector.detect();
-	
+
 	/*for (var y = 0; y < qRCodeMatrix.bits.Height; y++)
 	{
 		for (var x = 0; x < qRCodeMatrix.bits.Width; x++)
 		{
-			var point = (x * 4*2) + (y*2 * this.width * 4);
-			this.imagedata.data[point] = qRCodeMatrix.bits.get_Renamed(x,y)?0:0;
-			this.imagedata.data[point+1] = qRCodeMatrix.bits.get_Renamed(x,y)?0:0;
-			this.imagedata.data[point+2] = qRCodeMatrix.bits.get_Renamed(x,y)?255:0;
+			var point = (x * 4*2) + (y*2 * imageData.width * 4);
+			imageData.data[point] = qRCodeMatrix.bits.get_Renamed(x,y)?0:0;
+			imageData.data[point+1] = qRCodeMatrix.bits.get_Renamed(x,y)?0:0;
+			imageData.data[point+2] = qRCodeMatrix.bits.get_Renamed(x,y)?255:0;
 		}
 	}*/
-    if(this.debug)
-        ctx.putImageData(this.imagedata, 0, 0);
-	
-	var reader = Decoder.decode(qRCodeMatrix.bits,this);
+
+	var reader = Decoder.decode(qRCodeMatrix.bits);
 	var data = reader.DataByte;
 	var str="";
 	for(var i=0;i<data.length;i++)
@@ -167,23 +150,26 @@ this.process = function(ctx){
 		for(var j=0;j<data[i].length;j++)
 			str+=String.fromCharCode(data[i][j]);
 	}
-	
+
 	var end = new Date().getTime();
 	var time = end - start;
-    
+	if (this.debug) {
+		console.log('QR Code processing time (ms): ' + time);
+	}
+
 	return this.decode_utf8(str);
 	//alert("Time:" + time + " Code: "+str);
 }
 
-this.getPixel = function(x,y){
-	if (this.width < x) {
+this.getPixel = function(imageData, x,y){
+	if (imageData.width < x) {
 		throw "point error";
 	}
-	if (this.height < y) {
+	if (imageData.height < y) {
 		throw "point error";
 	}
-	point = (x * 4) + (y * this.width * 4);
-	p = (this.imagedata.data[point]*33 + this.imagedata.data[point + 1]*34 + this.imagedata.data[point + 2]*33)/100;
+	point = (x * 4) + (y * imageData.width * 4);
+	p = (imageData.data[point]*33 + imageData.data[point + 1]*34 + imageData.data[point + 2]*33)/100;
 	return p;
 }
 
@@ -201,12 +187,12 @@ this.binarize = function(th){
 	return ret;
 }
 
-this.getMiddleBrightnessPerArea=function(image)
+this.getMiddleBrightnessPerArea=function(imageData)
 {
 	var numSqrtArea = 4;
 	//obtain middle brightness((min + max) / 2) per area
-	var areaWidth = Math.floor(this.width / numSqrtArea);
-	var areaHeight = Math.floor(this.height / numSqrtArea);
+	var areaWidth = Math.floor(imageData.width / numSqrtArea);
+	var areaHeight = Math.floor(imageData.height / numSqrtArea);
 	var minmax = new Array(numSqrtArea);
 	for (var i = 0; i < numSqrtArea; i++)
 	{
@@ -225,7 +211,7 @@ this.getMiddleBrightnessPerArea=function(image)
 			{
 				for (var dx = 0; dx < areaWidth; dx++)
 				{
-					var target = image[areaWidth * ax + dx+(areaHeight * ay + dy)*this.width];
+					var target = imageData.data[areaWidth * ax + dx+(areaHeight * ay + dy)*imageData.width];
 					if (target < minmax[ax][ay][0])
 						minmax[ax][ay][0] = target;
 					if (target > minmax[ax][ay][1])
@@ -250,18 +236,17 @@ this.getMiddleBrightnessPerArea=function(image)
 		//Console.out.println("");
 	}
 	//Console.out.println("");
-	
+
 	return middle;
 }
 
-this.grayScaleToBitmap=function(grayScale)
+this.grayScaleToBitmap=function(grayScaleImageData)
 {
-	var middle = this.getMiddleBrightnessPerArea(grayScale);
+	var middle = this.getMiddleBrightnessPerArea(grayScaleImageData);
 	var sqrtNumArea = middle.length;
-	var areaWidth = Math.floor(this.width / sqrtNumArea);
-	var areaHeight = Math.floor(this.height / sqrtNumArea);
-	var bitmap = new Array(this.height*this.width);
-	
+	var areaWidth = Math.floor(grayScaleImageData.width / sqrtNumArea);
+	var areaHeight = Math.floor(grayScaleImageData.height / sqrtNumArea);
+
 	for (var ay = 0; ay < sqrtNumArea; ay++)
 	{
 		for (var ax = 0; ax < sqrtNumArea; ax++)
@@ -270,26 +255,32 @@ this.grayScaleToBitmap=function(grayScale)
 			{
 				for (var dx = 0; dx < areaWidth; dx++)
 				{
-					bitmap[areaWidth * ax + dx+ (areaHeight * ay + dy)*this.width] = (grayScale[areaWidth * ax + dx+ (areaHeight * ay + dy)*this.width] < middle[ax][ay])?true:false;
+					grayScaleImageData.data[areaWidth * ax + dx+ (areaHeight * ay + dy)*grayScaleImageData.width] = (grayScaleImageData.data[areaWidth * ax + dx+ (areaHeight * ay + dy)*grayScaleImageData.width] < middle[ax][ay])?true:false;
 				}
 			}
 		}
 	}
-	return bitmap;
+	return grayScaleImageData;
 }
 
-this.grayscale = function(){
-	var ret = new Array(this.width*this.height);
-	for (var y = 0; y < this.height; y++)
+this.grayscale = function(imageData){
+	var ret = new Array(imageData.width*imageData.height);
+
+	for (var y = 0; y < imageData.height; y++)
 	{
-		for (var x = 0; x < this.width; x++)
+		for (var x = 0; x < imageData.width; x++)
 		{
-			var gray = this.getPixel(x, y);
-			
-			ret[x+y*this.width] = gray;
+			var gray = this.getPixel(imageData, x, y);
+
+			ret[x+y*imageData.width] = gray;
 		}
 	}
-	return ret;
+
+	return {
+		height: imageData.height,
+		width: imageData.width,
+		data: ret
+	};
 }
 
   }
@@ -301,10 +292,3 @@ function URShift( number,  bits)
 	else
 		return (number >> bits) + (2 << ~bits);
 }
-
-
-Array.prototype.remove = function(from, to) {
-  var rest = this.slice((to || from) + 1 || this.length);
-  this.length = from < 0 ? this.length + from : from;
-  return this.push.apply(this, rest);
-};
