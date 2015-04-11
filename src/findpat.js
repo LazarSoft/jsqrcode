@@ -28,7 +28,7 @@ var MAX_MODULES = 57;
 var INTEGER_MATH_SHIFT = 8;
 var CENTER_QUORUM = 2;
 
-QrCode.prototype.orderBestPatterns=function(patterns)
+qrcode.orderBestPatterns=function(patterns)
 		{
 			
 			function distance( pattern1,  pattern2)
@@ -148,10 +148,8 @@ function FinderPatternInfo(patternCenters)
 	}); 
 }
 
-function FinderPatternFinder(qrcode)
+function FinderPatternFinder()
 {
-	if (qrcode==null) 
-		throw ('no qrcode defined!!')
 	this.image=null;
 	this.possibleCenters = [];
 	this.hasSkipped = false;
@@ -195,16 +193,14 @@ function FinderPatternFinder(qrcode)
 		}
 	this.crossCheckVertical=function( startI,  centerJ,  maxCount,  originalStateCountTotal)
 		{
-			if (qrcode==null)
-				throw ('qrcode not defined')
 			var image = this.image;
 			
-			var maxI = qrcode.height;
+			var maxI = image.height;
 			var stateCount = this.CrossCheckStateCount;
 			
 			// Start counting up from center
 			var i = startI;
-			while (i >= 0 && image[centerJ + i*qrcode.width])
+			while (i >= 0 && image.data[centerJ + i*image.width])
 			{
 				stateCount[2]++;
 				i--;
@@ -213,7 +209,7 @@ function FinderPatternFinder(qrcode)
 			{
 				return NaN;
 			}
-			while (i >= 0 && !image[centerJ +i*qrcode.width] && stateCount[1] <= maxCount)
+			while (i >= 0 && !image.data[centerJ +i*image.width] && stateCount[1] <= maxCount)
 			{
 				stateCount[1]++;
 				i--;
@@ -223,7 +219,7 @@ function FinderPatternFinder(qrcode)
 			{
 				return NaN;
 			}
-			while (i >= 0 && image[centerJ + i*qrcode.width] && stateCount[0] <= maxCount)
+			while (i >= 0 && image.data[centerJ + i*image.width] && stateCount[0] <= maxCount)
 			{
 				stateCount[0]++;
 				i--;
@@ -235,7 +231,7 @@ function FinderPatternFinder(qrcode)
 			
 			// Now also count down from center
 			i = startI + 1;
-			while (i < maxI && image[centerJ +i*qrcode.width])
+			while (i < maxI && image.data[centerJ +i*image.width])
 			{
 				stateCount[2]++;
 				i++;
@@ -244,7 +240,7 @@ function FinderPatternFinder(qrcode)
 			{
 				return NaN;
 			}
-			while (i < maxI && !image[centerJ + i*qrcode.width] && stateCount[3] < maxCount)
+			while (i < maxI && !image.data[centerJ + i*image.width] && stateCount[3] < maxCount)
 			{
 				stateCount[3]++;
 				i++;
@@ -253,7 +249,7 @@ function FinderPatternFinder(qrcode)
 			{
 				return NaN;
 			}
-			while (i < maxI && image[centerJ + i*qrcode.width] && stateCount[4] < maxCount)
+			while (i < maxI && image.data[centerJ + i*image.width] && stateCount[4] < maxCount)
 			{
 				stateCount[4]++;
 				i++;
@@ -277,11 +273,11 @@ function FinderPatternFinder(qrcode)
 		{
 			var image = this.image;
 			
-			var maxJ = qrcode.width;
+			var maxJ = image.width;
 			var stateCount = this.CrossCheckStateCount;
 			
 			var j = startJ;
-			while (j >= 0 && image[j+ centerI*qrcode.width])
+			while (j >= 0 && image.data[j+ centerI*image.width])
 			{
 				stateCount[2]++;
 				j--;
@@ -290,7 +286,7 @@ function FinderPatternFinder(qrcode)
 			{
 				return NaN;
 			}
-			while (j >= 0 && !image[j+ centerI*qrcode.width] && stateCount[1] <= maxCount)
+			while (j >= 0 && !image.data[j+ centerI*image.width] && stateCount[1] <= maxCount)
 			{
 				stateCount[1]++;
 				j--;
@@ -299,7 +295,7 @@ function FinderPatternFinder(qrcode)
 			{
 				return NaN;
 			}
-			while (j >= 0 && image[j+ centerI*qrcode.width] && stateCount[0] <= maxCount)
+			while (j >= 0 && image.data[j+ centerI*image.width] && stateCount[0] <= maxCount)
 			{
 				stateCount[0]++;
 				j--;
@@ -310,7 +306,7 @@ function FinderPatternFinder(qrcode)
 			}
 			
 			j = startJ + 1;
-			while (j < maxJ && image[j+ centerI*qrcode.width])
+			while (j < maxJ && image.data[j+ centerI*image.width])
 			{
 				stateCount[2]++;
 				j++;
@@ -319,7 +315,7 @@ function FinderPatternFinder(qrcode)
 			{
 				return NaN;
 			}
-			while (j < maxJ && !image[j+ centerI*qrcode.width] && stateCount[3] < maxCount)
+			while (j < maxJ && !image.data[j+ centerI*image.width] && stateCount[3] < maxCount)
 			{
 				stateCount[3]++;
 				j++;
@@ -328,7 +324,7 @@ function FinderPatternFinder(qrcode)
 			{
 				return NaN;
 			}
-			while (j < maxJ && image[j+ centerI*qrcode.width] && stateCount[4] < maxCount)
+			while (j < maxJ && image.data[j+ centerI*image.width] && stateCount[4] < maxCount)
 			{
 				stateCount[4]++;
 				j++;
@@ -403,34 +399,49 @@ function FinderPatternFinder(qrcode)
 			{
 				// But we can only afford to do so if we have at least 4 possibilities to choose from
 				var totalModuleSize = 0.0;
+                var square = 0.0;
 				for (var i = 0; i < startSize; i++)
 				{
-					totalModuleSize +=  this.possibleCenters[i].EstimatedModuleSize;
+					//totalModuleSize +=  this.possibleCenters[i].EstimatedModuleSize;
+                    var	centerValue=this.possibleCenters[i].EstimatedModuleSize;
+					totalModuleSize += centerValue;
+					square += (centerValue * centerValue);
 				}
 				var average = totalModuleSize /  startSize;
+                this.possibleCenters.sort(function(center1,center2) {
+				      var dA=Math.abs(center2.EstimatedModuleSize - average);
+				      var dB=Math.abs(center1.EstimatedModuleSize - average);
+				      if (dA < dB) {
+						return (-1);
+				      } else if (dA == dB) {
+						return 0;
+				      } else {
+						return 1;
+				      }
+					});
+
+				var stdDev = Math.sqrt(square / startSize - average * average);
+				var limit = Math.max(0.2 * average, stdDev);
 				for (var i = 0; i < this.possibleCenters.length && this.possibleCenters.length > 3; i++)
 				{
 					var pattern =  this.possibleCenters[i];
-					if (Math.abs(pattern.EstimatedModuleSize - average) > 0.2 * average)
+					//if (Math.abs(pattern.EstimatedModuleSize - average) > 0.2 * average)
+                    if (Math.abs(pattern.EstimatedModuleSize - average) > limit)
 					{
-						this.possibleCenters.remove(i);
+						this.possibleCenters.splice(i, 1);
 						i--;
 					}
 				}
 			}
 			
- 			if (this.possibleCenters.length > 3)
+			if (this.possibleCenters.length > 3)
 			{
 				// Throw away all but those first size candidate points we found.
-				//Collections.insertionSort(possibleCenters, new CenterComparator());
-				//SupportClass.SetCapacity(possibleCenters, 3);
-
 				this.possibleCenters.sort(function(a, b){
 				          if (a.count > b.count){return -1;}
 				          if (a.count < b.count){return 1;}
 				          return 0;
-				        });
-
+				});
 			}
 			
 			return new Array( this.possibleCenters[0],  this.possibleCenters[1],  this.possibleCenters[2]);
@@ -503,8 +514,8 @@ function FinderPatternFinder(qrcode)
 	this.findFinderPattern = function(image){
 		var tryHarder = false;
 		this.image=image;
-		var maxI = qrcode.height;
-		var maxJ = qrcode.width;
+		var maxI = image.height;
+		var maxJ = image.width;
 		var iSkip = Math.floor((3 * maxI) / (4 * MAX_MODULES));
 		if (iSkip < MIN_SKIP || tryHarder)
 		{
@@ -524,7 +535,7 @@ function FinderPatternFinder(qrcode)
 			var currentState = 0;
 			for (var j = 0; j < maxJ; j++)
 			{
-				if (image[j+i*qrcode.width] )
+				if (image.data[j+i*image.width] )
 				{
 					// Black pixel
 					if ((currentState & 1) == 1)
@@ -581,7 +592,7 @@ function FinderPatternFinder(qrcode)
 									{
 										j++;
 									}
-									while (j < maxJ && !image[j + i*qrcode.width]);
+									while (j < maxJ && !image.data[j + i*image.width]);
 									j--; // back up to that last white pixel
 								}
 								// Clear state to start looking again

@@ -62,7 +62,7 @@ function AlignmentPattern(posX, posY,  estimatedModuleSize)
 	
 }
 
-function AlignmentPatternFinder( image,  startX,  startY,  width,  height,  moduleSize,  resultPointCallback,qrcode)
+function AlignmentPatternFinder( image,  startX,  startY,  width,  height,  moduleSize,  resultPointCallback)
 {
 	this.image = image;
 	this.possibleCenters = new Array();
@@ -96,7 +96,7 @@ function AlignmentPatternFinder( image,  startX,  startY,  width,  height,  modu
 		{
 			var image = this.image;
 			
-			var maxI = qrcode.height;
+			var maxI = image.height;
 			var stateCount = this.crossCheckStateCount;
 			stateCount[0] = 0;
 			stateCount[1] = 0;
@@ -104,7 +104,7 @@ function AlignmentPatternFinder( image,  startX,  startY,  width,  height,  modu
 			
 			// Start counting up from center
 			var i = startI;
-			while (i >= 0 && image[centerJ + i*qrcode.width] && stateCount[1] <= maxCount)
+			while (i >= 0 && image.data[centerJ + i*image.width] && stateCount[1] <= maxCount)
 			{
 				stateCount[1]++;
 				i--;
@@ -114,7 +114,7 @@ function AlignmentPatternFinder( image,  startX,  startY,  width,  height,  modu
 			{
 				return NaN;
 			}
-			while (i >= 0 && !image[centerJ + i*qrcode.width] && stateCount[0] <= maxCount)
+			while (i >= 0 && !image.data[centerJ + i*image.width] && stateCount[0] <= maxCount)
 			{
 				stateCount[0]++;
 				i--;
@@ -126,7 +126,7 @@ function AlignmentPatternFinder( image,  startX,  startY,  width,  height,  modu
 			
 			// Now also count down from center
 			i = startI + 1;
-			while (i < maxI && image[centerJ + i*qrcode.width] && stateCount[1] <= maxCount)
+			while (i < maxI && image.data[centerJ + i*image.width] && stateCount[1] <= maxCount)
 			{
 				stateCount[1]++;
 				i++;
@@ -135,7 +135,7 @@ function AlignmentPatternFinder( image,  startX,  startY,  width,  height,  modu
 			{
 				return NaN;
 			}
-			while (i < maxI && !image[centerJ + i*qrcode.width] && stateCount[2] <= maxCount)
+			while (i < maxI && !image.data[centerJ + i*image.width] && stateCount[2] <= maxCount)
 			{
 				stateCount[2]++;
 				i++;
@@ -203,14 +203,14 @@ function AlignmentPatternFinder( image,  startX,  startY,  width,  height,  modu
 				// Burn off leading white pixels before anything else; if we start in the middle of
 				// a white run, it doesn't make sense to count its length, since we don't know if the
 				// white run continued to the left of the start point
-				while (j < maxJ && !image[j + qrcode.width* i])
+				while (j < maxJ && !image.data[j + image.width* i])
 				{
 					j++;
 				}
 				var currentState = 0;
 				while (j < maxJ)
 				{
-					if (image[j + i*qrcode.width])
+					if (image.data[j + i*image.width])
 					{
 						// Black pixel
 						if (currentState == 1)
