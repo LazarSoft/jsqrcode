@@ -2,6 +2,8 @@
 
 This is a port of Lazarsoft’s qrcode reader
 
+[![Build Status](https://travis-ci.org/edi9999/jsqrcode.svg?branch=master&style=flat)](https://travis-ci.org/edi9999/jsqrcode)
+
 # Installation
 
 	npm install qrcode-reader
