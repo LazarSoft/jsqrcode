@@ -1,8 +1,8 @@
 /*
-  Ported to JavaScript by Lazar Laszlo 2011 
-  
+  Ported to JavaScript by Lazar Laszlo 2011
+
   lazarsoft@gmail.com, www.lazarsoft.info
-  
+
 */
 
 /*
@@ -105,7 +105,7 @@ function GF256( primitive)
 				return a;
 			}
 			return this.expTable[(this.logTable[a] + this.logTable[b]) % 255];
-		}		
+		}
 }
 
 GF256.QR_CODE_FIELD = new GF256(0x011D);

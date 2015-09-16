@@ -1,8 +1,8 @@
 /*
-  Ported to JavaScript by Lazar Laszlo 2011 
-  
+  Ported to JavaScript by Lazar Laszlo 2011
+
   lazarsoft@gmail.com, www.lazarsoft.info
-  
+
 */
 
 /*
@@ -40,16 +40,16 @@ function DataBlock(numDataCodewords,  codewords)
 	
 DataBlock.getDataBlocks=function(rawCodewords,  version,  ecLevel)
 {
-	
+
 	if (rawCodewords.length != version.TotalCodewords)
 	{
 		throw "ArgumentException";
 	}
-	
+
 	// Figure out the number and size of data blocks used by this version and
 	// error correction level
 	var ecBlocks = version.getECBlocksForLevel(ecLevel);
-	
+
 	// First count the total number of data blocks
 	var totalBlocks = 0;
 	var ecBlockArray = ecBlocks.getECBlocks();
@@ -57,7 +57,7 @@ DataBlock.getDataBlocks=function(rawCodewords,  version,  ecLevel)
 	{
 		totalBlocks += ecBlockArray[i].Count;
 	}
-	
+
 	// Now establish DataBlocks of the appropriate size and number of data codewords
 	var result = new Array(totalBlocks);
 	var numResultBlocks = 0;
@@ -71,7 +71,7 @@ DataBlock.getDataBlocks=function(rawCodewords,  version,  ecLevel)
 			result[numResultBlocks++] = new DataBlock(numDataCodewords, new Array(numBlockCodewords));
 		}
 	}
-	
+
 	// All blocks have the same amount of data, except that the last n
 	// (where n may be 0) have 1 more byte. Figure out where these start.
 	var shorterBlocksTotalCodewords = result[0].codewords.length;
@@ -86,7 +86,7 @@ DataBlock.getDataBlocks=function(rawCodewords,  version,  ecLevel)
 		longerBlocksStartAt--;
 	}
 	longerBlocksStartAt++;
-	
+
 	var shorterBlocksNumDataCodewords = shorterBlocksTotalCodewords - ecBlocks.ECCodewordsPerBlock;
 	// The last elements of result may be 1 element longer;
 	// first fill out as many elements as all of them have

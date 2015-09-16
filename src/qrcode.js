@@ -1,6 +1,6 @@
 /*
    Copyright 2011 Lazar Laszlo (lazarsoft@gmail.com, www.lazarsoft.info)
-   
+
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
    You may obtain a copy of the License at
@@ -29,7 +29,7 @@ QrCode= function ()
 this.callback = null;
 
 this.decode = function(src,data){
-	
+
 	if(arguments.length==0)
 	{
 		var canvas_qr = document.getElementById("qr-canvas");
@@ -67,12 +67,12 @@ this.decode = function(src,data){
 			var canvas_qr = document.createElement('canvas');
 			var context = canvas_qr.getContext('2d');
 			var canvas_out = document.getElementById("out-canvas");
-			
+
 
 			body=document.getElementsByTagName('body')[0]
-			
 
-			
+
+
 			if(canvas_out!=null)
             {
                 var outctx = canvas_out.getContext('2d');
@@ -92,7 +92,7 @@ this.decode = function(src,data){
 					_this.callback(_this.result);
 				return;
 			}
-			
+
 // _this.result=_this.process(context)
 
             try
@@ -108,7 +108,7 @@ this.decode = function(src,data){
 			{
 				_this.callback(_this.result);
 			}
-				
+
 		}
 		image.src = src;
 	}
@@ -180,7 +180,7 @@ this.binarize = function(th){
 		for (var x = 0; x < this.width; x++)
 		{
 			var gray = this.getPixel(x, y);
-			
+
 			ret[x+y*this.width] = gray<=th?true:false;
 		}
 	}

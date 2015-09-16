@@ -1,8 +1,8 @@
 /*
-  Ported to JavaScript by Lazar Laszlo 2011 
-  
+  Ported to JavaScript by Lazar Laszlo 2011
+
   lazarsoft@gmail.com, www.lazarsoft.info
-  
+
 */
 
 /*
@@ -63,7 +63,7 @@ function ReedSolomonDecoder(field)
 				received[position] = GF256.addOrSubtract(received[position], errorMagnitudes[i]);
 			}
 	}
-	
+
 	this.runEuclideanAlgorithm=function( a,  b,  R)
 		{
 			// Assume a's degree is >= b's
@@ -73,14 +73,14 @@ function ReedSolomonDecoder(field)
 				a = b;
 				b = temp;
 			}
-			
+
 			var rLast = a;
 			var r = b;
 			var sLast = this.field.One;
 			var s = this.field.Zero;
 			var tLast = this.field.Zero;
 			var t = this.field.One;
-			
+
 			// Run Euclidean algorithm until r's degree is less than R/2
 			while (r.Degree >= Math.floor(R / 2))
 			{
@@ -90,7 +90,7 @@ function ReedSolomonDecoder(field)
 				rLast = r;
 				sLast = s;
 				tLast = t;
-				
+
 				// Divide rLastLast by rLast, with quotient in q and remainder in r
 				if (rLast.Zero)
 				{
@@ -109,17 +109,17 @@ function ReedSolomonDecoder(field)
 					r = r.addOrSubtract(rLast.multiplyByMonomial(degreeDiff, scale));
 					//r.EXE();
 				}
-				
+
 				s = q.multiply1(sLast).addOrSubtract(sLastLast);
 				t = q.multiply1(tLast).addOrSubtract(tLastLast);
 			}
-			
+
 			var sigmaTildeAtZero = t.getCoefficient(0);
 			if (sigmaTildeAtZero == 0)
 			{
 				throw "ReedSolomonException sigmaTilde(0) was zero";
 			}
-			
+
 			var inverse = this.field.inverse(sigmaTildeAtZero);
 			var sigma = t.multiply2(inverse);
 			var omega = r.multiply2(inverse);

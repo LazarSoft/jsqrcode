@@ -1,8 +1,8 @@
 /*
-  Ported to JavaScript by Lazar Laszlo 2011 
-  
+  Ported to JavaScript by Lazar Laszlo 2011
+
   lazarsoft@gmail.com, www.lazarsoft.info
-  
+
 */
 
 /*
@@ -33,19 +33,19 @@ function BitMatrixParser(bitMatrix)
 	this.bitMatrix = bitMatrix;
 	this.parsedVersion = null;
 	this.parsedFormatInfo = null;
-	
+
 	this.copyBit=function( i,  j,  versionBits)
 	{
 		return this.bitMatrix.get_Renamed(i, j)?(versionBits << 1) | 0x1:versionBits << 1;
 	}
-	
+
 	this.readFormatInformation=function()
 	{
 			if (this.parsedFormatInfo != null)
 			{
 				return this.parsedFormatInfo;
 			}
-			
+
 			// Read top-left format info bits
 			var formatInfoBits = 0;
 			for (var i = 0; i < 6; i++)
@@ -61,13 +61,13 @@ function BitMatrixParser(bitMatrix)
 			{
 				formatInfoBits = this.copyBit(8, j, formatInfoBits);
 			}
-			
+
 			this.parsedFormatInfo = FormatInformation.decodeFormatInformation(formatInfoBits);
 			if (this.parsedFormatInfo != null)
 			{
 				return this.parsedFormatInfo;
 			}
-			
+
 			// Hmm, failed. Try the top-right/bottom-left pattern
 			var dimension = this.bitMatrix.Dimension;
 			formatInfoBits = 0;
@@ -80,30 +80,30 @@ function BitMatrixParser(bitMatrix)
 			{
 				formatInfoBits = this.copyBit(8, j, formatInfoBits);
 			}
-			
+
 			this.parsedFormatInfo = FormatInformation.decodeFormatInformation(formatInfoBits);
 			if (this.parsedFormatInfo != null)
 			{
 				return this.parsedFormatInfo;
 			}
-			throw "Error readFormatInformation";	
+			throw "Error readFormatInformation";
 	}
 	this.readVersion=function()
 		{
-			
+
 			if (this.parsedVersion != null)
 			{
 				return this.parsedVersion;
 			}
-			
+
 			var dimension = this.bitMatrix.Dimension;
-			
+
 			var provisionalVersion = (dimension - 17) >> 2;
 			if (provisionalVersion <= 6)
 			{
 				return Version.getVersionForNumber(provisionalVersion);
 			}
-			
+
 			// Read top-right version info: 3 wide by 6 tall
 			var versionBits = 0;
 			var ijMin = dimension - 11;
@@ -114,13 +114,13 @@ function BitMatrixParser(bitMatrix)
 					versionBits = this.copyBit(i, j, versionBits);
 				}
 			}
-			
+
 			this.parsedVersion = Version.decodeVersionInformation(versionBits);
 			if (this.parsedVersion != null && this.parsedVersion.DimensionForVersion == dimension)
 			{
 				return this.parsedVersion;
 			}
-			
+
 			// Hmm, failed. Try bottom left: 6 wide by 3 tall
 			versionBits = 0;
 			for (var i = 5; i >= 0; i--)
@@ -130,7 +130,7 @@ function BitMatrixParser(bitMatrix)
 					versionBits = this.copyBit(i, j, versionBits);
 				}
 			}
-			
+
 			this.parsedVersion = Version.decodeVersionInformation(versionBits);
 			if (this.parsedVersion != null && this.parsedVersion.DimensionForVersion == dimension)
 			{
@@ -140,18 +140,18 @@ function BitMatrixParser(bitMatrix)
 		}
 	this.readCodewords=function()
 		{
-			
+
 			var formatInfo = this.readFormatInformation();
 			var version = this.readVersion();
-			
+
 			// Get the data mask for the format used in this QR Code. This will exclude
 			// some bits from reading as we wind through the bit matrix.
 			var dataMask = DataMask.forReference( formatInfo.DataMask);
 			var dimension = this.bitMatrix.Dimension;
 			dataMask.unmaskBitMatrix(this.bitMatrix, dimension);
-			
+
 			var functionPattern = version.buildFunctionPattern();
-			
+
 			var readingUp = true;
 			var result = new Array(version.TotalCodewords);
 			var resultOffset = 0;

@@ -1,8 +1,8 @@
 /*
-  Ported to JavaScript by Lazar Laszlo 2011 
-  
+  Ported to JavaScript by Lazar Laszlo 2011
+
   lazarsoft@gmail.com, www.lazarsoft.info
-  
+
 */
 
 /*
@@ -59,13 +59,13 @@ Decoder.decode=function(bits)
 	var parser = new BitMatrixParser(bits);
 	var version = parser.readVersion();
 	var ecLevel = parser.readFormatInformation().ErrorCorrectionLevel;
-	
+
 	// Read codewords
 	var codewords = parser.readCodewords();
 
 	// Separate into data blocks
 	var dataBlocks = DataBlock.getDataBlocks(codewords, version, ecLevel);
-	
+
 	// Count total number of data bytes
 	var totalBytes = 0;
 	for (var i = 0; i < dataBlocks.length; i++)
@@ -74,7 +74,7 @@ Decoder.decode=function(bits)
 	}
 	var resultBytes = new Array(totalBytes);
 	var resultOffset = 0;
-	
+
 	// Error-correct and copy data blocks together into a stream of bytes
 	for (var j = 0; j < dataBlocks.length; j++)
 	{
@@ -87,7 +87,7 @@ Decoder.decode=function(bits)
 			resultBytes[resultOffset++] = codewordBytes[i];
 		}
 	}
-	
+
 	// Decode the contents of that stream of bytes
 	var reader = new QRCodeDataBlockReader(resultBytes, version.VersionNumber, ecLevel.Bits);
 	return reader;

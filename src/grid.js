@@ -1,8 +1,8 @@
 /*
-  Ported to JavaScript by Lazar Laszlo 2011 
-  
+  Ported to JavaScript by Lazar Laszlo 2011
+
   lazarsoft@gmail.com, www.lazarsoft.info
-  
+
 */
 
 /*
@@ -94,7 +94,7 @@ GridSampler.checkAndNudgePoints=function( image,  points)
 				}
 			}
 		}
-	
+
 
 
 GridSampler.sampleGrid3=function( image,  dimension,  transform)
