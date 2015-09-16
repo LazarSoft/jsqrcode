@@ -42,24 +42,24 @@ function BitMatrix( width,  height)
 	this.bits = new Array(rowSize * height);
 	for(var i=0;i<this.bits.length;i++)
 		this.bits[i]=0;
-	
-	this.__defineGetter__("Width", function()
+
+	Object.defineProperty(this,"Width", { get: function()
 	{
 		return this.width;
-	});
-	this.__defineGetter__("Height", function()
+	}});
+	Object.defineProperty(this,"Height", { get: function()
 	{
 		return this.height;
-	});
-	this.__defineGetter__("Dimension", function()
+	}});
+	Object.defineProperty(this,"Dimension", { get: function()
 	{
 		if (this.width != this.height)
 		{
 			throw "Can't call getDimension() on a non-square matrix";
 		}
 		return this.width;
-	});
-	
+	}});
+
 	this.get_Renamed=function( x,  y)
 		{
 			var offset = y * this.rowSize + (x >> 5);

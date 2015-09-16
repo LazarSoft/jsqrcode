@@ -244,7 +244,7 @@ function QRCodeDataBlockReader(blocks,  version,  numErrorCorrectionCode)
 			return unicodeString;
 		}
 
-	this.__defineGetter__("DataByte", function()
+	Object.defineProperty(this,"DataByte", { get: function()
 	{
 		var output = new Array();
 		var MODE_NUMBER = 1;
@@ -320,5 +320,5 @@ function QRCodeDataBlockReader(blocks,  version,  numErrorCorrectionCode)
 					}
 					while (true);
 		return output;
-	});
+	}});
 }

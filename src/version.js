@@ -28,15 +28,15 @@ function ECB(count,  dataCodewords)
 {
 	this.count = count;
 	this.dataCodewords = dataCodewords;
-	
-	this.__defineGetter__("Count", function()
+
+	Object.defineProperty(this,"Count", { get: function()
 	{
 		return this.count;
-	});
-	this.__defineGetter__("DataCodewords", function()
+	}});
+	Object.defineProperty(this,"DataCodewords", { get: function()
 	{
 		return this.dataCodewords;
-	});
+	}});
 }
 
 function ECBlocks( ecCodewordsPerBlock,  ecBlocks1,  ecBlocks2)
@@ -46,18 +46,18 @@ function ECBlocks( ecCodewordsPerBlock,  ecBlocks1,  ecBlocks2)
 		this.ecBlocks = new Array(ecBlocks1, ecBlocks2);
 	else
 		this.ecBlocks = new Array(ecBlocks1);
-	
-	this.__defineGetter__("ECCodewordsPerBlock", function()
+
+	Object.defineProperty(this,"ECCodewordsPerBlock", { get: function()
 	{
 		return this.ecCodewordsPerBlock;
-	});
-	
-	this.__defineGetter__("TotalECCodewords", function()
+	}});
+
+	Object.defineProperty(this,"TotalECCodewords", { get: function()
 	{
 		return  this.ecCodewordsPerBlock * this.NumBlocks;
-	});
-	
-	this.__defineGetter__("NumBlocks", function()
+	}});
+
+	Object.defineProperty(this,"NumBlocks", { get: function()
 	{
 		var total = 0;
 		for (var i = 0; i < this.ecBlocks.length; i++)
@@ -65,8 +65,8 @@ function ECBlocks( ecCodewordsPerBlock,  ecBlocks1,  ecBlocks2)
 			total += this.ecBlocks[i].length;
 		}
 		return total;
-	});
-	
+	}});
+
 	this.getECBlocks=function()
 			{
 				return this.ecBlocks;
@@ -88,25 +88,25 @@ function Version( versionNumber,  alignmentPatternCenters,  ecBlocks1,  ecBlocks
 		total += ecBlock.Count * (ecBlock.DataCodewords + ecCodewords);
 	}
 	this.totalCodewords = total;
-	
-	this.__defineGetter__("VersionNumber", function()
+
+	Object.defineProperty(this,"VersionNumber", { get: function()
 	{
 		return  this.versionNumber;
-	});
-	
-	this.__defineGetter__("AlignmentPatternCenters", function()
+	}});
+
+	Object.defineProperty(this,"AlignmentPatternCenters", { get: function()
 	{
 		return  this.alignmentPatternCenters;
-	});
-	this.__defineGetter__("TotalCodewords", function()
+	}});
+	Object.defineProperty(this,"TotalCodewords", { get: function()
 	{
 		return  this.totalCodewords;
-	});
-	this.__defineGetter__("DimensionForVersion", function()
+	}});
+	Object.defineProperty(this,"DimensionForVersion", { get: function()
 	{
 		return  17 + 4 * this.versionNumber;
-	});
-	
+	}});
+
 	this.buildFunctionPattern=function()
 		{
 			var dimension = this.DimensionForVersion;
