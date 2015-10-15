@@ -44,6 +44,7 @@ qrcode.decode = function(src){
     else
     {
         var image = new Image();
+        image.crossOrigin = "Anonymous";
         image.onload=function(){
             //var canvas_qr = document.getElementById("qr-canvas");
             var canvas_qr = document.createElement('canvas');
