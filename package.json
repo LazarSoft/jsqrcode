@@ -1,6 +1,6 @@
 {
   "name": "qrcode-reader",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "fork of lazarsoft's jsqrcode for node",
   "main": "index.js",
   "scripts": {
