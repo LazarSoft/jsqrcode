@@ -5,6 +5,8 @@ node_js:
     - "0.11"
     - "0.10"
     - "iojs"
+    - "4"
+    - "5"
 
 before_script:
     - "npm install -g npm"
