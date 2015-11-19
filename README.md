@@ -6,48 +6,51 @@ This is a port of Lazarsoft’s qrcode reader
 
 # Installation
 
-	npm install qrcode-reader
+    npm install qrcode-reader
 
 # Usage
 
-	QrCode=require(‘qrcode-reader’);
+    QrCode=require(‘qrcode-reader’);
 
 Create a new instance of QrCode:
 
-	qr= new QrCode();
+    qr= new QrCode();
 
 Set it's callback to a custom function
 
-	qr.callback= function(result){alert(result)}
+    qr.callback= function(result){alert(result)}
 
 Decode an image by it's URL or Data URI
 
-	qr.decode(url or DataURL).
+    qr.decode(url or DataURL).
 
-Decode from canvas with "qr-canvas" ID: 
+Decode from canvas with "qr-canvas" ID:
 
-	qrcode.decode()
+    qrcode.decode()
 
+# Building it yourself
 
-# In the browser
+If you want, you can build the script yourself.
 
+First clone the repository, then from the directory of this repository, do :
 
-Include the scripts in the following order:
+    npm install
+    gulp compile
 
-    <script type="text/javascript" src="grid.js"></script>
-    <script type="text/javascript" src="version.js"></script>
-    <script type="text/javascript" src="detector.js"></script>
-    <script type="text/javascript" src="formatinf.js"></script>
-    <script type="text/javascript" src="errorlevel.js"></script>
-    <script type="text/javascript" src="bitmat.js"></script>
-    <script type="text/javascript" src="datablock.js"></script>
-    <script type="text/javascript" src="bmparser.js"></script>
-    <script type="text/javascript" src="datamask.js"></script>
-    <script type="text/javascript" src="rsdecoder.js"></script>
-    <script type="text/javascript" src="gf256poly.js"></script>
-    <script type="text/javascript" src="gf256.js"></script>
-    <script type="text/javascript" src="decoder.js"></script>
-    <script type="text/javascript" src="qrcode.js"></script>
-    <script type="text/javascript" src="findpat.js"></script>
-    <script type="text/javascript" src="alignpat.js"></script>
-    <script type="text/javascript" src="databr.js"></script>
+You will have one jsfile called `index.js` that you can run from node.
+
+You can then run the tests by running
+
+    npm test
+
+# Make it work in the browser
+
+After building yourself the script index.js, you can do :
+
+    npm install --global browserify
+    browserify -o qrcode.js -s QrCode index.js
+
+This way if you do in your HTML :
+
+    <script src="qrcode.js"></script>
+    you will have access to the global variable `QrCode`
