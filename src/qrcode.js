@@ -28,9 +28,12 @@ QrCode= function ()
 
 this.callback = null;
 
-this.decode = function(src,data){
+this.decode = function(src, callback){
 
-	if(arguments.length==0)
+    (callback) && (this.callback = callback);
+
+    /* decode from canvas #qr-canvas */
+	if(src == undefined)
 	{
 		var canvas_qr = document.getElementById("qr-canvas");
 		var context = canvas_qr.getContext('2d');
@@ -42,22 +45,28 @@ this.decode = function(src,data){
             this.callback(this.result);
 		return this.result;
 	}
-	else if (src.width!=undefined) {
+	/* decode from canvas canvas.context.getImageData */
+    else if (src.width!=undefined) {
 
 		this.width=src.width
 		this.height=src.height
-		this.imagedata={"data":data}
-		// this.imagedata.data=[]
-		// this.imagedata.data=data
+		this.imagedata={ "data": src.data }
 		this.imagedata.width=src.width
 		this.imagedata.height=src.height
 
-
+        try {
 			this.result = this.process(this.imagedata);
+        } catch (e) {
+            this.result = undefined;
+            this.error = e;
+        }
 
-		if(this.callback!=null)
-            this.callback(this.result);
+		if(this.callback!=null) {
+
+            this.callback(this.result, this.error)
+        };
 	}
+    /* decode from URL */
 	else
 	{
 		var image = new Image();
