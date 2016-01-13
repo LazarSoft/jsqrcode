@@ -36,12 +36,6 @@ Decode from canvas with "qr-canvas" ID:
 
     qr.decode()
 
-Callback functions can also be set with `qr.decode` second parameter:
-
-    qr.decode(url, function(result) {
-        // result contains the data decoded or the error found
-    })
-
 # Building it yourself
 
 If you want, you can build the script yourself.
