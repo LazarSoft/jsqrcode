@@ -20,13 +20,21 @@ Set it's callback to a custom function
 
     qr.callback= function(result){alert(result)}
 
-Decode an image by it's URL or Data URI
+Decode an image by it's URL or Data URI:
 
-    qr.decode(url or DataURL).
+    qr.decode(url or DataURL);
+
+Decode an image by context.getImageData:
+Works with [web workers](https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Using_web_workers).
+
+    var context = canvas.getContext("2d");
+    var data = context.getImageData(0, 0, width, height);
+
+    qr.decode(data);
 
 Decode from canvas with "qr-canvas" ID:
 
-    qrcode.decode()
+    qr.decode()
 
 # Building it yourself
 

@@ -17,109 +17,106 @@
 var qrcode = {};
 qrcode.sizeOfDataLengthInfo =  [  [ 10, 9, 8, 8 ],  [ 12, 11, 16, 10 ],  [ 14, 13, 16, 12 ] ];
 
-QrCode= function ()
-  {
-  	this.imagedata = null;
-	this.width = 0;
-	this.height = 0;
-	this.qrCodeSymbol = null;
-	this.debug = false;
+QrCode = function () {
 
+this.imagedata = null;
+this.width = 0;
+this.height = 0;
+this.qrCodeSymbol = null;
+this.debug = false;
 
 this.callback = null;
 
-this.decode = function(src,data){
+this.decode = function(src, data){
 
-	if(arguments.length==0)
-	{
+    var decode = (function() {
+
+        try {
+			this.result = this.process(this.imagedata);
+        } catch (e) {
+            this.result = "error decoding QR Code: " + e;
+        }
+
+		if (this.callback!=null) {
+
+            this.callback(this.result);
+        };
+
+        return this.result;
+
+    }).bind(this);
+
+    /* decode from canvas #qr-canvas */
+	if (src == undefined) {
+
 		var canvas_qr = document.getElementById("qr-canvas");
 		var context = canvas_qr.getContext('2d');
-		this.width = canvas_qr.width;
+
+	    this.width = canvas_qr.width;
 		this.height = canvas_qr.height;
 		this.imagedata = context.getImageData(0, 0, this.width, this.height);
-        this.result = this.process(imagedata);
-        if(this.callback!=null)
-            this.callback(this.result);
-		return this.result;
+
+        decode();
 	}
-	else if (src.width!=undefined) {
+
+	/* decode from canvas canvas.context.getImageData */
+    else if (src.width != undefined) {
 
 		this.width=src.width
 		this.height=src.height
-		this.imagedata={"data":data}
-		// this.imagedata.data=[]
-		// this.imagedata.data=data
+		this.imagedata={ "data": data || src.data }
 		this.imagedata.width=src.width
 		this.imagedata.height=src.height
 
-
-			this.result = this.process(this.imagedata);
-
-		if(this.callback!=null)
-            this.callback(this.result);
+        decode();
 	}
-	else
-	{
+
+    /* decode from URL */
+	else {
+
 		var image = new Image();
-		var _this=this
-		image.onload=function(){
-			//var canvas_qr = document.getElementById("qr-canvas");
+		var _this = this
+
+        image.onload = (function() {
+
 			var canvas_qr = document.createElement('canvas');
 			var context = canvas_qr.getContext('2d');
 			var canvas_out = document.getElementById("out-canvas");
 
+			if (canvas_out != null) {
 
-			body=document.getElementsByTagName('body')[0]
-
-
-
-			if(canvas_out!=null)
-            {
                 var outctx = canvas_out.getContext('2d');
                 outctx.clearRect(0, 0, 320, 240);
 				outctx.drawImage(image, 0, 0, 320, 240);
             }
+
 			canvas_qr.width = image.width;
 			canvas_qr.height = image.height;
             context.drawImage(image, 0, 0);
-			_this.width = image.width;
-			_this.height = image.height;
+			this.width = image.width;
+			this.height = image.height;
+
 			try{
-				_this.imagedata = context.getImageData(0, 0, image.width, image.height);
-			}catch(e){
-				_this.result = "Cross domain image reading not supported in your browser! Save it to your computer then drag and drop the file!";
-				if(_this.callback!=null)
-					_this.callback(_this.result);
-				return;
+				this.imagedata = context.getImageData(0, 0, image.width, image.height);
+			} catch(e) {
+				this.result = "Cross domain image reading not supported in your browser! Save it to your computer then drag and drop the file!";
+				if (this.callback!=null) return this.callback(this.result);
 			}
 
-// _this.result=_this.process(context)
+            decode();
 
-            try
-            {
-            	window.context=context
-                _this.result = _this.process(_this.imagedata);
-            }
-            catch(e)
-            {
-                _this.result = "error decoding QR Code:"+e;
-            }
-			if(_this.callback!=null)
-			{
-				_this.callback(_this.result);
-			}
+		}).bind(this);
 
-		}
 		image.src = src;
 	}
+};
+
+this.decode_utf8 = function ( s ) {
+
+    return decodeURIComponent( escape( s ) );
 }
 
-this.decode_utf8 = function ( s )
-{
-  return decodeURIComponent( escape( s ) );
-}
-
-this.process = function(imageData){
+this.process = function(imageData) {
 
 	var start = new Date().getTime();
 
