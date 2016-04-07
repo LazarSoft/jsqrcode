@@ -1,7 +1,7 @@
 expect =require('chai').expect;
 fs = require('fs');
 PNG = require('png-js');
-QrCode = require('../index.js');
+QrCode = require('../dist/index.js');
 
 it('should work with basic image', function(done) {
 
