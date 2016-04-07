@@ -23,39 +23,43 @@
     <script type="text/javascript" src="../../dist/browser.js"></script>
 
     <script type="text/javascript">
-      var upload = document.getElementById('upload');
-      var preview = document.getElementById('preview');
-      var qr = new QrCode();
+      (function() {
+        'use strict';
+        
+        var upload = document.getElementById('upload');
+        var preview = document.getElementById('preview');
+        var qr = new QrCode();
 
-      qr.callback = function(result) {
-        var span = document.createElement('span');
-        span.textContent = result;
-        preview.appendChild(span);
-      }
-
-      upload.addEventListener('change', function() {
-        for (var i = 0; i < this.files.length; i++) {
-          var file = this.files[i];
-          var imageType = /^image\//;
-          
-          if (!imageType.test(file.type)) {
-            throw new Error('File type not valid');
-          }
-
-          // Read file
-          var reader = new FileReader();
-          reader.addEventListener('load', function() {
-            // Show as preview image
-            var img = document.createElement('img');
-            img.src = this.result;
-            preview.appendChild(img);
-
-            // Analyse code
-            qr.decode(this.result);
-          }.bind(reader), false);
-          reader.readAsDataURL(file);
+        qr.callback = function(result) {
+          var span = document.createElement('span');
+          span.textContent = result;
+          preview.appendChild(span);
         }
-      }, false);
+
+        upload.addEventListener('change', function() {
+          for (var i = 0; i < this.files.length; i++) {
+            var file = this.files[i];
+            var imageType = /^image\//;
+            
+            if (!imageType.test(file.type)) {
+              throw new Error('File type not valid');
+            }
+
+            // Read file
+            var reader = new FileReader();
+            reader.addEventListener('load', function() {
+              // Show as preview image
+              var img = document.createElement('img');
+              img.src = this.result;
+              preview.appendChild(img);
+
+              // Analyse code
+              qr.decode(this.result);
+            }.bind(reader), false);
+            reader.readAsDataURL(file);
+          }
+        }, false);
+      })();
     </script>
   </body>
 </html>
