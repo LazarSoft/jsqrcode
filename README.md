@@ -64,4 +64,4 @@ This way, you will have access to the global variable `QrCode` if you do the fol
 
     <script src="dist/qrcode.js"></script>
 
-See [examples/browser/index.html](examples/browser/index.html) for a full example.
+See [examples/browser-upload/index.html](examples/browser-upload/index.html) for a very basic example using a file upload.
