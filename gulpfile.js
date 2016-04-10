@@ -49,7 +49,10 @@ gulp.task('compile-browser', ['compile'], function(cb) {
     output: {
       path: 'dist/',
       filename: 'browser.js'
-    }
+    },
+    plugins: [
+      new webpack.optimize.UglifyJsPlugin()
+    ]
   }, function(err, stats) {
     if (err) {
       console.log(err);
