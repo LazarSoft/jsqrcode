@@ -44,9 +44,7 @@ First clone the repository, then from the directory of this repository, do:
 
     npm install
 
-It will automatically run `npm run compile` after installing and you will have one JavaScript file called `dist/index.js` that you can run from node.
-
-To manually rebuild:
+To run the build process and generate a JavaScript file called `dist/index.js`  you can run from node:
 
     npm run compile
 
@@ -56,12 +54,12 @@ To run the tests:
 
 # Make it work in the browser
 
-Send `dist/index.js` through webpack and create `dist/qrcode.js`:
+If this module was installed from the npm registry, it will already contain a `dist/browser.js`. Otherwise, it has to be built manually (after running `npm install`, see above):
 
     npm run compile-browser
 
-This way, you will have access to the global variable `QrCode` if you do the following in your HTML:
+You will have access to the global variable `QrCode` if you do the following in your HTML:
 
-    <script src="dist/qrcode.js"></script>
+    <script src="dist/browser.js"></script>
 
 See [examples/browser-upload/index.html](examples/browser-upload/index.html) for a very basic example using a file upload.

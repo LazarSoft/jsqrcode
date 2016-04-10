@@ -4,7 +4,7 @@
   "description": "fork of lazarsoft's jsqrcode for node",
   "main": "dist/index.js",
   "scripts": {
-    "postinstall": "gulp compile",
+    "prepublish": "gulp compile-browser",
     "test": "mocha",
     "compile": "gulp compile",
     "compile-browser": "gulp compile-browser"
