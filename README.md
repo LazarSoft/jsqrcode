@@ -10,17 +10,17 @@ This is a port of Lazarsoft’s qrcode reader
 
 # Usage
 
-    QrCode=require(‘qrcode-reader’);
+    var QrCode = require('qrcode-reader');
 
 Create a new instance of QrCode:
 
-    qr= new QrCode();
+    var qr = new QrCode();
 
-Set it's callback to a custom function
+Set its callback to a custom function:
 
-    qr.callback= function(result){alert(result)}
+    qr.callback = function(result) { console.log(result) }
 
-Decode an image by it's URL or Data URI:
+Decode an image by its URL or Data URI:
 
     qr.decode(url or DataURL);
 
@@ -40,25 +40,26 @@ Decode from canvas with "qr-canvas" ID:
 
 If you want, you can build the script yourself.
 
-First clone the repository, then from the directory of this repository, do :
+First clone the repository, then from the directory of this repository, do:
 
     npm install
-    gulp compile
 
-You will have one jsfile called `index.js` that you can run from node.
+To run the build process and generate a JavaScript file called `dist/index.js`  you can run from node:
 
-You can then run the tests by running
+    npm run compile
+
+To run the tests:
 
     npm test
 
 # Make it work in the browser
 
-After building yourself the script index.js, you can do :
+If this module was installed from the npm registry, it will already contain a `dist/browser.js`. Otherwise, it has to be built manually (after running `npm install`, see above):
 
-    npm install --global browserify
-    browserify -o qrcode.js -s QrCode index.js
+    npm run compile-browser
 
-This way if you do in your HTML :
+You will have access to the global variable `QrCode` if you do the following in your HTML:
 
-    <script src="qrcode.js"></script>
-    you will have access to the global variable `QrCode`
+    <script src="dist/browser.js"></script>
+
+See [examples/browser-upload/index.html](examples/browser-upload/index.html) for a very basic example using a file upload.

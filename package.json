@@ -2,9 +2,12 @@
   "name": "qrcode-reader",
   "version": "0.1.0",
   "description": "fork of lazarsoft's jsqrcode for node",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
-    "test": "mocha"
+    "prepublish": "gulp compile-browser",
+    "test": "mocha",
+    "compile": "gulp compile",
+    "compile-browser": "gulp compile-browser"
   },
   "repository": {
     "type": "git",
@@ -17,10 +20,12 @@
   },
   "homepage": "https://github.com/edi9999/jsqrcode",
   "devDependencies": {
+    "chai": "^1.9.1",
     "gulp": "^3.8.7",
     "gulp-concat": "^2.3.4",
     "gulp-watch": "^0.6.9",
-    "chai": "^1.9.1",
-    "png-js": "^0.1.1"
+    "mocha": "^2.4.5",
+    "png-js": "^0.1.1",
+    "webpack": "^1.12.14"
   }
 }
