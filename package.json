@@ -4,10 +4,11 @@
   "description": "fork of lazarsoft's jsqrcode for node",
   "main": "dist/index.js",
   "scripts": {
-    "prepublish": "gulp compile-browser",
+    "prepublish": "npm run compile:all",
     "test": "mocha",
     "compile": "gulp compile",
-    "compile-browser": "gulp compile-browser"
+    "compile:browser": "gulp compile-browser",
+    "compile:all": "npm run compile && npm run compile:browser"
   },
   "repository": {
     "type": "git",
