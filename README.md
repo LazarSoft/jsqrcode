@@ -56,7 +56,9 @@ To run the tests:
 
 If this module was installed from the npm registry, it will already contain a `dist/browser.js`. Otherwise, it has to be built manually (after running `npm install`, see above):
 
-    npm run compile-browser
+```
+npm run compile:browser
+```
 
 You will have access to the global variable `QrCode` if you do the following in your HTML:
 
