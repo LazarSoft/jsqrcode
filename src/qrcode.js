@@ -165,9 +165,8 @@ this.getPixel = function(imageData, x,y){
 	if (imageData.height < y) {
 		throw "point error";
 	}
-	point = (x * 4) + (y * imageData.width * 4);
-	p = (imageData.data[point]*33 + imageData.data[point + 1]*34 + imageData.data[point + 2]*33)/100;
-	return p;
+	var point = (x * 4) + (y * imageData.width * 4);
+	return (imageData.data[point]*33 + imageData.data[point + 1]*34 + imageData.data[point + 2]*33)/100;
 }
 
 this.binarize = function(th){
