@@ -28,7 +28,7 @@ var qr = new QrCode();
 Set its callback to a custom function:
 
 ```
-qr.callback = function(result) { console.log(result) }
+qr.callback = function(result,err) { if(result) console.log(result) }
 ```
 
 Decode an image by its URL or Data URI:

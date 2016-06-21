@@ -30,9 +30,15 @@
         var preview = document.getElementById('preview');
         var qr = new QrCode();
 
-        qr.callback = function(result) {
-          var span = document.createElement('span');
-          span.textContent = result;
+        qr.callback = function(result,err) {
+          var span = document.querySelector('span') || document.createElement('span');
+          if(result){
+            span.textContent = result;
+          }
+          else{
+            span.textContent = 'Error! See error message in console!';
+            console.error(err);
+          }
           preview.appendChild(span);
         }
 
@@ -49,7 +55,7 @@
             var reader = new FileReader();
             reader.addEventListener('load', function() {
               // Show as preview image
-              var img = document.createElement('img');
+              var img = document.querySelector('img') || document.createElement('img');
               img.src = this.result;
               preview.appendChild(img);
 
