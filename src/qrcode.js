@@ -32,14 +32,16 @@ this.decode = function(src, data){
     var decode = (function() {
 
         try {
+			this.error = undefined;
 			this.result = this.process(this.imagedata);
         } catch (e) {
-            this.result = "error decoding QR Code: " + e;
+            this.error = e;
+            this.result = undefined;
         }
 
 		if (this.callback!=null) {
 
-            this.callback(this.result);
+            this.callback(this.result,this.error);
         };
 
         return this.result;
