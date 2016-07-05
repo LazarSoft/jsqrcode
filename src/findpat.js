@@ -422,14 +422,13 @@ function FinderPatternFinder()
 
 				var stdDev = Math.sqrt(square / startSize - average * average);
 				var limit = Math.max(0.2 * average, stdDev);
-				for (var i = 0; i < this.possibleCenters.length && this.possibleCenters.length > 3; i++)
+				for (var i = this.possibleCenters.length - 1; i >= 0 ; i--)
 				{
 					var pattern =  this.possibleCenters[i];
 					//if (Math.abs(pattern.EstimatedModuleSize - average) > 0.2 * average)
                     if (Math.abs(pattern.EstimatedModuleSize - average) > limit)
 					{
 						this.possibleCenters.remove(i);
-						i--;
 					}
 				}
 			}
