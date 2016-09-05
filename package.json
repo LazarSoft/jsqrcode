@@ -3,14 +3,16 @@
   "version": "0.2.1",
   "description": "fork of lazarsoft's jsqrcode for node",
   "main": "dist/index.js",
+  "module": "src/index.js",
+  "jsnext:main": "src/index.js",
   "scripts": {
-    "prepublish": "npm test",
-    "lint": "eslint src test",
-    "pretest": "npm run compile:all && npm run lint",
+    "prebuild": "eslint src test",
+    "build": "rollup -c",
+    "watch": "rollup -c -w",
+    "minify": "uglifyjs dist/index.js -o dist/index.min.js --compress --mangle",
+    "pretest": "npm run build",
     "test": "mocha",
-    "compile": "gulp compile",
-    "compile:browser": "gulp compile-browser",
-    "compile:all": "npm run compile && npm run compile:browser"
+    "prepublish": "npm test && npm run minify"
   },
   "repository": {
     "type": "git",
@@ -25,11 +27,9 @@
   "devDependencies": {
     "chai": "^1.9.1",
     "eslint": "^2.13.1",
-    "gulp": "^3.8.7",
-    "gulp-concat": "^2.3.4",
-    "gulp-watch": "^0.6.9",
     "mocha": "^2.4.5",
     "png-js": "^0.1.1",
-    "webpack": "^1.12.14"
+    "rollup": "^0.34.13",
+    "uglify-js": "^2.7.3"
   }
 }
