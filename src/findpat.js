@@ -635,7 +635,7 @@ function FinderPatternFinder()
 					if (this.hasSkipped)
 					{
 						// Found a third one
-						done = haveMultiplyConfirmedCenters();
+						done = this.haveMultiplyConfirmedCenters();
 					}
 				}
 			}
