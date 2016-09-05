@@ -23,5 +23,6 @@ module.exports = {
     'keyword-spacing': 'error',
     'linebreak-style': 'error',
     'no-array-constructor': 'error',
+    'no-trailing-spaces': 'error',
   },
 };
