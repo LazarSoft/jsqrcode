@@ -439,8 +439,8 @@ function FinderPatternFinder()
 		{
 			// Throw away all but those first size candidate points we found.
 			this.possibleCenters.sort(function(a, b){
-				if (a.count > b.count){return -1;}
-				if (a.count < b.count){return 1;}
+				if (a.count > b.count){ return -1; }
+				if (a.count < b.count){ return 1; }
 				return 0;
 			});
 		}

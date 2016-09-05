@@ -13,6 +13,7 @@ module.exports = {
     'no-unused-vars': 'off',
 
     'array-bracket-spacing': 'error',
+    'block-spacing': 'error',
     'indent': ['error', 'tab'],
   },
 };
