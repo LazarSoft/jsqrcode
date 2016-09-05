@@ -30,7 +30,7 @@ function QrCode() {
 
   this.callback = null;
 
-  this.decode = function(src, data){
+  this.decode = function(src, data) {
 
     var decode = (function() {
 
@@ -156,7 +156,7 @@ function QrCode() {
     //alert("Time:" + time + " Code: "+str);
   };
 
-  this.getPixel = function(imageData, x, y){
+  this.getPixel = function(imageData, x, y) {
     if (imageData.width < x) {
       throw "point error";
     }
@@ -167,7 +167,7 @@ function QrCode() {
     return (imageData.data[point]*33 + imageData.data[point + 1]*34 + imageData.data[point + 2]*33)/100;
   };
 
-  this.binarize = function(th){
+  this.binarize = function(th) {
     var ret = new Array(this.width*this.height);
     for (var y = 0; y < this.height; y++) {
       for (var x = 0; x < this.width; x++) {
@@ -240,7 +240,7 @@ function QrCode() {
     return grayScaleImageData;
   };
 
-  this.grayscale = function(imageData){
+  this.grayscale = function(imageData) {
     var ret = new Array(imageData.width*imageData.height);
 
     for (var y = 0; y < imageData.height; y++) {

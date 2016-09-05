@@ -30,5 +30,6 @@ module.exports = {
     'operator-linebreak': 'error',
     'semi-spacing': 'error',
     'semi': 'error',
+    'space-before-blocks': 'error',
   },
 };

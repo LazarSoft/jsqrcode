@@ -384,7 +384,7 @@ function FinderPatternFinder() {
 
     if (this.possibleCenters.length > 3) {
       // Throw away all but those first size candidate points we found.
-      this.possibleCenters.sort(function(a, b){
+      this.possibleCenters.sort(function(a, b) {
         if (a.count > b.count) return -1;
         if (a.count < b.count) return 1;
         return 0;
@@ -446,7 +446,7 @@ function FinderPatternFinder() {
     return totalDeviation <= 0.05 * totalModuleSize;
   };
 
-  this.findFinderPattern = function(image){
+  this.findFinderPattern = function(image) {
     var tryHarder = false;
     this.image=image;
     var maxI = image.height;
