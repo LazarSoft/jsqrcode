@@ -21,5 +21,6 @@ module.exports = {
     'indent': ['error', 2],
     'key-spacing': 'error',
     'keyword-spacing': 'error',
+    'linebreak-style': 'error',
   },
 };
