@@ -110,7 +110,7 @@ function QrCode() {
     }
   };
 
-  this.decode_utf8 = function ( s ) {
+  this.decode_utf8 = function( s ) {
 
     return decodeURIComponent( escape( s ) );
   };
