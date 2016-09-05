@@ -26,7 +26,7 @@
 
 var GridSampler = {};
 
-GridSampler.checkAndNudgePoints=function(image,  points) {
+GridSampler.checkAndNudgePoints = function(image,  points) {
   var width = image.width;
   var height = image.height;
   // Check and nudge points from start until we see some that are OK:
@@ -81,7 +81,7 @@ GridSampler.checkAndNudgePoints=function(image,  points) {
 
 
 
-GridSampler.sampleGrid3=function(image,  dimension,  transform) {
+GridSampler.sampleGrid3 = function(image,  dimension,  transform) {
   var bits = new BitMatrix(dimension);
   var points = new Array(dimension << 1);
   for (var y = 0; y < dimension; y++) {
@@ -97,7 +97,7 @@ GridSampler.sampleGrid3=function(image,  dimension,  transform) {
     GridSampler.checkAndNudgePoints(image, points);
     try {
       for (var x = 0; x < max; x += 2) {
-        var bit = image.data[Math.floor(points[x])+ image.width* Math.floor(points[x + 1])];
+        var bit = image.data[Math.floor(points[x]) + image.width * Math.floor(points[x + 1])];
         //bits[x >> 1][ y]=bit;
         if (bit)
           bits.set_Renamed(x >> 1, y);

@@ -39,7 +39,7 @@ function DataBlock(numDataCodewords,  codewords) {
   });
 }
 
-DataBlock.getDataBlocks=function(rawCodewords,  version,  ecLevel) {
+DataBlock.getDataBlocks = function(rawCodewords,  version,  ecLevel) {
 
   if (rawCodewords.length != version.TotalCodewords) {
     throw "ArgumentException";
@@ -98,7 +98,7 @@ DataBlock.getDataBlocks=function(rawCodewords,  version,  ecLevel) {
   var max = result[0].codewords.length;
   for (var i = shorterBlocksNumDataCodewords; i < max; i++) {
     for (var j = 0; j < numResultBlocks; j++) {
-      var iOffset = j < longerBlocksStartAt?i:i + 1;
+      var iOffset = j < longerBlocksStartAt ? i : i + 1;
       result[j].codewords[iOffset] = rawCodewords[rawCodewordsOffset++];
     }
   }

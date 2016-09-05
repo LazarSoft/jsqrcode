@@ -76,22 +76,22 @@ function FormatInformation(formatInfo) {
       return this.dataMask;
     }
   });
-  this.GetHashCode=function() {
+  this.GetHashCode = function() {
     return (this.errorCorrectionLevel.ordinal() << 3) |  this.dataMask;
   };
-  this.Equals=function(o) {
+  this.Equals = function(o) {
     var other =  o;
     return this.errorCorrectionLevel == other.errorCorrectionLevel && this.dataMask == other.dataMask;
   };
 }
 
-FormatInformation.numBitsDiffering=function(a,  b) {
+FormatInformation.numBitsDiffering = function(a,  b) {
   a ^= b; // a now has a 1 bit exactly where its bit differs with b's
   // Count bits set quickly with a series of lookups:
   return BITS_SET_IN_HALF_BYTE[a & 0x0F] + BITS_SET_IN_HALF_BYTE[(URShift(a, 4) & 0x0F)] + BITS_SET_IN_HALF_BYTE[(URShift(a, 8) & 0x0F)] + BITS_SET_IN_HALF_BYTE[(URShift(a, 12) & 0x0F)] + BITS_SET_IN_HALF_BYTE[(URShift(a, 16) & 0x0F)] + BITS_SET_IN_HALF_BYTE[(URShift(a, 20) & 0x0F)] + BITS_SET_IN_HALF_BYTE[(URShift(a, 24) & 0x0F)] + BITS_SET_IN_HALF_BYTE[(URShift(a, 28) & 0x0F)];
 };
 
-FormatInformation.decodeFormatInformation=function(maskedFormatInfo) {
+FormatInformation.decodeFormatInformation = function(maskedFormatInfo) {
   var formatInfo = FormatInformation.doDecodeFormatInformation(maskedFormatInfo);
   if (formatInfo != null) {
     return formatInfo;
@@ -101,7 +101,7 @@ FormatInformation.decodeFormatInformation=function(maskedFormatInfo) {
   // first
   return FormatInformation.doDecodeFormatInformation(maskedFormatInfo ^ FORMAT_INFO_MASK_QR);
 };
-FormatInformation.doDecodeFormatInformation=function(maskedFormatInfo) {
+FormatInformation.doDecodeFormatInformation = function(maskedFormatInfo) {
   // Find the int in FORMAT_INFO_DECODE_LOOKUP with fewest bits differing
   var bestDifference = 0xffffffff;
   var bestFormatInfo = 0;

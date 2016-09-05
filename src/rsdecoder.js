@@ -27,15 +27,15 @@
 
 function ReedSolomonDecoder(field) {
   this.field = field;
-  this.decode=function(received,  twoS) {
+  this.decode = function(received,  twoS) {
     var poly = new GF256Poly(this.field, received);
     var syndromeCoefficients = new Array(twoS);
-    for (var i=0; i<syndromeCoefficients.length; i++)syndromeCoefficients[i]=0;
+    for (var i = 0; i < syndromeCoefficients.length; i++)syndromeCoefficients[i] = 0;
     var dataMatrix = false;//this.field.Equals(GF256.DATA_MATRIX_FIELD);
     var noError = true;
     for (var i = 0; i < twoS; i++) {
       // Thanks to sanfordsquires for this fix:
-      var eval = poly.evaluateAt(this.field.exp(dataMatrix?i + 1:i));
+      var eval = poly.evaluateAt(this.field.exp(dataMatrix ? i + 1 : i));
       syndromeCoefficients[syndromeCoefficients.length - 1 - i] = eval;
       if (eval != 0) {
         noError = false;
@@ -59,7 +59,7 @@ function ReedSolomonDecoder(field) {
     }
   };
 
-  this.runEuclideanAlgorithm=function(a,  b,  R) {
+  this.runEuclideanAlgorithm = function(a,  b,  R) {
     // Assume a's degree is >= b's
     if (a.Degree < b.Degree) {
       var temp = a;
@@ -114,7 +114,7 @@ function ReedSolomonDecoder(field) {
     var omega = r.multiply2(inverse);
     return [sigma, omega];
   };
-  this.findErrorLocations=function(errorLocator) {
+  this.findErrorLocations = function(errorLocator) {
     // This is a direct application of Chien's search
     var numErrors = errorLocator.Degree;
     if (numErrors == 1) {
@@ -134,7 +134,7 @@ function ReedSolomonDecoder(field) {
     }
     return result;
   };
-  this.findErrorMagnitudes=function(errorEvaluator,  errorLocations,  dataMatrix) {
+  this.findErrorMagnitudes = function(errorEvaluator,  errorLocations,  dataMatrix) {
     // This is directly applying Forney's Formula
     var s = errorLocations.length;
     var result = new Array(s);

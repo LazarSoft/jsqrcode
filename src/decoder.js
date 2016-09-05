@@ -25,10 +25,10 @@
 /* globals ReedSolomonDecoder, GF256, BitMatrixParser, DataBlock, QRCodeDataBlockReader */
 
 
-var Decoder={};
+var Decoder = {};
 Decoder.rsDecoder = new ReedSolomonDecoder(GF256.QR_CODE_FIELD);
 
-Decoder.correctErrors=function(codewordBytes,  numDataCodewords) {
+Decoder.correctErrors = function(codewordBytes,  numDataCodewords) {
   var numCodewords = codewordBytes.length;
   // First read into an array of ints
   var codewordsInts = new Array(numCodewords);
@@ -50,7 +50,7 @@ Decoder.correctErrors=function(codewordBytes,  numDataCodewords) {
   }
 };
 
-Decoder.decode=function(bits) {
+Decoder.decode = function(bits) {
   var parser = new BitMatrixParser(bits);
   var version = parser.readVersion();
   var ecLevel = parser.readFormatInformation().ErrorCorrectionLevel;

@@ -40,9 +40,9 @@ function GF256(primitive) {
     this.logTable[this.expTable[i]] = i;
   }
   // logTable[0] == 0 but this should never be used
-  var at0=new Array(1); at0[0]=0;
+  var at0 = new Array(1); at0[0] = 0;
   this.zero = new GF256Poly(this, new Array(at0));
-  var at1=new Array(1); at1[0]=1;
+  var at1 = new Array(1); at1[0] = 1;
   this.one = new GF256Poly(this, new Array(at1));
 
   Object.defineProperty(this, "Zero", {
@@ -55,7 +55,7 @@ function GF256(primitive) {
       return this.one;
     }
   });
-  this.buildMonomial=function(degree,  coefficient) {
+  this.buildMonomial = function(degree,  coefficient) {
     if (degree < 0) {
       throw "System.ArgumentException";
     }
@@ -63,26 +63,26 @@ function GF256(primitive) {
       return this.zero;
     }
     var coefficients = new Array(degree + 1);
-    for (var i=0; i<coefficients.length; i++)coefficients[i]=0;
+    for (var i = 0; i < coefficients.length; i++)coefficients[i] = 0;
     coefficients[0] = coefficient;
     return new GF256Poly(this, coefficients);
   };
-  this.exp=function(a) {
+  this.exp = function(a) {
     return this.expTable[a];
   };
-  this.log=function(a) {
+  this.log = function(a) {
     if (a == 0) {
       throw "System.ArgumentException";
     }
     return this.logTable[a];
   };
-  this.inverse=function(a) {
+  this.inverse = function(a) {
     if (a == 0) {
       throw "System.ArithmeticException";
     }
     return this.expTable[255 - this.logTable[a]];
   };
-  this.multiply=function(a,  b) {
+  this.multiply = function(a,  b) {
     if (a == 0 || b == 0) {
       return 0;
     }
@@ -99,6 +99,6 @@ function GF256(primitive) {
 GF256.QR_CODE_FIELD = new GF256(0x011D);
 GF256.DATA_MATRIX_FIELD = new GF256(0x012D);
 
-GF256.addOrSubtract=function(a,  b) {
+GF256.addOrSubtract = function(a,  b) {
   return a ^ b;
 };

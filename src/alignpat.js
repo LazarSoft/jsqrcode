@@ -24,8 +24,8 @@
 
 
 function AlignmentPattern(posX, posY,  estimatedModuleSize) {
-  this.x=posX;
-  this.y=posY;
+  this.x = posX;
+  this.y = posY;
   this.count = 1;
   this.estimatedModuleSize = estimatedModuleSize;
 
@@ -52,7 +52,7 @@ function AlignmentPattern(posX, posY,  estimatedModuleSize) {
   this.incrementCount = function() {
     this.count++;
   };
-  this.aboutEquals=function(moduleSize,  i,  j) {
+  this.aboutEquals = function(moduleSize,  i,  j) {
     if (Math.abs(i - this.y) <= moduleSize && Math.abs(j - this.x) <= moduleSize) {
       var moduleSizeDiff = Math.abs(moduleSize - this.estimatedModuleSize);
       return moduleSizeDiff <= 1.0 || moduleSizeDiff / this.estimatedModuleSize <= 1.0;
@@ -73,7 +73,7 @@ function AlignmentPatternFinder(image,  startX,  startY,  width,  height,  modul
   this.crossCheckStateCount = [0, 0, 0];
   this.resultPointCallback = resultPointCallback;
 
-  this.centerFromEnd=function(stateCount,  end) {
+  this.centerFromEnd = function(stateCount,  end) {
     return  (end - stateCount[2]) - stateCount[1] / 2.0;
   };
   this.foundPatternCross = function(stateCount) {
@@ -87,7 +87,7 @@ function AlignmentPatternFinder(image,  startX,  startY,  width,  height,  modul
     return true;
   };
 
-  this.crossCheckVertical=function(startI,  centerJ,  maxCount,  originalStateCountTotal) {
+  this.crossCheckVertical = function(startI,  centerJ,  maxCount,  originalStateCountTotal) {
     var image = this.image;
 
     var maxI = image.height;
@@ -98,7 +98,7 @@ function AlignmentPatternFinder(image,  startX,  startY,  width,  height,  modul
 
     // Start counting up from center
     var i = startI;
-    while (i >= 0 && image.data[centerJ + i*image.width] && stateCount[1] <= maxCount) {
+    while (i >= 0 && image.data[centerJ + i * image.width] && stateCount[1] <= maxCount) {
       stateCount[1]++;
       i--;
     }
@@ -106,7 +106,7 @@ function AlignmentPatternFinder(image,  startX,  startY,  width,  height,  modul
     if (i < 0 || stateCount[1] > maxCount) {
       return NaN;
     }
-    while (i >= 0 && !image.data[centerJ + i*image.width] && stateCount[0] <= maxCount) {
+    while (i >= 0 && !image.data[centerJ + i * image.width] && stateCount[0] <= maxCount) {
       stateCount[0]++;
       i--;
     }
@@ -116,14 +116,14 @@ function AlignmentPatternFinder(image,  startX,  startY,  width,  height,  modul
 
     // Now also count down from center
     i = startI + 1;
-    while (i < maxI && image.data[centerJ + i*image.width] && stateCount[1] <= maxCount) {
+    while (i < maxI && image.data[centerJ + i * image.width] && stateCount[1] <= maxCount) {
       stateCount[1]++;
       i++;
     }
     if (i == maxI || stateCount[1] > maxCount) {
       return NaN;
     }
-    while (i < maxI && !image.data[centerJ + i*image.width] && stateCount[2] <= maxCount) {
+    while (i < maxI && !image.data[centerJ + i * image.width] && stateCount[2] <= maxCount) {
       stateCount[2]++;
       i++;
     }
@@ -136,10 +136,10 @@ function AlignmentPatternFinder(image,  startX,  startY,  width,  height,  modul
       return NaN;
     }
 
-    return this.foundPatternCross(stateCount)?this.centerFromEnd(stateCount, i):NaN;
+    return this.foundPatternCross(stateCount) ? this.centerFromEnd(stateCount, i) : NaN;
   };
 
-  this.handlePossibleCenter=function(stateCount,  i,  j) {
+  this.handlePossibleCenter = function(stateCount,  i,  j) {
     var stateCountTotal = stateCount[0] + stateCount[1] + stateCount[2];
     var centerJ = this.centerFromEnd(stateCount, j);
     var centerI = this.crossCheckVertical(i, Math.floor(centerJ), 2 * stateCount[1], stateCountTotal);
@@ -173,7 +173,7 @@ function AlignmentPatternFinder(image,  startX,  startY,  width,  height,  modul
     var stateCount = [0, 0, 0];
     for (var iGen = 0; iGen < height; iGen++) {
       // Search from middle outwards
-      var i = middleI + ((iGen & 0x01) == 0?((iGen + 1) >> 1):- ((iGen + 1) >> 1));
+      var i = middleI + ((iGen & 0x01) == 0 ? ((iGen + 1) >> 1) : - ((iGen + 1) >> 1));
       stateCount[0] = 0;
       stateCount[1] = 0;
       stateCount[2] = 0;
@@ -181,12 +181,12 @@ function AlignmentPatternFinder(image,  startX,  startY,  width,  height,  modul
       // Burn off leading white pixels before anything else; if we start in the middle of
       // a white run, it doesn't make sense to count its length, since we don't know if the
       // white run continued to the left of the start point
-      while (j < maxJ && !image.data[j + image.width* i]) {
+      while (j < maxJ && !image.data[j + image.width * i]) {
         j++;
       }
       var currentState = 0;
       while (j < maxJ) {
-        if (image.data[j + i*image.width]) {
+        if (image.data[j + i * image.width]) {
           // Black pixel
           if (currentState == 1) {
             // Counting black pixels

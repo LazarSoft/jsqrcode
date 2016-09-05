@@ -37,12 +37,12 @@ function ErrorCorrectionLevel(ordinal,  bits, name) {
       return this.name;
     }
   });
-  this.ordinal=function() {
+  this.ordinal = function() {
     return this.ordinal_Renamed_Field;
   };
 }
 
-ErrorCorrectionLevel.forBits=function(bits) {
+ErrorCorrectionLevel.forBits = function(bits) {
   if (bits < 0 || bits >= FOR_BITS.length) {
     throw "ArgumentException";
   }

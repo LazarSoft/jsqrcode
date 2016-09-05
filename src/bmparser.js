@@ -33,11 +33,11 @@ function BitMatrixParser(bitMatrix) {
   this.parsedVersion = null;
   this.parsedFormatInfo = null;
 
-  this.copyBit=function(i,  j,  versionBits) {
-    return this.bitMatrix.get_Renamed(i, j)?(versionBits << 1) | 0x1:versionBits << 1;
+  this.copyBit = function(i,  j,  versionBits) {
+    return this.bitMatrix.get_Renamed(i, j) ? (versionBits << 1) | 0x1 : versionBits << 1;
   };
 
-  this.readFormatInformation=function() {
+  this.readFormatInformation = function() {
     if (this.parsedFormatInfo != null) {
       return this.parsedFormatInfo;
     }
@@ -78,7 +78,7 @@ function BitMatrixParser(bitMatrix) {
     }
     throw "Error readFormatInformation";
   };
-  this.readVersion=function() {
+  this.readVersion = function() {
 
     if (this.parsedVersion != null) {
       return this.parsedVersion;
@@ -119,7 +119,7 @@ function BitMatrixParser(bitMatrix) {
     }
     throw "Error readVersion";
   };
-  this.readCodewords=function() {
+  this.readCodewords = function() {
 
     var formatInfo = this.readFormatInformation();
     var version = this.readVersion();
@@ -146,7 +146,7 @@ function BitMatrixParser(bitMatrix) {
       }
       // Read alternatingly from bottom to top then top to bottom
       for (var count = 0; count < dimension; count++) {
-        var i = readingUp?dimension - 1 - count:count;
+        var i = readingUp ? dimension - 1 - count : count;
         for (var col = 0; col < 2; col++) {
           // Ignore bits covered by the function pattern
           if (!functionPattern.get_Renamed(j - col, i)) {

@@ -26,7 +26,7 @@
 
 function BitMatrix(width,  height) {
   if (!height)
-    height=width;
+    height = width;
   if (width < 1 || height < 1) {
     throw "Both dimensions must be greater than 0";
   }
@@ -38,8 +38,8 @@ function BitMatrix(width,  height) {
   }
   this.rowSize = rowSize;
   this.bits = new Array(rowSize * height);
-  for (var i=0; i<this.bits.length; i++)
-    this.bits[i]=0;
+  for (var i = 0; i < this.bits.length; i++)
+    this.bits[i] = 0;
 
   Object.defineProperty(this, "Width", {
     get: function() {
@@ -60,25 +60,25 @@ function BitMatrix(width,  height) {
     }
   });
 
-  this.get_Renamed=function(x,  y) {
+  this.get_Renamed = function(x,  y) {
     var offset = y * this.rowSize + (x >> 5);
     return ((URShift(this.bits[offset], (x & 0x1f))) & 1) != 0;
   };
-  this.set_Renamed=function(x,  y) {
+  this.set_Renamed = function(x,  y) {
     var offset = y * this.rowSize + (x >> 5);
     this.bits[offset] |= 1 << (x & 0x1f);
   };
-  this.flip=function(x,  y) {
+  this.flip = function(x,  y) {
     var offset = y * this.rowSize + (x >> 5);
     this.bits[offset] ^= 1 << (x & 0x1f);
   };
-  this.clear=function() {
+  this.clear = function() {
     var max = this.bits.length;
     for (var i = 0; i < max; i++) {
       this.bits[i] = 0;
     }
   };
-  this.setRegion=function(left,  top,  width,  height) {
+  this.setRegion = function(left,  top,  width,  height) {
     if (top < 0 || left < 0) {
       throw "Left and top must be nonnegative";
     }

@@ -40,9 +40,9 @@ function GF256Poly(field,  coefficients) {
       this.coefficients = field.Zero.coefficients;
     } else {
       this.coefficients = new Array(coefficientsLength - firstNonZero);
-      for (var i=0; i<this.coefficients.length; i++) this.coefficients[i]=0;
+      for (var i = 0; i < this.coefficients.length; i++) this.coefficients[i] = 0;
       //Array.Copy(coefficients, firstNonZero, this.coefficients, 0, this.coefficients.length);
-      for (var ci=0; ci<this.coefficients.length; ci++) this.coefficients[ci]=coefficients[firstNonZero+ci];
+      for (var ci = 0; ci < this.coefficients.length; ci++) this.coefficients[ci] = coefficients[firstNonZero + ci];
     }
   } else {
     this.coefficients = coefficients;
@@ -64,11 +64,11 @@ function GF256Poly(field,  coefficients) {
     }
   });
 
-  this.getCoefficient=function(degree) {
+  this.getCoefficient = function(degree) {
     return this.coefficients[this.coefficients.length - 1 - degree];
   };
 
-  this.evaluateAt=function(a) {
+  this.evaluateAt = function(a) {
     if (a == 0) {
       // Just return the x^0 coefficient
       return this.getCoefficient(0);
@@ -89,7 +89,7 @@ function GF256Poly(field,  coefficients) {
     return result2;
   };
 
-  this.addOrSubtract=function(other) {
+  this.addOrSubtract = function(other) {
     if (this.field != other.field) {
       throw "GF256Polys do not have same GF256 field";
     }
@@ -111,7 +111,7 @@ function GF256Poly(field,  coefficients) {
     var lengthDiff = largerCoefficients.length - smallerCoefficients.length;
     // Copy high-order terms only found in higher-degree polynomial's coefficients
     //Array.Copy(largerCoefficients, 0, sumDiff, 0, lengthDiff);
-    for (var ci=0; ci<lengthDiff; ci++)sumDiff[ci]=largerCoefficients[ci];
+    for (var ci = 0; ci < lengthDiff; ci++)sumDiff[ci] = largerCoefficients[ci];
 
     for (var i = lengthDiff; i < largerCoefficients.length; i++) {
       sumDiff[i] = GF256.addOrSubtract(smallerCoefficients[i - lengthDiff], largerCoefficients[i]);
@@ -119,8 +119,8 @@ function GF256Poly(field,  coefficients) {
 
     return new GF256Poly(field, sumDiff);
   };
-  this.multiply1=function(other) {
-    if (this.field!=other.field) {
+  this.multiply1 = function(other) {
+    if (this.field != other.field) {
       throw "GF256Polys do not have same GF256 field";
     }
     if (this.Zero || other.Zero) {
@@ -139,7 +139,7 @@ function GF256Poly(field,  coefficients) {
     }
     return new GF256Poly(this.field, product);
   };
-  this.multiply2=function(scalar) {
+  this.multiply2 = function(scalar) {
     if (scalar == 0) {
       return this.field.Zero;
     }
@@ -153,7 +153,7 @@ function GF256Poly(field,  coefficients) {
     }
     return new GF256Poly(this.field, product);
   };
-  this.multiplyByMonomial=function(degree,  coefficient) {
+  this.multiplyByMonomial = function(degree,  coefficient) {
     if (degree < 0) {
       throw "System.ArgumentException";
     }
@@ -162,14 +162,14 @@ function GF256Poly(field,  coefficients) {
     }
     var size = this.coefficients.length;
     var product = new Array(size + degree);
-    for (var i=0; i<product.length; i++)product[i]=0;
+    for (var i = 0; i < product.length; i++)product[i] = 0;
     for (var i = 0; i < size; i++) {
       product[i] = this.field.multiply(this.coefficients[i], coefficient);
     }
     return new GF256Poly(this.field, product);
   };
-  this.divide=function(other) {
-    if (this.field!=other.field) {
+  this.divide = function(other) {
+    if (this.field != other.field) {
       throw "GF256Polys do not have same GF256 field";
     }
     if (other.Zero) {
