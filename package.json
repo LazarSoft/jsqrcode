@@ -5,6 +5,8 @@
   "main": "dist/index.js",
   "scripts": {
     "prepublish": "npm run compile:all",
+    "lint": "eslint src test",
+    "pretest": "npm run lint",
     "test": "mocha",
     "compile": "gulp compile",
     "compile:browser": "gulp compile-browser",
@@ -22,6 +24,7 @@
   "homepage": "https://github.com/edi9999/jsqrcode",
   "devDependencies": {
     "chai": "^1.9.1",
+    "eslint": "^2.13.1",
     "gulp": "^3.8.7",
     "gulp-concat": "^2.3.4",
     "gulp-watch": "^0.6.9",
