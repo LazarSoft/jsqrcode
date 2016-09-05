@@ -396,7 +396,7 @@ function FinderPatternFinder() {
           // difference in the x / y coordinates of the two centers.
           // This is the case where you find top left last.
           this.hasSkipped = true;
-          return Math.floor ((Math.abs(firstConfirmedCenter.X - center.X) - Math.abs(firstConfirmedCenter.Y - center.Y)) / 2);
+          return Math.floor((Math.abs(firstConfirmedCenter.X - center.X) - Math.abs(firstConfirmedCenter.Y - center.Y)) / 2);
         }
       }
     }

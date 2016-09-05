@@ -182,7 +182,7 @@ function Detector(image) {
       scale =  (image.width - 1 - fromX) /  (otherToX - fromX);
       otherToX = image.width - 1;
     }
-    var otherToY = Math.floor (fromY - (toY - fromY) * scale);
+    var otherToY = Math.floor(fromY - (toY - fromY) * scale);
 
     scale = 1.0;
     if (otherToY < 0) {
@@ -192,7 +192,7 @@ function Detector(image) {
       scale =  (image.height - 1 - fromY) /  (otherToY - fromY);
       otherToY = image.height - 1;
     }
-    otherToX = Math.floor (fromX + (otherToX - fromX) * scale);
+    otherToX = Math.floor(fromX + (otherToX - fromX) * scale);
 
     result += this.sizeOfBlackWhiteBlackRun(fromX, fromY, otherToX, otherToY);
     return result - 1.0; // -1 because we counted the middle pixel twice
@@ -251,7 +251,7 @@ function Detector(image) {
   this.findAlignmentInRegion=function( overallEstModuleSize,  estAlignmentX,  estAlignmentY,  allowanceFactor) {
     // Look for an alignment pattern (3 modules in size) around where it
     // should be
-    var allowance = Math.floor (allowanceFactor * overallEstModuleSize);
+    var allowance = Math.floor(allowanceFactor * overallEstModuleSize);
     var alignmentAreaLeftX = Math.max(0, estAlignmentX - allowance);
     var alignmentAreaRightX = Math.min(image.width - 1, estAlignmentX + allowance);
     if (alignmentAreaRightX - alignmentAreaLeftX < overallEstModuleSize * 3) {
@@ -318,8 +318,8 @@ function Detector(image) {
       // Estimate that alignment pattern is closer by 3 modules
       // from "bottom right" to known top left location
       var correctionToTopLeft = 1.0 - 3.0 /  modulesBetweenFPCenters;
-      var estAlignmentX = Math.floor (topLeft.X + correctionToTopLeft * (bottomRightX - topLeft.X));
-      var estAlignmentY = Math.floor (topLeft.Y + correctionToTopLeft * (bottomRightY - topLeft.Y));
+      var estAlignmentX = Math.floor(topLeft.X + correctionToTopLeft * (bottomRightX - topLeft.X));
+      var estAlignmentY = Math.floor(topLeft.Y + correctionToTopLeft * (bottomRightY - topLeft.Y));
 
       // Kind of arbitrary -- expand search radius before giving up
       for (var i = 4; i <= 16; i <<= 1) {

@@ -134,7 +134,7 @@ function AlignmentPatternFinder( image,  startX,  startY,  width,  height,  modu
   this.handlePossibleCenter=function( stateCount,  i,  j) {
     var stateCountTotal = stateCount[0] + stateCount[1] + stateCount[2];
     var centerJ = this.centerFromEnd(stateCount, j);
-    var centerI = this.crossCheckVertical(i, Math.floor (centerJ), 2 * stateCount[1], stateCountTotal);
+    var centerI = this.crossCheckVertical(i, Math.floor(centerJ), 2 * stateCount[1], stateCountTotal);
     if (!isNaN(centerI)) {
       var estimatedModuleSize = (stateCount[0] + stateCount[1] + stateCount[2]) / 3.0;
       var max = this.possibleCenters.length;

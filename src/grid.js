@@ -32,7 +32,7 @@ GridSampler.checkAndNudgePoints=function( image,  points) {
   // Check and nudge points from start until we see some that are OK:
   var nudged = true;
   for (var offset = 0; offset < points.length && nudged; offset += 2) {
-    var x = Math.floor (points[offset]);
+    var x = Math.floor(points[offset]);
     var y = Math.floor( points[offset + 1]);
     if (x < - 1 || x > width || y < - 1 || y > height) {
       throw "Error.checkAndNudgePoints ";
