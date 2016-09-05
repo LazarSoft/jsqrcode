@@ -188,7 +188,7 @@ function QrCode() {
     for (var i = 0; i < numSqrtArea; i++) {
       minmax[i] = new Array(numSqrtArea);
       for (var i2 = 0; i2 < numSqrtArea; i2++) {
-        minmax[i][i2] = new Array(0, 0);
+        minmax[i][i2] = [0, 0];
       }
     }
     for (var ay = 0; ay < numSqrtArea; ay++) {

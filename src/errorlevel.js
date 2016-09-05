@@ -45,9 +45,9 @@ ErrorCorrectionLevel.forBits=function( bits) {
   return FOR_BITS[bits];
 }
 
-var FOR_BITS = new Array(
+var FOR_BITS = [
   new ErrorCorrectionLevel(1, 0x00, "M"),
   new ErrorCorrectionLevel(0, 0x01, "L"),
   new ErrorCorrectionLevel(3, 0x02, "H"),
-  new ErrorCorrectionLevel(2, 0x03, "Q")
-);
+  new ErrorCorrectionLevel(2, 0x03, "Q"),
+];

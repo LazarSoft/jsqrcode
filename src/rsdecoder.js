@@ -112,7 +112,7 @@ function ReedSolomonDecoder(field) {
     var inverse = this.field.inverse(sigmaTildeAtZero);
     var sigma = t.multiply2(inverse);
     var omega = r.multiply2(inverse);
-    return new Array(sigma, omega);
+    return [sigma, omega];
   }
   this.findErrorLocations=function( errorLocator) {
     // This is a direct application of Chien's search

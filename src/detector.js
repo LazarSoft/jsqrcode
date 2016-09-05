@@ -342,9 +342,9 @@ function Detector(image) {
 
     var points;
     if (alignmentPattern == null) {
-      points = new Array(bottomLeft, topLeft, topRight);
+      points = [bottomLeft, topLeft, topRight];
     } else {
-      points = new Array(bottomLeft, topLeft, topRight, alignmentPattern);
+      points = [bottomLeft, topLeft, topRight, alignmentPattern];
     }
     return new DetectorResult(bits, points);
   }

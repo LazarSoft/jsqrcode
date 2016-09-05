@@ -132,7 +132,7 @@ function FinderPatternFinder() {
   this.image=null;
   this.possibleCenters = [];
   this.hasSkipped = false;
-  this.crossCheckStateCount = new Array(0, 0, 0, 0, 0);
+  this.crossCheckStateCount = [0, 0, 0, 0, 0];
   this.resultPointCallback = null;
 
   Object.defineProperty(this, "CrossCheckStateCount", { get: function() {
@@ -375,7 +375,7 @@ function FinderPatternFinder() {
       });
     }
 
-    return new Array( this.possibleCenters[0],  this.possibleCenters[1],  this.possibleCenters[2]);
+    return [this.possibleCenters[0],  this.possibleCenters[1],  this.possibleCenters[2]];
   }
 
   this.findRowSkip=function() {

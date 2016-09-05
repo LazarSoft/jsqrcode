@@ -185,6 +185,6 @@ function GF256Poly(field,  coefficients) {
       remainder = remainder.addOrSubtract(term);
     }
 
-    return new Array(quotient, remainder);
+    return [quotient, remainder];
   }
 }
