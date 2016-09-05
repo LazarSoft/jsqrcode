@@ -9,7 +9,6 @@ module.exports = {
   	'comma-dangle': 'off',
     'no-console': 'off',
     'no-constant-condition': 'off',
-    'no-mixed-spaces-and-tabs': 'off',
     'no-redeclare': 'off',
     'no-undef': 'off',
     'no-unused-vars': 'off',

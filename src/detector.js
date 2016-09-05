@@ -90,21 +90,21 @@ PerspectiveTransform.quadrilateralToQuadrilateral=function( x0,  y0,  x1,  y1,  
 
 PerspectiveTransform.squareToQuadrilateral=function( x0,  y0,  x1,  y1,  x2,  y2,  x3,  y3)
 {
-	 dy2 = y3 - y2;
-	 dy3 = y0 - y1 + y2 - y3;
+	dy2 = y3 - y2;
+	dy3 = y0 - y1 + y2 - y3;
 	if (dy2 == 0.0 && dy3 == 0.0)
 	{
 		return new PerspectiveTransform(x1 - x0, x2 - x1, x0, y1 - y0, y2 - y1, y0, 0.0, 0.0, 1.0);
 	}
 	else
 	{
-		 dx1 = x1 - x2;
-		 dx2 = x3 - x2;
-		 dx3 = x0 - x1 + x2 - x3;
-		 dy1 = y1 - y2;
-		 denominator = dx1 * dy2 - dx2 * dy1;
-		 a13 = (dx3 * dy2 - dx2 * dy3) / denominator;
-		 a23 = (dx1 * dy3 - dx3 * dy1) / denominator;
+		dx1 = x1 - x2;
+		dx2 = x3 - x2;
+		dx3 = x0 - x1 + x2 - x3;
+		dy1 = y1 - y2;
+		denominator = dx1 * dy2 - dx2 * dy1;
+		a13 = (dx3 * dy2 - dx2 * dy3) / denominator;
+		a23 = (dx1 * dy3 - dx3 * dy1) / denominator;
 		return new PerspectiveTransform(x1 - x0 + a13 * x1, x3 - x0 + a23 * x3, x0, y1 - y0 + a13 * y1, y3 - y0 + a23 * y3, y0, a13, a23, 1.0);
 	}
 }
