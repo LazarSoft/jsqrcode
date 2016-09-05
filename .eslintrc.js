@@ -26,5 +26,6 @@ module.exports = {
     'no-trailing-spaces': 'error',
     'no-unneeded-ternary': 'error',
     'object-curly-newline': 'error',
+    'object-curly-spacing': 'error',
   },
 };

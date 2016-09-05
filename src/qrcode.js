@@ -66,7 +66,7 @@ function QrCode() {
 
       this.width=src.width
       this.height=src.height
-      this.imagedata={ "data": data || src.data }
+      this.imagedata={"data": data || src.data}
       this.imagedata.width=src.width
       this.imagedata.height=src.height
 
