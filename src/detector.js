@@ -128,9 +128,9 @@ function Detector(image) {
 
     var dx = Math.abs(toX - fromX);
     var dy = Math.abs(toY - fromY);
-    var error = - dx >> 1;
-    var ystep = fromY < toY ? 1 : - 1;
-    var xstep = fromX < toX ? 1 : - 1;
+    var error = -dx >> 1;
+    var ystep = fromY < toY ? 1 : -1;
+    var xstep = fromX < toX ? 1 : -1;
     var state = 0; // In black pixels, looking for white, first or second time
     for (var x = fromX, y = fromY; x != toX; x += xstep) {
 

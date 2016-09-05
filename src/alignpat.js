@@ -173,7 +173,7 @@ function AlignmentPatternFinder(image,  startX,  startY,  width,  height,  modul
     var stateCount = [0, 0, 0];
     for (var iGen = 0; iGen < height; iGen++) {
       // Search from middle outwards
-      var i = middleI + ((iGen & 0x01) == 0 ? ((iGen + 1) >> 1) : - ((iGen + 1) >> 1));
+      var i = middleI + ((iGen & 0x01) == 0 ? ((iGen + 1) >> 1) : -((iGen + 1) >> 1));
       stateCount[0] = 0;
       stateCount[1] = 0;
       stateCount[2] = 0;
