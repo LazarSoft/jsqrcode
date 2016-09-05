@@ -95,9 +95,9 @@ function QrCode() {
         this.width = image.width;
         this.height = image.height;
 
-        try{
+        try {
           this.imagedata = context.getImageData(0, 0, image.width, image.height);
-        } catch(e) {
+        } catch (e) {
           this.result = "Cross domain image reading not supported in your browser! Save it to your computer then drag and drop the file!";
           if (this.callback!=null) return this.callback(this.result);
         }
@@ -141,8 +141,8 @@ function QrCode() {
     var reader = Decoder.decode(qRCodeMatrix.bits);
     var data = reader.DataByte;
     var str="";
-    for(var i=0;i<data.length;i++) {
-      for(var j=0;j<data[i].length;j++)
+    for (var i=0;i<data.length;i++) {
+      for (var j=0;j<data[i].length;j++)
         str+=String.fromCharCode(data[i][j]);
     }
 

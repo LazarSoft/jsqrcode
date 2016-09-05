@@ -99,7 +99,7 @@ GridSampler.sampleGrid3=function( image,  dimension,  transform) {
       for (var x = 0; x < max; x += 2) {
         var bit = image.data[Math.floor( points[x])+ image.width* Math.floor( points[x + 1])];
         //bits[x >> 1][ y]=bit;
-        if(bit)
+        if (bit)
           bits.set_Renamed(x >> 1, y);
       }
     } catch ( aioobe) {

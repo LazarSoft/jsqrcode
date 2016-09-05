@@ -20,5 +20,6 @@ module.exports = {
     'eol-last': 'error',
     'indent': ['error', 2],
     'key-spacing': 'error',
+    'keyword-spacing': 'error',
   },
 };

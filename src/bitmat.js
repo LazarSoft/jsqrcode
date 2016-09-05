@@ -25,7 +25,7 @@
 /* globals URShift */
 
 function BitMatrix( width,  height) {
-  if(!height)
+  if (!height)
     height=width;
   if (width < 1 || height < 1) {
     throw "Both dimensions must be greater than 0";
@@ -38,7 +38,7 @@ function BitMatrix( width,  height) {
   }
   this.rowSize = rowSize;
   this.bits = new Array(rowSize * height);
-  for(var i=0;i<this.bits.length;i++)
+  for (var i=0;i<this.bits.length;i++)
     this.bits[i]=0;
 
   Object.defineProperty(this, "Width", { get: function() {

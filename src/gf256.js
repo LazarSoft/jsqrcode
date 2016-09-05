@@ -59,7 +59,7 @@ function GF256( primitive) {
       return this.zero;
     }
     var coefficients = new Array(degree + 1);
-    for(var i=0;i<coefficients.length;i++)coefficients[i]=0;
+    for (var i=0;i<coefficients.length;i++)coefficients[i]=0;
     coefficients[0] = coefficient;
     return new GF256Poly(this, coefficients);
   }
