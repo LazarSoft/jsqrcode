@@ -43,7 +43,7 @@ function QrCode() {
       }
 
       if (this.callback!=null) {
-        this.callback(this.result,this.error);
+        this.callback(this.result, this.error);
       }
 
       return this.result;
@@ -156,7 +156,7 @@ function QrCode() {
     //alert("Time:" + time + " Code: "+str);
   }
 
-  this.getPixel = function(imageData, x,y){
+  this.getPixel = function(imageData, x, y){
     if (imageData.width < x) {
       throw "point error";
     }
@@ -188,7 +188,7 @@ function QrCode() {
     for (var i = 0; i < numSqrtArea; i++) {
       minmax[i] = new Array(numSqrtArea);
       for (var i2 = 0; i2 < numSqrtArea; i2++) {
-        minmax[i][i2] = new Array(0,0);
+        minmax[i][i2] = new Array(0, 0);
       }
     }
     for (var ay = 0; ay < numSqrtArea; ay++) {

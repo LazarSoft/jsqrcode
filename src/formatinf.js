@@ -33,10 +33,10 @@ function FormatInformation(formatInfo) {
   this.errorCorrectionLevel = ErrorCorrectionLevel.forBits((formatInfo >> 3) & 0x03);
   this.dataMask =  (formatInfo & 0x07);
 
-  Object.defineProperty(this,"ErrorCorrectionLevel", { get: function() {
+  Object.defineProperty(this, "ErrorCorrectionLevel", { get: function() {
     return this.errorCorrectionLevel;
   }});
-  Object.defineProperty(this,"DataMask", { get: function() {
+  Object.defineProperty(this, "DataMask", { get: function() {
     return this.dataMask;
   }});
   this.GetHashCode=function() {

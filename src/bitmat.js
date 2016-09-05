@@ -41,13 +41,13 @@ function BitMatrix( width,  height) {
   for(var i=0;i<this.bits.length;i++)
     this.bits[i]=0;
 
-  Object.defineProperty(this,"Width", { get: function() {
+  Object.defineProperty(this, "Width", { get: function() {
     return this.width;
   }});
-  Object.defineProperty(this,"Height", { get: function() {
+  Object.defineProperty(this, "Height", { get: function() {
     return this.height;
   }});
-  Object.defineProperty(this,"Dimension", { get: function() {
+  Object.defineProperty(this, "Dimension", { get: function() {
     if (this.width != this.height) {
       throw "Can't call getDimension() on a non-square matrix";
     }

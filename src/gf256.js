@@ -45,10 +45,10 @@ function GF256( primitive) {
   var at1=new Array(1);at1[0]=1;
   this.one = new GF256Poly(this, new Array(at1));
 
-  Object.defineProperty(this,"Zero", { get: function() {
+  Object.defineProperty(this, "Zero", { get: function() {
     return this.zero;
   }});
-  Object.defineProperty(this,"One", { get: function() {
+  Object.defineProperty(this, "One", { get: function() {
     return this.one;
   }});
   this.buildMonomial=function( degree,  coefficient) {

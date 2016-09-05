@@ -29,16 +29,16 @@ function AlignmentPattern(posX, posY,  estimatedModuleSize) {
   this.count = 1;
   this.estimatedModuleSize = estimatedModuleSize;
 
-  Object.defineProperty(this,"EstimatedModuleSize", { get: function() {
+  Object.defineProperty(this, "EstimatedModuleSize", { get: function() {
     return this.estimatedModuleSize;
   }});
-  Object.defineProperty(this,"Count", { get: function() {
+  Object.defineProperty(this, "Count", { get: function() {
     return this.count;
   }});
-  Object.defineProperty(this,"X", { get: function() {
+  Object.defineProperty(this, "X", { get: function() {
     return Math.floor(this.x);
   }});
-  Object.defineProperty(this,"Y", { get: function() {
+  Object.defineProperty(this, "Y", { get: function() {
     return Math.floor(this.y);
   }});
   this.incrementCount = function() {
@@ -62,7 +62,7 @@ function AlignmentPatternFinder( image,  startX,  startY,  width,  height,  modu
   this.width = width;
   this.height = height;
   this.moduleSize = moduleSize;
-  this.crossCheckStateCount = new Array(0,0,0);
+  this.crossCheckStateCount = new Array(0, 0, 0);
   this.resultPointCallback = resultPointCallback;
 
   this.centerFromEnd=function(stateCount,  end) {
@@ -162,7 +162,7 @@ function AlignmentPatternFinder( image,  startX,  startY,  width,  height,  modu
     var middleI = startY + (height >> 1);
     // We are looking for black/white/black modules in 1:1:1 ratio;
     // this tracks the number of black/white/black modules seen so far
-    var stateCount = new Array(0,0,0);
+    var stateCount = new Array(0, 0, 0);
     for (var iGen = 0; iGen < height; iGen++) {
       // Search from middle outwards
       var i = middleI + ((iGen & 0x01) == 0?((iGen + 1) >> 1):- ((iGen + 1) >> 1));

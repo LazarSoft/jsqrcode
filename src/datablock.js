@@ -27,10 +27,10 @@ function DataBlock(numDataCodewords,  codewords) {
   this.numDataCodewords = numDataCodewords;
   this.codewords = codewords;
 
-  Object.defineProperty(this,"NumDataCodewords", { get: function() {
+  Object.defineProperty(this, "NumDataCodewords", { get: function() {
     return this.numDataCodewords;
   }});
-  Object.defineProperty(this,"Codewords", { get: function() {
+  Object.defineProperty(this, "Codewords", { get: function() {
     return this.codewords;
   }});
 }

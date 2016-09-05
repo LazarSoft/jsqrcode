@@ -208,7 +208,7 @@ function QRCodeDataBlockReader(blocks,  version,  numErrorCorrectionCode) {
     return unicodeString;
   }
 
-  Object.defineProperty(this,"DataByte", { get: function() {
+  Object.defineProperty(this, "DataByte", { get: function() {
     var output = new Array();
     var MODE_NUMBER = 1;
     var MODE_ROMAN_AND_NUMBER = 2;

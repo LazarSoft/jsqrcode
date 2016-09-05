@@ -88,16 +88,16 @@ function FinderPattern(posX, posY,  estimatedModuleSize) {
   this.count = 1;
   this.estimatedModuleSize = estimatedModuleSize;
 
-  Object.defineProperty(this,"EstimatedModuleSize", { get: function() {
+  Object.defineProperty(this, "EstimatedModuleSize", { get: function() {
     return this.estimatedModuleSize;
   }});
-  Object.defineProperty(this,"Count", { get: function() {
+  Object.defineProperty(this, "Count", { get: function() {
     return this.count;
   }});
-  Object.defineProperty(this,"X", { get: function() {
+  Object.defineProperty(this, "X", { get: function() {
     return this.x;
   }});
-  Object.defineProperty(this,"Y", { get: function() {
+  Object.defineProperty(this, "Y", { get: function() {
     return this.y;
   }});
   this.incrementCount = function() {
@@ -117,13 +117,13 @@ function FinderPatternInfo(patternCenters) {
   this.bottomLeft = patternCenters[0];
   this.topLeft = patternCenters[1];
   this.topRight = patternCenters[2];
-  Object.defineProperty(this,"BottomLeft", { get: function() {
+  Object.defineProperty(this, "BottomLeft", { get: function() {
     return this.bottomLeft;
   }});
-  Object.defineProperty(this,"TopLeft", { get: function() {
+  Object.defineProperty(this, "TopLeft", { get: function() {
     return this.topLeft;
   }});
-  Object.defineProperty(this,"TopRight", { get: function() {
+  Object.defineProperty(this, "TopRight", { get: function() {
     return this.topRight;
   }});
 }
@@ -132,10 +132,10 @@ function FinderPatternFinder() {
   this.image=null;
   this.possibleCenters = [];
   this.hasSkipped = false;
-  this.crossCheckStateCount = new Array(0,0,0,0,0);
+  this.crossCheckStateCount = new Array(0, 0, 0, 0, 0);
   this.resultPointCallback = null;
 
-  Object.defineProperty(this,"CrossCheckStateCount", { get: function() {
+  Object.defineProperty(this, "CrossCheckStateCount", { get: function() {
     this.crossCheckStateCount[0] = 0;
     this.crossCheckStateCount[1] = 0;
     this.crossCheckStateCount[2] = 0;
@@ -342,7 +342,7 @@ function FinderPatternFinder() {
         square += (centerValue * centerValue);
       }
       var average = totalModuleSize /  startSize;
-      this.possibleCenters.sort(function(center1,center2) {
+      this.possibleCenters.sort(function(center1, center2) {
         var dA=Math.abs(center2.EstimatedModuleSize - average);
         var dB=Math.abs(center1.EstimatedModuleSize - average);
         if (dA < dB) {

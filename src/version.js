@@ -29,10 +29,10 @@ function ECB(count,  dataCodewords) {
   this.count = count;
   this.dataCodewords = dataCodewords;
 
-  Object.defineProperty(this,"Count", { get: function() {
+  Object.defineProperty(this, "Count", { get: function() {
     return this.count;
   }});
-  Object.defineProperty(this,"DataCodewords", { get: function() {
+  Object.defineProperty(this, "DataCodewords", { get: function() {
     return this.dataCodewords;
   }});
 }
@@ -44,15 +44,15 @@ function ECBlocks( ecCodewordsPerBlock,  ecBlocks1,  ecBlocks2) {
   else
     this.ecBlocks = new Array(ecBlocks1);
 
-  Object.defineProperty(this,"ECCodewordsPerBlock", { get: function() {
+  Object.defineProperty(this, "ECCodewordsPerBlock", { get: function() {
     return this.ecCodewordsPerBlock;
   }});
 
-  Object.defineProperty(this,"TotalECCodewords", { get: function() {
+  Object.defineProperty(this, "TotalECCodewords", { get: function() {
     return  this.ecCodewordsPerBlock * this.NumBlocks;
   }});
 
-  Object.defineProperty(this,"NumBlocks", { get: function() {
+  Object.defineProperty(this, "NumBlocks", { get: function() {
     var total = 0;
     for (var i = 0; i < this.ecBlocks.length; i++) {
       total += this.ecBlocks[i].length;
@@ -79,17 +79,17 @@ function Version( versionNumber,  alignmentPatternCenters,  ecBlocks1,  ecBlocks
   }
   this.totalCodewords = total;
 
-  Object.defineProperty(this,"VersionNumber", { get: function() {
+  Object.defineProperty(this, "VersionNumber", { get: function() {
     return  this.versionNumber;
   }});
 
-  Object.defineProperty(this,"AlignmentPatternCenters", { get: function() {
+  Object.defineProperty(this, "AlignmentPatternCenters", { get: function() {
     return  this.alignmentPatternCenters;
   }});
-  Object.defineProperty(this,"TotalCodewords", { get: function() {
+  Object.defineProperty(this, "TotalCodewords", { get: function() {
     return  this.totalCodewords;
   }});
-  Object.defineProperty(this,"DimensionForVersion", { get: function() {
+  Object.defineProperty(this, "DimensionForVersion", { get: function() {
     return  17 + 4 * this.versionNumber;
   }});
 
@@ -219,7 +219,7 @@ function buildVersions() {
   new Version(32, new Array(6, 34, 60, 86, 112, 138), new ECBlocks(30, new ECB(17, 115)), new ECBlocks(28, new ECB(10, 46), new ECB(23, 47)), new ECBlocks(30, new ECB(10, 24), new ECB(35, 25)), new ECBlocks(30, new ECB(19, 15), new ECB(35, 16))),
   new Version(33, new Array(6, 30, 58, 86, 114, 142), new ECBlocks(30, new ECB(17, 115), new ECB(1, 116)), new ECBlocks(28, new ECB(14, 46), new ECB(21, 47)), new ECBlocks(30, new ECB(29, 24), new ECB(19, 25)), new ECBlocks(30, new ECB(11, 15), new ECB(46, 16))),
   new Version(34, new Array(6, 34, 62, 90, 118, 146), new ECBlocks(30, new ECB(13, 115), new ECB(6, 116)), new ECBlocks(28, new ECB(14, 46), new ECB(23, 47)), new ECBlocks(30, new ECB(44, 24), new ECB(7, 25)), new ECBlocks(30, new ECB(59, 16), new ECB(1, 17))),
-  new Version(35, new Array(6, 30, 54, 78, 102, 126, 150), new ECBlocks(30, new ECB(12, 121), new ECB(7, 122)), new ECBlocks(28, new ECB(12, 47), new ECB(26, 48)), new ECBlocks(30, new ECB(39, 24), new ECB(14, 25)),new ECBlocks(30, new ECB(22, 15), new ECB(41, 16))),
+  new Version(35, new Array(6, 30, 54, 78, 102, 126, 150), new ECBlocks(30, new ECB(12, 121), new ECB(7, 122)), new ECBlocks(28, new ECB(12, 47), new ECB(26, 48)), new ECBlocks(30, new ECB(39, 24), new ECB(14, 25)), new ECBlocks(30, new ECB(22, 15), new ECB(41, 16))),
   new Version(36, new Array(6, 24, 50, 76, 102, 128, 154), new ECBlocks(30, new ECB(6, 121), new ECB(14, 122)), new ECBlocks(28, new ECB(6, 47), new ECB(34, 48)), new ECBlocks(30, new ECB(46, 24), new ECB(10, 25)), new ECBlocks(30, new ECB(2, 15), new ECB(64, 16))),
   new Version(37, new Array(6, 28, 54, 80, 106, 132, 158), new ECBlocks(30, new ECB(17, 122), new ECB(4, 123)), new ECBlocks(28, new ECB(29, 46), new ECB(14, 47)), new ECBlocks(30, new ECB(49, 24), new ECB(10, 25)), new ECBlocks(30, new ECB(24, 15), new ECB(46, 16))),
   new Version(38, new Array(6, 32, 58, 84, 110, 136, 162), new ECBlocks(30, new ECB(4, 122), new ECB(18, 123)), new ECBlocks(28, new ECB(13, 46), new ECB(32, 47)), new ECBlocks(30, new ECB(48, 24), new ECB(14, 25)), new ECBlocks(30, new ECB(42, 15), new ECB(32, 16))),
