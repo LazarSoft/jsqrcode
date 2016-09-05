@@ -41,18 +41,24 @@ function BitMatrix( width,  height) {
   for (var i=0;i<this.bits.length;i++)
     this.bits[i]=0;
 
-  Object.defineProperty(this, "Width", { get: function() {
-    return this.width;
-  }});
-  Object.defineProperty(this, "Height", { get: function() {
-    return this.height;
-  }});
-  Object.defineProperty(this, "Dimension", { get: function() {
-    if (this.width != this.height) {
-      throw "Can't call getDimension() on a non-square matrix";
+  Object.defineProperty(this, "Width", {
+    get: function() {
+      return this.width;
     }
-    return this.width;
-  }});
+  });
+  Object.defineProperty(this, "Height", {
+    get: function() {
+      return this.height;
+    }
+  });
+  Object.defineProperty(this, "Dimension", {
+    get: function() {
+      if (this.width != this.height) {
+        throw "Can't call getDimension() on a non-square matrix";
+      }
+      return this.width;
+    }
+  });
 
   this.get_Renamed=function( x,  y) {
     var offset = y * this.rowSize + (x >> 5);

@@ -29,12 +29,16 @@ function ECB(count,  dataCodewords) {
   this.count = count;
   this.dataCodewords = dataCodewords;
 
-  Object.defineProperty(this, "Count", { get: function() {
-    return this.count;
-  }});
-  Object.defineProperty(this, "DataCodewords", { get: function() {
-    return this.dataCodewords;
-  }});
+  Object.defineProperty(this, "Count", {
+    get: function() {
+      return this.count;
+    }
+  });
+  Object.defineProperty(this, "DataCodewords", {
+    get: function() {
+      return this.dataCodewords;
+    }
+  });
 }
 
 function ECBlocks( ecCodewordsPerBlock,  ecBlocks1,  ecBlocks2) {
@@ -44,21 +48,27 @@ function ECBlocks( ecCodewordsPerBlock,  ecBlocks1,  ecBlocks2) {
   else
     this.ecBlocks = [ecBlocks1];
 
-  Object.defineProperty(this, "ECCodewordsPerBlock", { get: function() {
-    return this.ecCodewordsPerBlock;
-  }});
-
-  Object.defineProperty(this, "TotalECCodewords", { get: function() {
-    return  this.ecCodewordsPerBlock * this.NumBlocks;
-  }});
-
-  Object.defineProperty(this, "NumBlocks", { get: function() {
-    var total = 0;
-    for (var i = 0; i < this.ecBlocks.length; i++) {
-      total += this.ecBlocks[i].length;
+  Object.defineProperty(this, "ECCodewordsPerBlock", {
+    get: function() {
+      return this.ecCodewordsPerBlock;
     }
-    return total;
-  }});
+  });
+
+  Object.defineProperty(this, "TotalECCodewords", {
+    get: function() {
+      return  this.ecCodewordsPerBlock * this.NumBlocks;
+    }
+  });
+
+  Object.defineProperty(this, "NumBlocks", {
+    get: function() {
+      var total = 0;
+      for (var i = 0; i < this.ecBlocks.length; i++) {
+        total += this.ecBlocks[i].length;
+      }
+      return total;
+    }
+  });
 
   this.getECBlocks=function() {
     return this.ecBlocks;
@@ -79,19 +89,27 @@ function Version( versionNumber,  alignmentPatternCenters,  ecBlocks1,  ecBlocks
   }
   this.totalCodewords = total;
 
-  Object.defineProperty(this, "VersionNumber", { get: function() {
-    return  this.versionNumber;
-  }});
+  Object.defineProperty(this, "VersionNumber", {
+    get: function() {
+      return  this.versionNumber;
+    }
+  });
 
-  Object.defineProperty(this, "AlignmentPatternCenters", { get: function() {
-    return  this.alignmentPatternCenters;
-  }});
-  Object.defineProperty(this, "TotalCodewords", { get: function() {
-    return  this.totalCodewords;
-  }});
-  Object.defineProperty(this, "DimensionForVersion", { get: function() {
-    return  17 + 4 * this.versionNumber;
-  }});
+  Object.defineProperty(this, "AlignmentPatternCenters", {
+    get: function() {
+      return  this.alignmentPatternCenters;
+    }
+  });
+  Object.defineProperty(this, "TotalCodewords", {
+    get: function() {
+      return  this.totalCodewords;
+    }
+  });
+  Object.defineProperty(this, "DimensionForVersion", {
+    get: function() {
+      return  17 + 4 * this.versionNumber;
+    }
+  });
 
   this.buildFunctionPattern=function() {
     var dimension = this.DimensionForVersion;

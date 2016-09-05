@@ -48,15 +48,21 @@ function GF256Poly(field,  coefficients) {
     this.coefficients = coefficients;
   }
 
-  Object.defineProperty(this, "Zero", { get: function() {
-    return this.coefficients[0] == 0;
-  }});
-  Object.defineProperty(this, "Degree", { get: function() {
-    return this.coefficients.length - 1;
-  }});
-  Object.defineProperty(this, "Coefficients", { get: function() {
-    return this.coefficients;
-  }});
+  Object.defineProperty(this, "Zero", {
+    get: function() {
+      return this.coefficients[0] == 0;
+    }
+  });
+  Object.defineProperty(this, "Degree", {
+    get: function() {
+      return this.coefficients.length - 1;
+    }
+  });
+  Object.defineProperty(this, "Coefficients", {
+    get: function() {
+      return this.coefficients;
+    }
+  });
 
   this.getCoefficient=function( degree) {
     return this.coefficients[this.coefficients.length - 1 - degree];
