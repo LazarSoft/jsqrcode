@@ -42,7 +42,7 @@ this.decode = function(src, data){
 		if (this.callback!=null) {
 
             this.callback(this.result,this.error);
-        };
+        }
 
         return this.result;
 
