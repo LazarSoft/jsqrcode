@@ -59,7 +59,7 @@ function ReedSolomonDecoder(field) {
     }
   };
 
-  this.runEuclideanAlgorithm=function( a,  b,  R) {
+  this.runEuclideanAlgorithm=function(a,  b,  R) {
     // Assume a's degree is >= b's
     if (a.Degree < b.Degree) {
       var temp = a;
@@ -114,7 +114,7 @@ function ReedSolomonDecoder(field) {
     var omega = r.multiply2(inverse);
     return [sigma, omega];
   };
-  this.findErrorLocations=function( errorLocator) {
+  this.findErrorLocations=function(errorLocator) {
     // This is a direct application of Chien's search
     var numErrors = errorLocator.Degree;
     if (numErrors == 1) {
@@ -134,7 +134,7 @@ function ReedSolomonDecoder(field) {
     }
     return result;
   };
-  this.findErrorMagnitudes=function( errorEvaluator,  errorLocations,  dataMatrix) {
+  this.findErrorMagnitudes=function(errorEvaluator,  errorLocations,  dataMatrix) {
     // This is directly applying Forney's Formula
     var s = errorLocations.length;
     var result = new Array(s);

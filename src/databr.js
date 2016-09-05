@@ -37,7 +37,7 @@ function QRCodeDataBlockReader(blocks,  version,  numErrorCorrectionCode) {
   else if (version >= 27 && version <= 40)
     this.dataLengthMode = 2;
 
-  this.getNextBits = function( numBits) {
+  this.getNextBits = function(numBits) {
     var bits = 0;
     if (numBits < this.bitPointer + 1) {
       // next word fits into current data block
@@ -103,7 +103,7 @@ function QRCodeDataBlockReader(blocks,  version,  numErrorCorrectionCode) {
     else
       return this.getNextBits(4);
   };
-  this.getDataLength=function( modeIndicator) {
+  this.getDataLength=function(modeIndicator) {
     var index = 0;
     while (true) {
       if ((modeIndicator >> index) == 1)
@@ -113,7 +113,7 @@ function QRCodeDataBlockReader(blocks,  version,  numErrorCorrectionCode) {
 
     return this.getNextBits(qrcode.sizeOfDataLengthInfo[this.dataLengthMode][index]);
   };
-  this.getRomanAndFigureString=function( dataLength) {
+  this.getRomanAndFigureString=function(dataLength) {
     var length = dataLength;
     var intData = 0;
     var strData = "";
@@ -136,7 +136,7 @@ function QRCodeDataBlockReader(blocks,  version,  numErrorCorrectionCode) {
 
     return strData;
   };
-  this.getFigureString=function( dataLength) {
+  this.getFigureString=function(dataLength) {
     var length = dataLength;
     var intData = 0;
     var strData = "";
@@ -163,20 +163,20 @@ function QRCodeDataBlockReader(blocks,  version,  numErrorCorrectionCode) {
 
     return strData;
   };
-  this.get8bitByteArray=function( dataLength) {
+  this.get8bitByteArray=function(dataLength) {
     var length = dataLength;
     var intData = 0;
     var output = [];
 
     do {
       intData = this.getNextBits(8);
-      output.push( intData);
+      output.push(intData);
       length--;
     }
     while (length > 0);
     return output;
   };
-  this.getKanjiString=function( dataLength) {
+  this.getKanjiString=function(dataLength) {
     var length = dataLength;
     var intData = 0;
     var unicodeString = "";
@@ -254,7 +254,7 @@ function QRCodeDataBlockReader(blocks,  version,  numErrorCorrectionCode) {
           var ta = new Array(temp_str.length);
           for (var j=0; j<temp_str.length; j++)
             ta[j]=temp_str.charCodeAt(j);
-          output.push(ta );
+          output.push(ta);
         //output.Write(SystemUtils.ToByteArray(temp_sbyteArray2), 0, temp_sbyteArray2.length);
           break;
 

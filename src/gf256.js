@@ -25,7 +25,7 @@
 /* globals GF256Poly */
 
 
-function GF256( primitive) {
+function GF256(primitive) {
   this.expTable = new Array(256);
   this.logTable = new Array(256);
   var x = 1;
@@ -55,7 +55,7 @@ function GF256( primitive) {
       return this.one;
     }
   });
-  this.buildMonomial=function( degree,  coefficient) {
+  this.buildMonomial=function(degree,  coefficient) {
     if (degree < 0) {
       throw "System.ArgumentException";
     }
@@ -67,22 +67,22 @@ function GF256( primitive) {
     coefficients[0] = coefficient;
     return new GF256Poly(this, coefficients);
   };
-  this.exp=function( a) {
+  this.exp=function(a) {
     return this.expTable[a];
   };
-  this.log=function( a) {
+  this.log=function(a) {
     if (a == 0) {
       throw "System.ArgumentException";
     }
     return this.logTable[a];
   };
-  this.inverse=function( a) {
+  this.inverse=function(a) {
     if (a == 0) {
       throw "System.ArithmeticException";
     }
     return this.expTable[255 - this.logTable[a]];
   };
-  this.multiply=function( a,  b) {
+  this.multiply=function(a,  b) {
     if (a == 0 || b == 0) {
       return 0;
     }
@@ -99,6 +99,6 @@ function GF256( primitive) {
 GF256.QR_CODE_FIELD = new GF256(0x011D);
 GF256.DATA_MATRIX_FIELD = new GF256(0x012D);
 
-GF256.addOrSubtract=function( a,  b) {
+GF256.addOrSubtract=function(a,  b) {
   return a ^ b;
 };

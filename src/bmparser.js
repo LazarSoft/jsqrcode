@@ -33,7 +33,7 @@ function BitMatrixParser(bitMatrix) {
   this.parsedVersion = null;
   this.parsedFormatInfo = null;
 
-  this.copyBit=function( i,  j,  versionBits) {
+  this.copyBit=function(i,  j,  versionBits) {
     return this.bitMatrix.get_Renamed(i, j)?(versionBits << 1) | 0x1:versionBits << 1;
   };
 
@@ -126,7 +126,7 @@ function BitMatrixParser(bitMatrix) {
 
     // Get the data mask for the format used in this QR Code. This will exclude
     // some bits from reading as we wind through the bit matrix.
-    var dataMask = DataMask.forReference( formatInfo.DataMask);
+    var dataMask = DataMask.forReference(formatInfo.DataMask);
     var dimension = this.bitMatrix.Dimension;
     dataMask.unmaskBitMatrix(this.bitMatrix, dimension);
 

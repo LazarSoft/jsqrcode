@@ -31,14 +31,14 @@ var CENTER_QUORUM = 2;
 
 qrcode.orderBestPatterns=function(patterns) {
 
-  function distance( pattern1,  pattern2) {
+  function distance(pattern1,  pattern2) {
     var xDiff = pattern1.X - pattern2.X;
     var yDiff = pattern1.Y - pattern2.Y;
-    return  Math.sqrt( (xDiff * xDiff + yDiff * yDiff));
+    return  Math.sqrt((xDiff * xDiff + yDiff * yDiff));
   }
 
   /// <summary> Returns the z component of the cross product between vectors BC and BA.</summary>
-  function crossProductZ( pointA,  pointB,  pointC) {
+  function crossProductZ(pointA,  pointB,  pointC) {
     var bX = pointB.x;
     var bY = pointB.y;
     return ((pointC.x - bX) * (pointA.y - bY)) - ((pointC.y - bY) * (pointA.x - bX));
@@ -111,7 +111,7 @@ function FinderPattern(posX, posY,  estimatedModuleSize) {
   this.incrementCount = function() {
     this.count++;
   };
-  this.aboutEquals=function( moduleSize,  i,  j) {
+  this.aboutEquals=function(moduleSize,  i,  j) {
     if (Math.abs(i - this.y) <= moduleSize && Math.abs(j - this.x) <= moduleSize) {
       var moduleSizeDiff = Math.abs(moduleSize - this.estimatedModuleSize);
       return moduleSizeDiff <= 1.0 || moduleSizeDiff / this.estimatedModuleSize <= 1.0;
@@ -160,7 +160,7 @@ function FinderPatternFinder() {
     }
   });
 
-  this.foundPatternCross=function( stateCount) {
+  this.foundPatternCross=function(stateCount) {
     var totalModuleSize = 0;
     for (var i = 0; i < 5; i++) {
       var count = stateCount[i];
@@ -177,10 +177,10 @@ function FinderPatternFinder() {
     // Allow less than 50% variance from 1-1-3-1-1 proportions
     return Math.abs(moduleSize - (stateCount[0] << INTEGER_MATH_SHIFT)) < maxVariance && Math.abs(moduleSize - (stateCount[1] << INTEGER_MATH_SHIFT)) < maxVariance && Math.abs(3 * moduleSize - (stateCount[2] << INTEGER_MATH_SHIFT)) < 3 * maxVariance && Math.abs(moduleSize - (stateCount[3] << INTEGER_MATH_SHIFT)) < maxVariance && Math.abs(moduleSize - (stateCount[4] << INTEGER_MATH_SHIFT)) < maxVariance;
   };
-  this.centerFromEnd=function( stateCount,  end) {
+  this.centerFromEnd=function(stateCount,  end) {
     return  (end - stateCount[4] - stateCount[3]) - stateCount[2] / 2.0;
   };
-  this.crossCheckVertical=function( startI,  centerJ,  maxCount,  originalStateCountTotal) {
+  this.crossCheckVertical=function(startI,  centerJ,  maxCount,  originalStateCountTotal) {
     var image = this.image;
 
     var maxI = image.height;
@@ -244,7 +244,7 @@ function FinderPatternFinder() {
 
     return this.foundPatternCross(stateCount)?this.centerFromEnd(stateCount, i):NaN;
   };
-  this.crossCheckHorizontal=function( startJ,  centerI,  maxCount, originalStateCountTotal) {
+  this.crossCheckHorizontal=function(startJ,  centerI,  maxCount, originalStateCountTotal) {
     var image = this.image;
 
     var maxJ = image.width;
@@ -305,13 +305,13 @@ function FinderPatternFinder() {
 
     return this.foundPatternCross(stateCount)?this.centerFromEnd(stateCount, j):NaN;
   };
-  this.handlePossibleCenter=function( stateCount,  i,  j) {
+  this.handlePossibleCenter=function(stateCount,  i,  j) {
     var stateCountTotal = stateCount[0] + stateCount[1] + stateCount[2] + stateCount[3] + stateCount[4];
     var centerJ = this.centerFromEnd(stateCount, j); //float
-    var centerI = this.crossCheckVertical(i, Math.floor( centerJ), stateCount[2], stateCountTotal); //float
+    var centerI = this.crossCheckVertical(i, Math.floor(centerJ), stateCount[2], stateCountTotal); //float
     if (!isNaN(centerI)) {
       // Re-cross check
-      centerJ = this.crossCheckHorizontal(Math.floor( centerJ), Math.floor( centerI), stateCount[2], stateCountTotal);
+      centerJ = this.crossCheckHorizontal(Math.floor(centerJ), Math.floor(centerI), stateCount[2], stateCountTotal);
       if (!isNaN(centerJ)) {
         var estimatedModuleSize =   stateCountTotal / 7.0;
         var found = false;
@@ -467,7 +467,7 @@ function FinderPatternFinder() {
       stateCount[4] = 0;
       var currentState = 0;
       for (var j = 0; j < maxJ; j++) {
-        if (image.data[j+i*image.width] ) {
+        if (image.data[j+i*image.width]) {
           // Black pixel
           if ((currentState & 1) == 1) {
             // Counting white pixels

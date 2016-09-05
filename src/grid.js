@@ -26,14 +26,14 @@
 
 var GridSampler = {};
 
-GridSampler.checkAndNudgePoints=function( image,  points) {
+GridSampler.checkAndNudgePoints=function(image,  points) {
   var width = image.width;
   var height = image.height;
   // Check and nudge points from start until we see some that are OK:
   var nudged = true;
   for (var offset = 0; offset < points.length && nudged; offset += 2) {
     var x = Math.floor(points[offset]);
-    var y = Math.floor( points[offset + 1]);
+    var y = Math.floor(points[offset + 1]);
     if (x < - 1 || x > width || y < - 1 || y > height) {
       throw "Error.checkAndNudgePoints ";
     }
@@ -56,8 +56,8 @@ GridSampler.checkAndNudgePoints=function( image,  points) {
   // Check and nudge points from end:
   nudged = true;
   for (var offset = points.length - 2; offset >= 0 && nudged; offset -= 2) {
-    var x = Math.floor( points[offset]);
-    var y = Math.floor( points[offset + 1]);
+    var x = Math.floor(points[offset]);
+    var y = Math.floor(points[offset + 1]);
     if (x < - 1 || x > width || y < - 1 || y > height) {
       throw "Error.checkAndNudgePoints ";
     }
@@ -81,7 +81,7 @@ GridSampler.checkAndNudgePoints=function( image,  points) {
 
 
 
-GridSampler.sampleGrid3=function( image,  dimension,  transform) {
+GridSampler.sampleGrid3=function(image,  dimension,  transform) {
   var bits = new BitMatrix(dimension);
   var points = new Array(dimension << 1);
   for (var y = 0; y < dimension; y++) {
@@ -97,12 +97,12 @@ GridSampler.sampleGrid3=function( image,  dimension,  transform) {
     GridSampler.checkAndNudgePoints(image, points);
     try {
       for (var x = 0; x < max; x += 2) {
-        var bit = image.data[Math.floor( points[x])+ image.width* Math.floor( points[x + 1])];
+        var bit = image.data[Math.floor(points[x])+ image.width* Math.floor(points[x + 1])];
         //bits[x >> 1][ y]=bit;
         if (bit)
           bits.set_Renamed(x >> 1, y);
       }
-    } catch ( aioobe) {
+    } catch (aioobe) {
       // This feels wrong, but, sometimes if the finder patterns are misidentified, the resulting
       // transform gets "twisted" such that it maps a straight line of points to a set of points
       // whose endpoints are in bounds, but others are not. There is probably some mathematical

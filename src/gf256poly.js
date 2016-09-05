@@ -64,11 +64,11 @@ function GF256Poly(field,  coefficients) {
     }
   });
 
-  this.getCoefficient=function( degree) {
+  this.getCoefficient=function(degree) {
     return this.coefficients[this.coefficients.length - 1 - degree];
   };
 
-  this.evaluateAt=function( a) {
+  this.evaluateAt=function(a) {
     if (a == 0) {
       // Just return the x^0 coefficient
       return this.getCoefficient(0);
@@ -89,7 +89,7 @@ function GF256Poly(field,  coefficients) {
     return result2;
   };
 
-  this.addOrSubtract=function( other) {
+  this.addOrSubtract=function(other) {
     if (this.field != other.field) {
       throw "GF256Polys do not have same GF256 field";
     }
@@ -119,7 +119,7 @@ function GF256Poly(field,  coefficients) {
 
     return new GF256Poly(field, sumDiff);
   };
-  this.multiply1=function( other) {
+  this.multiply1=function(other) {
     if (this.field!=other.field) {
       throw "GF256Polys do not have same GF256 field";
     }
@@ -139,7 +139,7 @@ function GF256Poly(field,  coefficients) {
     }
     return new GF256Poly(this.field, product);
   };
-  this.multiply2=function( scalar) {
+  this.multiply2=function(scalar) {
     if (scalar == 0) {
       return this.field.Zero;
     }
@@ -153,7 +153,7 @@ function GF256Poly(field,  coefficients) {
     }
     return new GF256Poly(this.field, product);
   };
-  this.multiplyByMonomial=function( degree,  coefficient) {
+  this.multiplyByMonomial=function(degree,  coefficient) {
     if (degree < 0) {
       throw "System.ArgumentException";
     }
@@ -168,7 +168,7 @@ function GF256Poly(field,  coefficients) {
     }
     return new GF256Poly(this.field, product);
   };
-  this.divide=function( other) {
+  this.divide=function(other) {
     if (this.field!=other.field) {
       throw "GF256Polys do not have same GF256 field";
     }

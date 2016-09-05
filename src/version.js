@@ -41,7 +41,7 @@ function ECB(count,  dataCodewords) {
   });
 }
 
-function ECBlocks( ecCodewordsPerBlock,  ecBlocks1,  ecBlocks2) {
+function ECBlocks(ecCodewordsPerBlock,  ecBlocks1,  ecBlocks2) {
   this.ecCodewordsPerBlock = ecCodewordsPerBlock;
   if (ecBlocks2)
     this.ecBlocks = [ecBlocks1, ecBlocks2];
@@ -75,7 +75,7 @@ function ECBlocks( ecCodewordsPerBlock,  ecBlocks1,  ecBlocks2) {
   };
 }
 
-function Version( versionNumber,  alignmentPatternCenters,  ecBlocks1,  ecBlocks2,  ecBlocks3,  ecBlocks4) {
+function Version(versionNumber,  alignmentPatternCenters,  ecBlocks1,  ecBlocks2,  ecBlocks3,  ecBlocks4) {
   this.versionNumber = versionNumber;
   this.alignmentPatternCenters = alignmentPatternCenters;
   this.ecBlocks = [ecBlocks1, ecBlocks2, ecBlocks3, ecBlocks4];
@@ -149,7 +149,7 @@ function Version( versionNumber,  alignmentPatternCenters,  ecBlocks1,  ecBlocks
 
     return bitMatrix;
   };
-  this.getECBlocksForLevel=function( ecLevel) {
+  this.getECBlocksForLevel=function(ecLevel) {
     return this.ecBlocks[ecLevel.ordinal()];
   };
 }
@@ -193,7 +193,7 @@ Version.VERSION_DECODE_INFO = [
 
 Version.VERSIONS = buildVersions();
 
-Version.getVersionForNumber=function( versionNumber) {
+Version.getVersionForNumber=function(versionNumber) {
   if (versionNumber < 1 || versionNumber > 40) {
     throw "ArgumentException";
   }
@@ -206,12 +206,12 @@ Version.getProvisionalVersionForDimension=function(dimension) {
   }
   try {
     return Version.getVersionForNumber((dimension - 17) >> 2);
-  } catch ( iae) {
+  } catch (iae) {
     throw "Error getVersionForNumber";
   }
 };
 
-Version.decodeVersionInformation=function( versionBits) {
+Version.decodeVersionInformation=function(versionBits) {
   var bestDifference = 0xffffffff;
   var bestVersion = 0;
   for (var i = 0; i < Version.VERSION_DECODE_INFO.length; i++) {

@@ -28,7 +28,7 @@
 var Decoder={};
 Decoder.rsDecoder = new ReedSolomonDecoder(GF256.QR_CODE_FIELD);
 
-Decoder.correctErrors=function( codewordBytes,  numDataCodewords) {
+Decoder.correctErrors=function(codewordBytes,  numDataCodewords) {
   var numCodewords = codewordBytes.length;
   // First read into an array of ints
   var codewordsInts = new Array(numCodewords);
@@ -40,7 +40,7 @@ Decoder.correctErrors=function( codewordBytes,  numDataCodewords) {
     Decoder.rsDecoder.decode(codewordsInts, numECCodewords);
     //var corrector = new ReedSolomon(codewordsInts, numECCodewords);
     //corrector.correct();
-  } catch ( rse) {
+  } catch (rse) {
     throw rse;
   }
   // Copy back into array of bytes -- only need to worry about the bytes that were data

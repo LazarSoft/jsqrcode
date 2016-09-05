@@ -52,7 +52,7 @@ function AlignmentPattern(posX, posY,  estimatedModuleSize) {
   this.incrementCount = function() {
     this.count++;
   };
-  this.aboutEquals=function( moduleSize,  i,  j) {
+  this.aboutEquals=function(moduleSize,  i,  j) {
     if (Math.abs(i - this.y) <= moduleSize && Math.abs(j - this.x) <= moduleSize) {
       var moduleSizeDiff = Math.abs(moduleSize - this.estimatedModuleSize);
       return moduleSizeDiff <= 1.0 || moduleSizeDiff / this.estimatedModuleSize <= 1.0;
@@ -62,7 +62,7 @@ function AlignmentPattern(posX, posY,  estimatedModuleSize) {
 
 }
 
-function AlignmentPatternFinder( image,  startX,  startY,  width,  height,  moduleSize,  resultPointCallback) {
+function AlignmentPatternFinder(image,  startX,  startY,  width,  height,  moduleSize,  resultPointCallback) {
   this.image = image;
   this.possibleCenters = [];
   this.startX = startX;
@@ -87,7 +87,7 @@ function AlignmentPatternFinder( image,  startX,  startY,  width,  height,  modu
     return true;
   };
 
-  this.crossCheckVertical=function( startI,  centerJ,  maxCount,  originalStateCountTotal) {
+  this.crossCheckVertical=function(startI,  centerJ,  maxCount,  originalStateCountTotal) {
     var image = this.image;
 
     var maxI = image.height;
@@ -139,7 +139,7 @@ function AlignmentPatternFinder( image,  startX,  startY,  width,  height,  modu
     return this.foundPatternCross(stateCount)?this.centerFromEnd(stateCount, i):NaN;
   };
 
-  this.handlePossibleCenter=function( stateCount,  i,  j) {
+  this.handlePossibleCenter=function(stateCount,  i,  j) {
     var stateCountTotal = stateCount[0] + stateCount[1] + stateCount[2];
     var centerJ = this.centerFromEnd(stateCount, j);
     var centerI = this.crossCheckVertical(i, Math.floor(centerJ), 2 * stateCount[1], stateCountTotal);

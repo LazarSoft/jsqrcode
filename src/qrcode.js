@@ -110,9 +110,9 @@ function QrCode() {
     }
   };
 
-  this.decode_utf8 = function( s ) {
+  this.decode_utf8 = function(s) {
 
-    return decodeURIComponent( escape( s ) );
+    return decodeURIComponent(escape(s));
   };
 
   this.process = function(imageData) {
@@ -260,7 +260,7 @@ function QrCode() {
 
 }
 
-function URShift( number,  bits) {
+function URShift(number,  bits) {
   if (number >= 0)
     return number >> bits;
   else

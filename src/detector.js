@@ -24,7 +24,7 @@
 
 /* globals AlignmentPatternFinder, GridSampler, Version, FinderPatternFinder */
 
-function PerspectiveTransform( a11,  a21,  a31,  a12,  a22,  a32,  a13,  a23,  a33) {
+function PerspectiveTransform(a11,  a21,  a31,  a12,  a22,  a32,  a13,  a23,  a33) {
   this.a11 = a11;
   this.a12 = a12;
   this.a13 = a13;
@@ -34,7 +34,7 @@ function PerspectiveTransform( a11,  a21,  a31,  a12,  a22,  a32,  a13,  a23,  a
   this.a31 = a31;
   this.a32 = a32;
   this.a33 = a33;
-  this.transformPoints1=function( points) {
+  this.transformPoints1=function(points) {
     var max = points.length;
     var a11 = this.a11;
     var a12 = this.a12;
@@ -68,20 +68,20 @@ function PerspectiveTransform( a11,  a21,  a31,  a12,  a22,  a32,  a13,  a23,  a
     // Adjoint is the transpose of the cofactor matrix:
     return new PerspectiveTransform(this.a22 * this.a33 - this.a23 * this.a32, this.a23 * this.a31 - this.a21 * this.a33, this.a21 * this.a32 - this.a22 * this.a31, this.a13 * this.a32 - this.a12 * this.a33, this.a11 * this.a33 - this.a13 * this.a31, this.a12 * this.a31 - this.a11 * this.a32, this.a12 * this.a23 - this.a13 * this.a22, this.a13 * this.a21 - this.a11 * this.a23, this.a11 * this.a22 - this.a12 * this.a21);
   };
-  this.times=function( other) {
+  this.times=function(other) {
     return new PerspectiveTransform(this.a11 * other.a11 + this.a21 * other.a12 + this.a31 * other.a13, this.a11 * other.a21 + this.a21 * other.a22 + this.a31 * other.a23, this.a11 * other.a31 + this.a21 * other.a32 + this.a31 * other.a33, this.a12 * other.a11 + this.a22 * other.a12 + this.a32 * other.a13, this.a12 * other.a21 + this.a22 * other.a22 + this.a32 * other.a23, this.a12 * other.a31 + this.a22 * other.a32 + this.a32 * other.a33, this.a13 * other.a11 + this.a23 * other.a12 +this.a33 * other.a13, this.a13 * other.a21 + this.a23 * other.a22 + this.a33 * other.a23, this.a13 * other.a31 + this.a23 * other.a32 + this.a33 * other.a33);
   };
 
 }
 
-PerspectiveTransform.quadrilateralToQuadrilateral=function( x0,  y0,  x1,  y1,  x2,  y2,  x3,  y3,  x0p,  y0p,  x1p,  y1p,  x2p,  y2p,  x3p,  y3p) {
+PerspectiveTransform.quadrilateralToQuadrilateral=function(x0,  y0,  x1,  y1,  x2,  y2,  x3,  y3,  x0p,  y0p,  x1p,  y1p,  x2p,  y2p,  x3p,  y3p) {
 
   var qToS = this.quadrilateralToSquare(x0, y0, x1, y1, x2, y2, x3, y3);
   var sToQ = this.squareToQuadrilateral(x0p, y0p, x1p, y1p, x2p, y2p, x3p, y3p);
   return sToQ.times(qToS);
 };
 
-PerspectiveTransform.squareToQuadrilateral=function( x0,  y0,  x1,  y1,  x2,  y2,  x3,  y3) {
+PerspectiveTransform.squareToQuadrilateral=function(x0,  y0,  x1,  y1,  x2,  y2,  x3,  y3) {
   var dy2 = y3 - y2;
   var dy3 = y0 - y1 + y2 - y3;
   if (dy2 == 0.0 && dy3 == 0.0) {
@@ -98,7 +98,7 @@ PerspectiveTransform.squareToQuadrilateral=function( x0,  y0,  x1,  y1,  x2,  y2
   }
 };
 
-PerspectiveTransform.quadrilateralToSquare=function( x0,  y0,  x1,  y1,  x2,  y2,  x3,  y3) {
+PerspectiveTransform.quadrilateralToSquare=function(x0,  y0,  x1,  y1,  x2,  y2,  x3,  y3) {
   // Here, the adjoint serves as the inverse:
   return this.squareToQuadrilateral(x0, y0, x1, y1, x2, y2, x3, y3).buildAdjoint();
 };
@@ -113,7 +113,7 @@ function Detector(image) {
   this.image=image;
   this.resultPointCallback = null;
 
-  this.sizeOfBlackWhiteBlackRun=function( fromX,  fromY,  toX,  toY) {
+  this.sizeOfBlackWhiteBlackRun=function(fromX,  fromY,  toX,  toY) {
     // Mild variant of Bresenham's algorithm;
     // see http://en.wikipedia.org/wiki/Bresenham's_line_algorithm
     var steep = Math.abs(toY - fromY) > Math.abs(toX - fromX);
@@ -151,7 +151,7 @@ function Detector(image) {
         // Found black, white, black, and stumbled back onto white; done
         var diffX = x - fromX;
         var diffY = y - fromY;
-        return  Math.sqrt( (diffX * diffX + diffY * diffY));
+        return  Math.sqrt((diffX * diffX + diffY * diffY));
       }
       error += dy;
       if (error > 0) {
@@ -164,11 +164,11 @@ function Detector(image) {
     }
     var diffX2 = toX - fromX;
     var diffY2 = toY - fromY;
-    return  Math.sqrt( (diffX2 * diffX2 + diffY2 * diffY2));
+    return  Math.sqrt((diffX2 * diffX2 + diffY2 * diffY2));
   };
 
 
-  this.sizeOfBlackWhiteBlackRunBothWays=function( fromX,  fromY,  toX,  toY) {
+  this.sizeOfBlackWhiteBlackRunBothWays=function(fromX,  fromY,  toX,  toY) {
 
     var result = this.sizeOfBlackWhiteBlackRun(fromX, fromY, toX, toY);
 
@@ -200,9 +200,9 @@ function Detector(image) {
 
 
 
-  this.calculateModuleSizeOneWay=function( pattern,  otherPattern) {
-    var moduleSizeEst1 = this.sizeOfBlackWhiteBlackRunBothWays(Math.floor( pattern.X), Math.floor( pattern.Y), Math.floor( otherPattern.X), Math.floor(otherPattern.Y));
-    var moduleSizeEst2 = this.sizeOfBlackWhiteBlackRunBothWays(Math.floor(otherPattern.X), Math.floor(otherPattern.Y), Math.floor( pattern.X), Math.floor(pattern.Y));
+  this.calculateModuleSizeOneWay=function(pattern,  otherPattern) {
+    var moduleSizeEst1 = this.sizeOfBlackWhiteBlackRunBothWays(Math.floor(pattern.X), Math.floor(pattern.Y), Math.floor(otherPattern.X), Math.floor(otherPattern.Y));
+    var moduleSizeEst2 = this.sizeOfBlackWhiteBlackRunBothWays(Math.floor(otherPattern.X), Math.floor(otherPattern.Y), Math.floor(pattern.X), Math.floor(pattern.Y));
     if (isNaN(moduleSizeEst1)) {
       return moduleSizeEst2 / 7.0;
     }
@@ -215,17 +215,17 @@ function Detector(image) {
   };
 
 
-  this.calculateModuleSize=function( topLeft,  topRight,  bottomLeft) {
+  this.calculateModuleSize=function(topLeft,  topRight,  bottomLeft) {
     // Take the average
     return (this.calculateModuleSizeOneWay(topLeft, topRight) + this.calculateModuleSizeOneWay(topLeft, bottomLeft)) / 2.0;
   };
 
-  this.distance=function( pattern1,  pattern2) {
+  this.distance=function(pattern1,  pattern2) {
     var xDiff = pattern1.X - pattern2.X;
     var yDiff = pattern1.Y - pattern2.Y;
-    return  Math.sqrt( (xDiff * xDiff + yDiff * yDiff));
+    return  Math.sqrt((xDiff * xDiff + yDiff * yDiff));
   };
-  this.computeDimension=function( topLeft,  topRight,  bottomLeft,  moduleSize) {
+  this.computeDimension=function(topLeft,  topRight,  bottomLeft,  moduleSize) {
 
     var tltrCentersDimension = Math.round(this.distance(topLeft, topRight) / moduleSize);
     var tlblCentersDimension = Math.round(this.distance(topLeft, bottomLeft) / moduleSize);
@@ -248,7 +248,7 @@ function Detector(image) {
     return dimension;
   };
 
-  this.findAlignmentInRegion=function( overallEstModuleSize,  estAlignmentX,  estAlignmentY,  allowanceFactor) {
+  this.findAlignmentInRegion=function(overallEstModuleSize,  estAlignmentX,  estAlignmentY,  allowanceFactor) {
     // Look for an alignment pattern (3 modules in size) around where it
     // should be
     var allowance = Math.floor(allowanceFactor * overallEstModuleSize);
@@ -265,7 +265,7 @@ function Detector(image) {
     return alignmentFinder.find();
   };
 
-  this.createTransform=function( topLeft,  topRight,  bottomLeft, alignmentPattern, dimension) {
+  this.createTransform=function(topLeft,  topRight,  bottomLeft, alignmentPattern, dimension) {
     var dimMinusThree =  dimension - 3.5;
     var bottomRightX;
     var bottomRightY;
@@ -287,13 +287,13 @@ function Detector(image) {
     return transform;
   };
 
-  this.sampleGrid=function( image,  transform,  dimension) {
+  this.sampleGrid=function(image,  transform,  dimension) {
 
     var sampler = GridSampler;
     return sampler.sampleGrid3(image, dimension, transform);
   };
 
-  this.processFinderPatternInfo = function( info) {
+  this.processFinderPatternInfo = function(info) {
 
     var topLeft = info.TopLeft;
     var topRight = info.TopRight;
