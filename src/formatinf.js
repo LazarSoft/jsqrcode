@@ -31,75 +31,75 @@ var BITS_SET_IN_HALF_BYTE = new Array(0, 1, 1, 2, 1, 2, 2, 3, 1, 2, 2, 3, 2, 3, 
 
 function FormatInformation(formatInfo)
 {
-	this.errorCorrectionLevel = ErrorCorrectionLevel.forBits((formatInfo >> 3) & 0x03);
-	this.dataMask =  (formatInfo & 0x07);
+  this.errorCorrectionLevel = ErrorCorrectionLevel.forBits((formatInfo >> 3) & 0x03);
+  this.dataMask =  (formatInfo & 0x07);
 
-	Object.defineProperty(this,"ErrorCorrectionLevel", { get: function()
-	{
-		return this.errorCorrectionLevel;
-	}});
-	Object.defineProperty(this,"DataMask", { get: function()
-	{
-		return this.dataMask;
-	}});
-	this.GetHashCode=function()
-	{
-		return (this.errorCorrectionLevel.ordinal() << 3) |  this.dataMask;
-	}
-	this.Equals=function( o)
-	{
-		var other =  o;
-		return this.errorCorrectionLevel == other.errorCorrectionLevel && this.dataMask == other.dataMask;
-	}
+  Object.defineProperty(this,"ErrorCorrectionLevel", { get: function()
+  {
+    return this.errorCorrectionLevel;
+  }});
+  Object.defineProperty(this,"DataMask", { get: function()
+  {
+    return this.dataMask;
+  }});
+  this.GetHashCode=function()
+  {
+    return (this.errorCorrectionLevel.ordinal() << 3) |  this.dataMask;
+  }
+  this.Equals=function( o)
+  {
+    var other =  o;
+    return this.errorCorrectionLevel == other.errorCorrectionLevel && this.dataMask == other.dataMask;
+  }
 }
 
 FormatInformation.numBitsDiffering=function( a,  b)
 {
-	a ^= b; // a now has a 1 bit exactly where its bit differs with b's
-	// Count bits set quickly with a series of lookups:
-	return BITS_SET_IN_HALF_BYTE[a & 0x0F] + BITS_SET_IN_HALF_BYTE[(URShift(a, 4) & 0x0F)] + BITS_SET_IN_HALF_BYTE[(URShift(a, 8) & 0x0F)] + BITS_SET_IN_HALF_BYTE[(URShift(a, 12) & 0x0F)] + BITS_SET_IN_HALF_BYTE[(URShift(a, 16) & 0x0F)] + BITS_SET_IN_HALF_BYTE[(URShift(a, 20) & 0x0F)] + BITS_SET_IN_HALF_BYTE[(URShift(a, 24) & 0x0F)] + BITS_SET_IN_HALF_BYTE[(URShift(a, 28) & 0x0F)];
+  a ^= b; // a now has a 1 bit exactly where its bit differs with b's
+  // Count bits set quickly with a series of lookups:
+  return BITS_SET_IN_HALF_BYTE[a & 0x0F] + BITS_SET_IN_HALF_BYTE[(URShift(a, 4) & 0x0F)] + BITS_SET_IN_HALF_BYTE[(URShift(a, 8) & 0x0F)] + BITS_SET_IN_HALF_BYTE[(URShift(a, 12) & 0x0F)] + BITS_SET_IN_HALF_BYTE[(URShift(a, 16) & 0x0F)] + BITS_SET_IN_HALF_BYTE[(URShift(a, 20) & 0x0F)] + BITS_SET_IN_HALF_BYTE[(URShift(a, 24) & 0x0F)] + BITS_SET_IN_HALF_BYTE[(URShift(a, 28) & 0x0F)];
 }
 
 FormatInformation.decodeFormatInformation=function( maskedFormatInfo)
 {
-	var formatInfo = FormatInformation.doDecodeFormatInformation(maskedFormatInfo);
-	if (formatInfo != null)
-	{
-		return formatInfo;
-	}
-	// Should return null, but, some QR codes apparently
-	// do not mask this info. Try again by actually masking the pattern
-	// first
-	return FormatInformation.doDecodeFormatInformation(maskedFormatInfo ^ FORMAT_INFO_MASK_QR);
+  var formatInfo = FormatInformation.doDecodeFormatInformation(maskedFormatInfo);
+  if (formatInfo != null)
+  {
+    return formatInfo;
+  }
+  // Should return null, but, some QR codes apparently
+  // do not mask this info. Try again by actually masking the pattern
+  // first
+  return FormatInformation.doDecodeFormatInformation(maskedFormatInfo ^ FORMAT_INFO_MASK_QR);
 }
 FormatInformation.doDecodeFormatInformation=function( maskedFormatInfo)
 {
-	// Find the int in FORMAT_INFO_DECODE_LOOKUP with fewest bits differing
-	var bestDifference = 0xffffffff;
-	var bestFormatInfo = 0;
-	for (var i = 0; i < FORMAT_INFO_DECODE_LOOKUP.length; i++)
-	{
-		var decodeInfo = FORMAT_INFO_DECODE_LOOKUP[i];
-		var targetInfo = decodeInfo[0];
-		if (targetInfo == maskedFormatInfo)
-		{
-			// Found an exact match
-			return new FormatInformation(decodeInfo[1]);
-		}
-		var bitsDifference = this.numBitsDiffering(maskedFormatInfo, targetInfo);
-		if (bitsDifference < bestDifference)
-		{
-			bestFormatInfo = decodeInfo[1];
-			bestDifference = bitsDifference;
-		}
-	}
-	// Hamming distance of the 32 masked codes is 7, by construction, so <= 3 bits
-	// differing means we found a match
-	if (bestDifference <= 3)
-	{
-		return new FormatInformation(bestFormatInfo);
-	}
-	return null;
+  // Find the int in FORMAT_INFO_DECODE_LOOKUP with fewest bits differing
+  var bestDifference = 0xffffffff;
+  var bestFormatInfo = 0;
+  for (var i = 0; i < FORMAT_INFO_DECODE_LOOKUP.length; i++)
+  {
+    var decodeInfo = FORMAT_INFO_DECODE_LOOKUP[i];
+    var targetInfo = decodeInfo[0];
+    if (targetInfo == maskedFormatInfo)
+    {
+      // Found an exact match
+      return new FormatInformation(decodeInfo[1]);
+    }
+    var bitsDifference = this.numBitsDiffering(maskedFormatInfo, targetInfo);
+    if (bitsDifference < bestDifference)
+    {
+      bestFormatInfo = decodeInfo[1];
+      bestDifference = bitsDifference;
+    }
+  }
+  // Hamming distance of the 32 masked codes is 7, by construction, so <= 3 bits
+  // differing means we found a match
+  if (bestDifference <= 3)
+  {
+    return new FormatInformation(bestFormatInfo);
+  }
+  return null;
 }
 
 
