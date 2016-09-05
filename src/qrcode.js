@@ -173,7 +173,7 @@ function QrCode() {
       for (var x = 0; x < this.width; x++) {
         var gray = this.getPixel(x, y);
 
-        ret[x+y*this.width] = gray<=th?true:false;
+        ret[x+y*this.width] = gray <= th;
       }
     }
     return ret;
@@ -232,7 +232,7 @@ function QrCode() {
       for (var ax = 0; ax < sqrtNumArea; ax++) {
         for (var dy = 0; dy < areaHeight; dy++) {
           for (var dx = 0; dx < areaWidth; dx++) {
-            grayScaleImageData.data[areaWidth * ax + dx+ (areaHeight * ay + dy)*grayScaleImageData.width] = (grayScaleImageData.data[areaWidth * ax + dx+ (areaHeight * ay + dy)*grayScaleImageData.width] < middle[ax][ay])?true:false;
+            grayScaleImageData.data[areaWidth * ax + dx+ (areaHeight * ay + dy)*grayScaleImageData.width] = (grayScaleImageData.data[areaWidth * ax + dx + (areaHeight * ay + dy) * grayScaleImageData.width] < middle[ax][ay]);
           }
         }
       }

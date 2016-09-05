@@ -24,5 +24,6 @@ module.exports = {
     'linebreak-style': 'error',
     'no-array-constructor': 'error',
     'no-trailing-spaces': 'error',
+    'no-unneeded-ternary': 'error',
   },
 };
