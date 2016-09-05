@@ -77,7 +77,6 @@ this.decode = function(src, data){
 	else {
 
 		var image = new Image();
-		var _this = this
 
         image.onload = (function() {
 
