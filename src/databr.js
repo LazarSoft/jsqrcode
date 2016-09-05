@@ -24,8 +24,7 @@
 
 /* globals qrcode */
 
-function QRCodeDataBlockReader(blocks,  version,  numErrorCorrectionCode)
-{
+function QRCodeDataBlockReader(blocks,  version,  numErrorCorrectionCode) {
   this.blockPointer = 0;
   this.bitPointer = 7;
   this.dataLength = 0;
@@ -38,15 +37,12 @@ function QRCodeDataBlockReader(blocks,  version,  numErrorCorrectionCode)
   else if (version >= 27 && version <= 40)
     this.dataLengthMode = 2;
 
-  this.getNextBits = function( numBits)
-  {
+  this.getNextBits = function( numBits) {
     var bits = 0;
-    if (numBits < this.bitPointer + 1)
-    {
+    if (numBits < this.bitPointer + 1) {
       // next word fits into current data block
       var mask = 0;
-      for (var i = 0; i < numBits; i++)
-      {
+      for (var i = 0; i < numBits; i++) {
         mask += (1 << i);
       }
       mask <<= (this.bitPointer - numBits + 1);
@@ -54,13 +50,10 @@ function QRCodeDataBlockReader(blocks,  version,  numErrorCorrectionCode)
       bits = (this.blocks[this.blockPointer] & mask) >> (this.bitPointer - numBits + 1);
       this.bitPointer -= numBits;
       return bits;
-    }
-    else if (numBits < this.bitPointer + 1 + 8)
-    {
+    } else if (numBits < this.bitPointer + 1 + 8) {
       // next word crosses 2 data blocks
       var mask1 = 0;
-      for (var i = 0; i < this.bitPointer + 1; i++)
-      {
+      for (var i = 0; i < this.bitPointer + 1; i++) {
         mask1 += (1 << i);
       }
       bits = (this.blocks[this.blockPointer] & mask1) << (numBits - (this.bitPointer + 1));
@@ -68,22 +61,18 @@ function QRCodeDataBlockReader(blocks,  version,  numErrorCorrectionCode)
       bits += ((this.blocks[this.blockPointer]) >> (8 - (numBits - (this.bitPointer + 1))));
 
       this.bitPointer = this.bitPointer - numBits % 8;
-      if (this.bitPointer < 0)
-      {
+      if (this.bitPointer < 0) {
         this.bitPointer = 8 + this.bitPointer;
       }
       return bits;
-    }
-    else if (numBits < this.bitPointer + 1 + 16)
-    {
+    } else if (numBits < this.bitPointer + 1 + 16) {
       // next word crosses 3 data blocks
       var mask1 = 0; // mask of first block
       var mask3 = 0; // mask of 3rd block
       //bitPointer + 1 : number of bits of the 1st block
       //8 : number of the 2nd block (note that use already 8bits because next word uses 3 data blocks)
       //numBits - (bitPointer + 1 + 8) : number of bits of the 3rd block
-      for (var i = 0; i < this.bitPointer + 1; i++)
-      {
+      for (var i = 0; i < this.bitPointer + 1; i++) {
         mask1 += (1 << i);
       }
       var bitsFirstBlock = (this.blocks[this.blockPointer] & mask1) << (numBits - (this.bitPointer + 1));
@@ -92,8 +81,7 @@ function QRCodeDataBlockReader(blocks,  version,  numErrorCorrectionCode)
       var bitsSecondBlock = this.blocks[this.blockPointer] << (numBits - (this.bitPointer + 1 + 8));
       this.blockPointer++;
 
-      for (var i = 0; i < numBits - (this.bitPointer + 1 + 8); i++)
-      {
+      for (var i = 0; i < numBits - (this.bitPointer + 1 + 8); i++) {
         mask3 += (1 << i);
       }
       mask3 <<= 8 - (numBits - (this.bitPointer + 1 + 8));
@@ -101,29 +89,23 @@ function QRCodeDataBlockReader(blocks,  version,  numErrorCorrectionCode)
 
       bits = bitsFirstBlock + bitsSecondBlock + bitsThirdBlock;
       this.bitPointer = this.bitPointer - (numBits - 8) % 8;
-      if (this.bitPointer < 0)
-      {
+      if (this.bitPointer < 0) {
         this.bitPointer = 8 + this.bitPointer;
       }
       return bits;
-    }
-    else
-    {
+    } else {
       return 0;
     }
   }
-  this.NextMode=function()
-  {
+  this.NextMode=function() {
     if ((this.blockPointer > this.blocks.length - this.numErrorCorrectionCode - 2))
       return 0;
     else
       return this.getNextBits(4);
   }
-  this.getDataLength=function( modeIndicator)
-  {
+  this.getDataLength=function( modeIndicator) {
     var index = 0;
-    while (true)
-    {
+    while (true) {
       if ((modeIndicator >> index) == 1)
         break;
       index++;
@@ -131,25 +113,20 @@ function QRCodeDataBlockReader(blocks,  version,  numErrorCorrectionCode)
 
     return this.getNextBits(qrcode.sizeOfDataLengthInfo[this.dataLengthMode][index]);
   }
-  this.getRomanAndFigureString=function( dataLength)
-  {
+  this.getRomanAndFigureString=function( dataLength) {
     var length = dataLength;
     var intData = 0;
     var strData = "";
     var tableRomanAndFigure = new Array('0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', ' ', '$', '%', '*', '+', '-', '.', '/', ':');
-    do
-    {
-      if (length > 1)
-      {
+    do {
+      if (length > 1) {
         intData = this.getNextBits(11);
         var firstLetter = Math.floor(intData / 45);
         var secondLetter = intData % 45;
         strData += tableRomanAndFigure[firstLetter];
         strData += tableRomanAndFigure[secondLetter];
         length -= 2;
-      }
-      else if (length == 1)
-      {
+      } else if (length == 1) {
         intData = this.getNextBits(6);
         strData += tableRomanAndFigure[intData];
         length -= 1;
@@ -159,31 +136,24 @@ function QRCodeDataBlockReader(blocks,  version,  numErrorCorrectionCode)
 
     return strData;
   }
-  this.getFigureString=function( dataLength)
-  {
+  this.getFigureString=function( dataLength) {
     var length = dataLength;
     var intData = 0;
     var strData = "";
-    do
-    {
-      if (length >= 3)
-      {
+    do {
+      if (length >= 3) {
         intData = this.getNextBits(10);
         if (intData < 100)
           strData += "0";
         if (intData < 10)
           strData += "0";
         length -= 3;
-      }
-      else if (length == 2)
-      {
+      } else if (length == 2) {
         intData = this.getNextBits(7);
         if (intData < 10)
           strData += "0";
         length -= 2;
-      }
-      else if (length == 1)
-      {
+      } else if (length == 1) {
         intData = this.getNextBits(4);
         length -= 1;
       }
@@ -193,14 +163,12 @@ function QRCodeDataBlockReader(blocks,  version,  numErrorCorrectionCode)
 
     return strData;
   }
-  this.get8bitByteArray=function( dataLength)
-  {
+  this.get8bitByteArray=function( dataLength) {
     var length = dataLength;
     var intData = 0;
     var output = new Array();
 
-    do
-    {
+    do {
       intData = this.getNextBits(8);
       output.push( intData);
       length--;
@@ -208,26 +176,21 @@ function QRCodeDataBlockReader(blocks,  version,  numErrorCorrectionCode)
     while (length > 0);
     return output;
   }
-  this.getKanjiString=function( dataLength)
-  {
+  this.getKanjiString=function( dataLength) {
     var length = dataLength;
     var intData = 0;
     var unicodeString = "";
-    do
-    {
+    do {
       intData = this.getNextBits(13);
       var lowerByte = intData % 0xC0;
       var higherByte = intData / 0xC0;
 
       var tempWord = (higherByte << 8) + lowerByte;
       var shiftjisWord = 0;
-      if (tempWord + 0x8140 <= 0x9FFC)
-      {
+      if (tempWord + 0x8140 <= 0x9FFC) {
         // between 8140 - 9FFC on Shift_JIS character set
         shiftjisWord = tempWord + 0x8140;
-      }
-      else
-      {
+      } else {
         // between E040 - EBBF on Shift_JIS character set
         shiftjisWord = tempWord + 0xC140;
       }
@@ -245,19 +208,16 @@ function QRCodeDataBlockReader(blocks,  version,  numErrorCorrectionCode)
     return unicodeString;
   }
 
-  Object.defineProperty(this,"DataByte", { get: function()
-  {
+  Object.defineProperty(this,"DataByte", { get: function() {
     var output = new Array();
     var MODE_NUMBER = 1;
     var MODE_ROMAN_AND_NUMBER = 2;
     var MODE_8BIT_BYTE = 4;
     var MODE_KANJI = 8;
-    do
-    {
+    do {
       var mode = this.NextMode();
       //canvas.println("mode: " + mode);
-      if (mode == 0)
-      {
+      if (mode == 0) {
         if (output.length > 0)
           break;
         else
@@ -266,8 +226,7 @@ function QRCodeDataBlockReader(blocks,  version,  numErrorCorrectionCode)
       //if (mode != 1 && mode != 2 && mode != 4 && mode != 8)
       //  break;
       //}
-      if (mode != MODE_NUMBER && mode != MODE_ROMAN_AND_NUMBER && mode != MODE_8BIT_BYTE && mode != MODE_KANJI)
-      {
+      if (mode != MODE_NUMBER && mode != MODE_ROMAN_AND_NUMBER && mode != MODE_8BIT_BYTE && mode != MODE_KANJI) {
         /*          canvas.println("Invalid mode: " + mode);
         mode = guessMode(mode);
         canvas.println("Guessed mode: " + mode); */
@@ -277,8 +236,7 @@ function QRCodeDataBlockReader(blocks,  version,  numErrorCorrectionCode)
       if (dataLength < 1)
         throw "Invalid data length: " + dataLength;
       //canvas.println("length: " + dataLength);
-      switch (mode)
-      {
+      switch (mode) {
 
       case MODE_NUMBER:
         //canvas.println("Mode: Figure");

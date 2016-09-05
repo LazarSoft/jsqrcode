@@ -24,33 +24,27 @@
 
 /* globals FormatInformation, Version, DataMask */
 
-function BitMatrixParser(bitMatrix)
-{
+function BitMatrixParser(bitMatrix) {
   var dimension = bitMatrix.Dimension;
-  if (dimension < 21 || (dimension & 0x03) != 1)
-  {
+  if (dimension < 21 || (dimension & 0x03) != 1) {
     throw "Error BitMatrixParser";
   }
   this.bitMatrix = bitMatrix;
   this.parsedVersion = null;
   this.parsedFormatInfo = null;
 
-  this.copyBit=function( i,  j,  versionBits)
-  {
+  this.copyBit=function( i,  j,  versionBits) {
     return this.bitMatrix.get_Renamed(i, j)?(versionBits << 1) | 0x1:versionBits << 1;
   }
 
-  this.readFormatInformation=function()
-  {
-    if (this.parsedFormatInfo != null)
-    {
+  this.readFormatInformation=function() {
+    if (this.parsedFormatInfo != null) {
       return this.parsedFormatInfo;
     }
 
     // Read top-left format info bits
     var formatInfoBits = 0;
-    for (var i = 0; i < 6; i++)
-    {
+    for (var i = 0; i < 6; i++) {
       formatInfoBits = this.copyBit(i, 8, formatInfoBits);
     }
     // .. and skip a bit in the timing pattern ...
@@ -58,14 +52,12 @@ function BitMatrixParser(bitMatrix)
     formatInfoBits = this.copyBit(8, 8, formatInfoBits);
     formatInfoBits = this.copyBit(8, 7, formatInfoBits);
     // .. and skip a bit in the timing pattern ...
-    for (var j = 5; j >= 0; j--)
-    {
+    for (var j = 5; j >= 0; j--) {
       formatInfoBits = this.copyBit(8, j, formatInfoBits);
     }
 
     this.parsedFormatInfo = FormatInformation.decodeFormatInformation(formatInfoBits);
-    if (this.parsedFormatInfo != null)
-    {
+    if (this.parsedFormatInfo != null) {
       return this.parsedFormatInfo;
     }
 
@@ -73,74 +65,61 @@ function BitMatrixParser(bitMatrix)
     var dimension = this.bitMatrix.Dimension;
     formatInfoBits = 0;
     var iMin = dimension - 8;
-    for (var i = dimension - 1; i >= iMin; i--)
-    {
+    for (var i = dimension - 1; i >= iMin; i--) {
       formatInfoBits = this.copyBit(i, 8, formatInfoBits);
     }
-    for (var j = dimension - 7; j < dimension; j++)
-    {
+    for (var j = dimension - 7; j < dimension; j++) {
       formatInfoBits = this.copyBit(8, j, formatInfoBits);
     }
 
     this.parsedFormatInfo = FormatInformation.decodeFormatInformation(formatInfoBits);
-    if (this.parsedFormatInfo != null)
-    {
+    if (this.parsedFormatInfo != null) {
       return this.parsedFormatInfo;
     }
     throw "Error readFormatInformation";
   }
-  this.readVersion=function()
-  {
+  this.readVersion=function() {
 
-    if (this.parsedVersion != null)
-    {
+    if (this.parsedVersion != null) {
       return this.parsedVersion;
     }
 
     var dimension = this.bitMatrix.Dimension;
 
     var provisionalVersion = (dimension - 17) >> 2;
-    if (provisionalVersion <= 6)
-    {
+    if (provisionalVersion <= 6) {
       return Version.getVersionForNumber(provisionalVersion);
     }
 
     // Read top-right version info: 3 wide by 6 tall
     var versionBits = 0;
     var ijMin = dimension - 11;
-    for (var j = 5; j >= 0; j--)
-    {
-      for (var i = dimension - 9; i >= ijMin; i--)
-      {
+    for (var j = 5; j >= 0; j--) {
+      for (var i = dimension - 9; i >= ijMin; i--) {
         versionBits = this.copyBit(i, j, versionBits);
       }
     }
 
     this.parsedVersion = Version.decodeVersionInformation(versionBits);
-    if (this.parsedVersion != null && this.parsedVersion.DimensionForVersion == dimension)
-    {
+    if (this.parsedVersion != null && this.parsedVersion.DimensionForVersion == dimension) {
       return this.parsedVersion;
     }
 
     // Hmm, failed. Try bottom left: 6 wide by 3 tall
     versionBits = 0;
-    for (var i = 5; i >= 0; i--)
-    {
-      for (var j = dimension - 9; j >= ijMin; j--)
-      {
+    for (var i = 5; i >= 0; i--) {
+      for (var j = dimension - 9; j >= ijMin; j--) {
         versionBits = this.copyBit(i, j, versionBits);
       }
     }
 
     this.parsedVersion = Version.decodeVersionInformation(versionBits);
-    if (this.parsedVersion != null && this.parsedVersion.DimensionForVersion == dimension)
-    {
+    if (this.parsedVersion != null && this.parsedVersion.DimensionForVersion == dimension) {
       return this.parsedVersion;
     }
     throw "Error readVersion";
   }
-  this.readCodewords=function()
-  {
+  this.readCodewords=function() {
 
     var formatInfo = this.readFormatInformation();
     var version = this.readVersion();
@@ -159,33 +138,26 @@ function BitMatrixParser(bitMatrix)
     var currentByte = 0;
     var bitsRead = 0;
     // Read columns in pairs, from right to left
-    for (var j = dimension - 1; j > 0; j -= 2)
-    {
-      if (j == 6)
-      {
+    for (var j = dimension - 1; j > 0; j -= 2) {
+      if (j == 6) {
         // Skip whole column with vertical alignment pattern;
         // saves time and makes the other code proceed more cleanly
         j--;
       }
       // Read alternatingly from bottom to top then top to bottom
-      for (var count = 0; count < dimension; count++)
-      {
+      for (var count = 0; count < dimension; count++) {
         var i = readingUp?dimension - 1 - count:count;
-        for (var col = 0; col < 2; col++)
-        {
+        for (var col = 0; col < 2; col++) {
           // Ignore bits covered by the function pattern
-          if (!functionPattern.get_Renamed(j - col, i))
-          {
+          if (!functionPattern.get_Renamed(j - col, i)) {
             // Read a bit
             bitsRead++;
             currentByte <<= 1;
-            if (this.bitMatrix.get_Renamed(j - col, i))
-            {
+            if (this.bitMatrix.get_Renamed(j - col, i)) {
               currentByte |= 1;
             }
             // If we've made a whole byte, save it off
-            if (bitsRead == 8)
-            {
+            if (bitsRead == 8) {
               result[resultOffset++] =  currentByte;
               bitsRead = 0;
               currentByte = 0;
@@ -195,8 +167,7 @@ function BitMatrixParser(bitMatrix)
       }
       readingUp ^= true; // readingUp = !readingUp; // switch directions
     }
-    if (resultOffset != version.TotalCodewords)
-    {
+    if (resultOffset != version.TotalCodewords) {
       throw "Error readCodewords";
     }
     return result;

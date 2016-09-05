@@ -50,8 +50,8 @@ function QrCode() {
 
     }).bind(this);
 
-    /* decode from canvas #qr-canvas */
     if (src == undefined) {
+      /* decode from canvas #qr-canvas */
 
       var canvas_qr = document.getElementById("qr-canvas");
       var context = canvas_qr.getContext('2d');
@@ -61,10 +61,8 @@ function QrCode() {
       this.imagedata = context.getImageData(0, 0, this.width, this.height);
 
       decode();
-    }
-
-    /* decode from canvas canvas.context.getImageData */
-    else if (src.width != undefined) {
+    } else if (src.width != undefined) {
+      /* decode from canvas canvas.context.getImageData */
 
       this.width=src.width
       this.height=src.height
@@ -73,10 +71,8 @@ function QrCode() {
       this.imagedata.height=src.height
 
       decode();
-    }
-
-    /* decode from URL */
-    else {
+    } else {
+      /* decode from URL */
 
       var image = new Image();
 
@@ -145,8 +141,7 @@ function QrCode() {
     var reader = Decoder.decode(qRCodeMatrix.bits);
     var data = reader.DataByte;
     var str="";
-    for(var i=0;i<data.length;i++)
-    {
+    for(var i=0;i<data.length;i++) {
       for(var j=0;j<data[i].length;j++)
         str+=String.fromCharCode(data[i][j]);
     }
@@ -174,10 +169,8 @@ function QrCode() {
 
   this.binarize = function(th){
     var ret = new Array(this.width*this.height);
-    for (var y = 0; y < this.height; y++)
-    {
-      for (var x = 0; x < this.width; x++)
-      {
+    for (var y = 0; y < this.height; y++) {
+      for (var x = 0; x < this.width; x++) {
         var gray = this.getPixel(x, y);
 
         ret[x+y*this.width] = gray<=th?true:false;
@@ -186,30 +179,23 @@ function QrCode() {
     return ret;
   }
 
-  this.getMiddleBrightnessPerArea=function(imageData)
-  {
+  this.getMiddleBrightnessPerArea=function(imageData) {
     var numSqrtArea = 4;
     //obtain middle brightness((min + max) / 2) per area
     var areaWidth = Math.floor(imageData.width / numSqrtArea);
     var areaHeight = Math.floor(imageData.height / numSqrtArea);
     var minmax = new Array(numSqrtArea);
-    for (var i = 0; i < numSqrtArea; i++)
-    {
+    for (var i = 0; i < numSqrtArea; i++) {
       minmax[i] = new Array(numSqrtArea);
-      for (var i2 = 0; i2 < numSqrtArea; i2++)
-      {
+      for (var i2 = 0; i2 < numSqrtArea; i2++) {
         minmax[i][i2] = new Array(0,0);
       }
     }
-    for (var ay = 0; ay < numSqrtArea; ay++)
-    {
-      for (var ax = 0; ax < numSqrtArea; ax++)
-      {
+    for (var ay = 0; ay < numSqrtArea; ay++) {
+      for (var ax = 0; ax < numSqrtArea; ax++) {
         minmax[ax][ay][0] = 0xFF;
-        for (var dy = 0; dy < areaHeight; dy++)
-        {
-          for (var dx = 0; dx < areaWidth; dx++)
-          {
+        for (var dy = 0; dy < areaHeight; dy++) {
+          for (var dx = 0; dx < areaWidth; dx++) {
             var target = imageData.data[areaWidth * ax + dx+(areaHeight * ay + dy)*imageData.width];
             if (target < minmax[ax][ay][0])
               minmax[ax][ay][0] = target;
@@ -221,14 +207,11 @@ function QrCode() {
       }
     }
     var middle = new Array(numSqrtArea);
-    for (var i3 = 0; i3 < numSqrtArea; i3++)
-    {
+    for (var i3 = 0; i3 < numSqrtArea; i3++) {
       middle[i3] = new Array(numSqrtArea);
     }
-    for (var ay = 0; ay < numSqrtArea; ay++)
-    {
-      for (var ax = 0; ax < numSqrtArea; ax++)
-      {
+    for (var ay = 0; ay < numSqrtArea; ay++) {
+      for (var ax = 0; ax < numSqrtArea; ax++) {
         middle[ax][ay] = Math.floor((minmax[ax][ay][0] + minmax[ax][ay][1]) / 2);
         //Console.out.print(middle[ax][ay] + ",");
       }
@@ -239,21 +222,16 @@ function QrCode() {
     return middle;
   }
 
-  this.grayScaleToBitmap=function(grayScaleImageData)
-  {
+  this.grayScaleToBitmap=function(grayScaleImageData) {
     var middle = this.getMiddleBrightnessPerArea(grayScaleImageData);
     var sqrtNumArea = middle.length;
     var areaWidth = Math.floor(grayScaleImageData.width / sqrtNumArea);
     var areaHeight = Math.floor(grayScaleImageData.height / sqrtNumArea);
 
-    for (var ay = 0; ay < sqrtNumArea; ay++)
-    {
-      for (var ax = 0; ax < sqrtNumArea; ax++)
-      {
-        for (var dy = 0; dy < areaHeight; dy++)
-        {
-          for (var dx = 0; dx < areaWidth; dx++)
-          {
+    for (var ay = 0; ay < sqrtNumArea; ay++) {
+      for (var ax = 0; ax < sqrtNumArea; ax++) {
+        for (var dy = 0; dy < areaHeight; dy++) {
+          for (var dx = 0; dx < areaWidth; dx++) {
             grayScaleImageData.data[areaWidth * ax + dx+ (areaHeight * ay + dy)*grayScaleImageData.width] = (grayScaleImageData.data[areaWidth * ax + dx+ (areaHeight * ay + dy)*grayScaleImageData.width] < middle[ax][ay])?true:false;
           }
         }
@@ -265,10 +243,8 @@ function QrCode() {
   this.grayscale = function(imageData){
     var ret = new Array(imageData.width*imageData.height);
 
-    for (var y = 0; y < imageData.height; y++)
-    {
-      for (var x = 0; x < imageData.width; x++)
-      {
+    for (var y = 0; y < imageData.height; y++) {
+      for (var x = 0; x < imageData.width; x++) {
         var gray = this.getPixel(imageData, x, y);
 
         ret[x+y*imageData.width] = gray;
@@ -284,8 +260,7 @@ function QrCode() {
 
 }
 
-function URShift( number,  bits)
-{
+function URShift( number,  bits) {
   if (number >= 0)
     return number >> bits;
   else

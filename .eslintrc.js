@@ -14,6 +14,7 @@ module.exports = {
 
     'array-bracket-spacing': 'error',
     'block-spacing': 'error',
+    'brace-style': 'error',
     'indent': ['error', 2],
   },
 };

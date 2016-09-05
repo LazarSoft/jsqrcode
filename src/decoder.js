@@ -28,36 +28,29 @@
 var Decoder={};
 Decoder.rsDecoder = new ReedSolomonDecoder(GF256.QR_CODE_FIELD);
 
-Decoder.correctErrors=function( codewordBytes,  numDataCodewords)
-{
+Decoder.correctErrors=function( codewordBytes,  numDataCodewords) {
   var numCodewords = codewordBytes.length;
   // First read into an array of ints
   var codewordsInts = new Array(numCodewords);
-  for (var i = 0; i < numCodewords; i++)
-  {
+  for (var i = 0; i < numCodewords; i++) {
     codewordsInts[i] = codewordBytes[i] & 0xFF;
   }
   var numECCodewords = codewordBytes.length - numDataCodewords;
-  try
-  {
+  try {
     Decoder.rsDecoder.decode(codewordsInts, numECCodewords);
     //var corrector = new ReedSolomon(codewordsInts, numECCodewords);
     //corrector.correct();
-  }
-  catch ( rse)
-  {
+  } catch ( rse) {
     throw rse;
   }
   // Copy back into array of bytes -- only need to worry about the bytes that were data
   // We don't care about errors in the error-correction codewords
-  for (var i = 0; i < numDataCodewords; i++)
-  {
+  for (var i = 0; i < numDataCodewords; i++) {
     codewordBytes[i] =  codewordsInts[i];
   }
 }
 
-Decoder.decode=function(bits)
-{
+Decoder.decode=function(bits) {
   var parser = new BitMatrixParser(bits);
   var version = parser.readVersion();
   var ecLevel = parser.readFormatInformation().ErrorCorrectionLevel;
@@ -70,22 +63,19 @@ Decoder.decode=function(bits)
 
   // Count total number of data bytes
   var totalBytes = 0;
-  for (var i = 0; i < dataBlocks.length; i++)
-  {
+  for (var i = 0; i < dataBlocks.length; i++) {
     totalBytes += dataBlocks[i].NumDataCodewords;
   }
   var resultBytes = new Array(totalBytes);
   var resultOffset = 0;
 
   // Error-correct and copy data blocks together into a stream of bytes
-  for (var j = 0; j < dataBlocks.length; j++)
-  {
+  for (var j = 0; j < dataBlocks.length; j++) {
     var dataBlock = dataBlocks[j];
     var codewordBytes = dataBlock.Codewords;
     var numDataCodewords = dataBlock.NumDataCodewords;
     Decoder.correctErrors(codewordBytes, numDataCodewords);
-    for (var i = 0; i < numDataCodewords; i++)
-    {
+    for (var i = 0; i < numDataCodewords; i++) {
       resultBytes[resultOffset++] = codewordBytes[i];
     }
   }

@@ -25,57 +25,47 @@
 /* globals BitMatrix, FormatInformation */
 
 
-function ECB(count,  dataCodewords)
-{
+function ECB(count,  dataCodewords) {
   this.count = count;
   this.dataCodewords = dataCodewords;
 
-  Object.defineProperty(this,"Count", { get: function()
-  {
+  Object.defineProperty(this,"Count", { get: function() {
     return this.count;
   }});
-  Object.defineProperty(this,"DataCodewords", { get: function()
-  {
+  Object.defineProperty(this,"DataCodewords", { get: function() {
     return this.dataCodewords;
   }});
 }
 
-function ECBlocks( ecCodewordsPerBlock,  ecBlocks1,  ecBlocks2)
-{
+function ECBlocks( ecCodewordsPerBlock,  ecBlocks1,  ecBlocks2) {
   this.ecCodewordsPerBlock = ecCodewordsPerBlock;
   if(ecBlocks2)
     this.ecBlocks = new Array(ecBlocks1, ecBlocks2);
   else
     this.ecBlocks = new Array(ecBlocks1);
 
-  Object.defineProperty(this,"ECCodewordsPerBlock", { get: function()
-  {
+  Object.defineProperty(this,"ECCodewordsPerBlock", { get: function() {
     return this.ecCodewordsPerBlock;
   }});
 
-  Object.defineProperty(this,"TotalECCodewords", { get: function()
-  {
+  Object.defineProperty(this,"TotalECCodewords", { get: function() {
     return  this.ecCodewordsPerBlock * this.NumBlocks;
   }});
 
-  Object.defineProperty(this,"NumBlocks", { get: function()
-  {
+  Object.defineProperty(this,"NumBlocks", { get: function() {
     var total = 0;
-    for (var i = 0; i < this.ecBlocks.length; i++)
-    {
+    for (var i = 0; i < this.ecBlocks.length; i++) {
       total += this.ecBlocks[i].length;
     }
     return total;
   }});
 
-  this.getECBlocks=function()
-  {
+  this.getECBlocks=function() {
     return this.ecBlocks;
   }
 }
 
-function Version( versionNumber,  alignmentPatternCenters,  ecBlocks1,  ecBlocks2,  ecBlocks3,  ecBlocks4)
-{
+function Version( versionNumber,  alignmentPatternCenters,  ecBlocks1,  ecBlocks2,  ecBlocks3,  ecBlocks4) {
   this.versionNumber = versionNumber;
   this.alignmentPatternCenters = alignmentPatternCenters;
   this.ecBlocks = new Array(ecBlocks1, ecBlocks2, ecBlocks3, ecBlocks4);
@@ -83,33 +73,27 @@ function Version( versionNumber,  alignmentPatternCenters,  ecBlocks1,  ecBlocks
   var total = 0;
   var ecCodewords = ecBlocks1.ECCodewordsPerBlock;
   var ecbArray = ecBlocks1.getECBlocks();
-  for (var i = 0; i < ecbArray.length; i++)
-  {
+  for (var i = 0; i < ecbArray.length; i++) {
     var ecBlock = ecbArray[i];
     total += ecBlock.Count * (ecBlock.DataCodewords + ecCodewords);
   }
   this.totalCodewords = total;
 
-  Object.defineProperty(this,"VersionNumber", { get: function()
-  {
+  Object.defineProperty(this,"VersionNumber", { get: function() {
     return  this.versionNumber;
   }});
 
-  Object.defineProperty(this,"AlignmentPatternCenters", { get: function()
-  {
+  Object.defineProperty(this,"AlignmentPatternCenters", { get: function() {
     return  this.alignmentPatternCenters;
   }});
-  Object.defineProperty(this,"TotalCodewords", { get: function()
-  {
+  Object.defineProperty(this,"TotalCodewords", { get: function() {
     return  this.totalCodewords;
   }});
-  Object.defineProperty(this,"DimensionForVersion", { get: function()
-  {
+  Object.defineProperty(this,"DimensionForVersion", { get: function() {
     return  17 + 4 * this.versionNumber;
   }});
 
-  this.buildFunctionPattern=function()
-  {
+  this.buildFunctionPattern=function() {
     var dimension = this.DimensionForVersion;
     var bitMatrix = new BitMatrix(dimension);
 
@@ -122,13 +106,10 @@ function Version( versionNumber,  alignmentPatternCenters,  ecBlocks1,  ecBlocks
 
     // Alignment patterns
     var max = this.alignmentPatternCenters.length;
-    for (var x = 0; x < max; x++)
-    {
+    for (var x = 0; x < max; x++) {
       var i = this.alignmentPatternCenters[x] - 2;
-      for (var y = 0; y < max; y++)
-      {
-        if ((x == 0 && (y == 0 || y == max - 1)) || (x == max - 1 && y == 0))
-        {
+      for (var y = 0; y < max; y++) {
+        if ((x == 0 && (y == 0 || y == max - 1)) || (x == max - 1 && y == 0)) {
           // No alignment patterns near the three finder paterns
           continue;
         }
@@ -141,8 +122,7 @@ function Version( versionNumber,  alignmentPatternCenters,  ecBlocks1,  ecBlocks
     // Horizontal timing pattern
     bitMatrix.setRegion(9, 6, dimension - 17, 1);
 
-    if (this.versionNumber > 6)
-    {
+    if (this.versionNumber > 6) {
       // Version info, top right
       bitMatrix.setRegion(dimension - 11, 0, 3, 6);
       // Version info, bottom left
@@ -151,8 +131,7 @@ function Version( versionNumber,  alignmentPatternCenters,  ecBlocks1,  ecBlocks
 
     return bitMatrix;
   }
-  this.getECBlocksForLevel=function( ecLevel)
-  {
+  this.getECBlocksForLevel=function( ecLevel) {
     return this.ecBlocks[ecLevel.ordinal()];
   }
 }
@@ -161,64 +140,51 @@ Version.VERSION_DECODE_INFO = new Array(0x07C94, 0x085BC, 0x09A99, 0x0A4D3, 0x0B
 
 Version.VERSIONS = buildVersions();
 
-Version.getVersionForNumber=function( versionNumber)
-{
-  if (versionNumber < 1 || versionNumber > 40)
-  {
+Version.getVersionForNumber=function( versionNumber) {
+  if (versionNumber < 1 || versionNumber > 40) {
     throw "ArgumentException";
   }
   return Version.VERSIONS[versionNumber - 1];
 }
 
-Version.getProvisionalVersionForDimension=function(dimension)
-{
-  if (dimension % 4 != 1)
-  {
+Version.getProvisionalVersionForDimension=function(dimension) {
+  if (dimension % 4 != 1) {
     throw "Error getProvisionalVersionForDimension";
   }
-  try
-  {
+  try {
     return Version.getVersionForNumber((dimension - 17) >> 2);
-  }
-  catch ( iae)
-  {
+  } catch ( iae) {
     throw "Error getVersionForNumber";
   }
 }
 
-Version.decodeVersionInformation=function( versionBits)
-{
+Version.decodeVersionInformation=function( versionBits) {
   var bestDifference = 0xffffffff;
   var bestVersion = 0;
-  for (var i = 0; i < Version.VERSION_DECODE_INFO.length; i++)
-  {
+  for (var i = 0; i < Version.VERSION_DECODE_INFO.length; i++) {
     var targetVersion = Version.VERSION_DECODE_INFO[i];
     // Do the version info bits match exactly? done.
-    if (targetVersion == versionBits)
-    {
+    if (targetVersion == versionBits) {
       return this.getVersionForNumber(i + 7);
     }
     // Otherwise see if this is the closest to a real version info bit string
     // we have seen so far
     var bitsDifference = FormatInformation.numBitsDiffering(versionBits, targetVersion);
-    if (bitsDifference < bestDifference)
-    {
+    if (bitsDifference < bestDifference) {
       bestVersion = i + 7;
       bestDifference = bitsDifference;
     }
   }
   // We can tolerate up to 3 bits of error since no two version info codewords will
   // differ in less than 4 bits.
-  if (bestDifference <= 3)
-  {
+  if (bestDifference <= 3) {
     return this.getVersionForNumber(bestVersion);
   }
   // If we didn't find a close enough match, fail
   return null;
 }
 
-function buildVersions()
-{
+function buildVersions() {
   return new Array(new Version(1, new Array(), new ECBlocks(7, new ECB(1, 19)), new ECBlocks(10, new ECB(1, 16)), new ECBlocks(13, new ECB(1, 13)), new ECBlocks(17, new ECB(1, 9))),
   new Version(2, new Array(6, 18), new ECBlocks(10, new ECB(1, 34)), new ECBlocks(16, new ECB(1, 28)), new ECBlocks(22, new ECB(1, 22)), new ECBlocks(28, new ECB(1, 16))),
   new Version(3, new Array(6, 22), new ECBlocks(15, new ECB(1, 55)), new ECBlocks(26, new ECB(1, 44)), new ECBlocks(18, new ECB(2, 17)), new ECBlocks(22, new ECB(2, 13))),

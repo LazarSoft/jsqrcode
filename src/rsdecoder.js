@@ -25,28 +25,23 @@
 /* globals GF256, GF256Poly */
 
 
-function ReedSolomonDecoder(field)
-{
+function ReedSolomonDecoder(field) {
   this.field = field;
-  this.decode=function(received,  twoS)
-  {
+  this.decode=function(received,  twoS) {
     var poly = new GF256Poly(this.field, received);
     var syndromeCoefficients = new Array(twoS);
     for(var i=0;i<syndromeCoefficients.length;i++)syndromeCoefficients[i]=0;
     var dataMatrix = false;//this.field.Equals(GF256.DATA_MATRIX_FIELD);
     var noError = true;
-    for (var i = 0; i < twoS; i++)
-    {
+    for (var i = 0; i < twoS; i++) {
       // Thanks to sanfordsquires for this fix:
       var eval = poly.evaluateAt(this.field.exp(dataMatrix?i + 1:i));
       syndromeCoefficients[syndromeCoefficients.length - 1 - i] = eval;
-      if (eval != 0)
-      {
+      if (eval != 0) {
         noError = false;
       }
     }
-    if (noError)
-    {
+    if (noError) {
       return ;
     }
     var syndrome = new GF256Poly(this.field, syndromeCoefficients);
@@ -55,22 +50,18 @@ function ReedSolomonDecoder(field)
     var omega = sigmaOmega[1];
     var errorLocations = this.findErrorLocations(sigma);
     var errorMagnitudes = this.findErrorMagnitudes(omega, errorLocations, dataMatrix);
-    for (var i = 0; i < errorLocations.length; i++)
-    {
+    for (var i = 0; i < errorLocations.length; i++) {
       var position = received.length - 1 - this.field.log(errorLocations[i]);
-      if (position < 0)
-      {
+      if (position < 0) {
         throw "ReedSolomonException Bad error location";
       }
       received[position] = GF256.addOrSubtract(received[position], errorMagnitudes[i]);
     }
   }
 
-  this.runEuclideanAlgorithm=function( a,  b,  R)
-  {
+  this.runEuclideanAlgorithm=function( a,  b,  R) {
     // Assume a's degree is >= b's
-    if (a.Degree < b.Degree)
-    {
+    if (a.Degree < b.Degree) {
       var temp = a;
       a = b;
       b = temp;
@@ -84,8 +75,7 @@ function ReedSolomonDecoder(field)
     var t = this.field.One;
 
     // Run Euclidean algorithm until r's degree is less than R/2
-    while (r.Degree >= Math.floor(R / 2))
-    {
+    while (r.Degree >= Math.floor(R / 2)) {
       var rLastLast = rLast;
       var sLastLast = sLast;
       var tLastLast = tLast;
@@ -94,8 +84,7 @@ function ReedSolomonDecoder(field)
       tLast = t;
 
       // Divide rLastLast by rLast, with quotient in q and remainder in r
-      if (rLast.Zero)
-      {
+      if (rLast.Zero) {
         // Oops, Euclidean algorithm already terminated?
         throw "r_{i-1} was zero";
       }
@@ -103,8 +92,7 @@ function ReedSolomonDecoder(field)
       var q = this.field.Zero;
       var denominatorLeadingTerm = rLast.getCoefficient(rLast.Degree);
       var dltInverse = this.field.inverse(denominatorLeadingTerm);
-      while (r.Degree >= rLast.Degree && !r.Zero)
-      {
+      while (r.Degree >= rLast.Degree && !r.Zero) {
         var degreeDiff = r.Degree - rLast.Degree;
         var scale = this.field.multiply(r.getCoefficient(r.Degree), dltInverse);
         q = q.addOrSubtract(this.field.buildMonomial(degreeDiff, scale));
@@ -117,8 +105,7 @@ function ReedSolomonDecoder(field)
     }
 
     var sigmaTildeAtZero = t.getCoefficient(0);
-    if (sigmaTildeAtZero == 0)
-    {
+    if (sigmaTildeAtZero == 0) {
       throw "ReedSolomonException sigmaTilde(0) was zero";
     }
 
@@ -127,51 +114,41 @@ function ReedSolomonDecoder(field)
     var omega = r.multiply2(inverse);
     return new Array(sigma, omega);
   }
-  this.findErrorLocations=function( errorLocator)
-  {
+  this.findErrorLocations=function( errorLocator) {
     // This is a direct application of Chien's search
     var numErrors = errorLocator.Degree;
-    if (numErrors == 1)
-    {
+    if (numErrors == 1) {
       // shortcut
       return new Array(errorLocator.getCoefficient(1));
     }
     var result = new Array(numErrors);
     var e = 0;
-    for (var i = 1; i < 256 && e < numErrors; i++)
-    {
-      if (errorLocator.evaluateAt(i) == 0)
-      {
+    for (var i = 1; i < 256 && e < numErrors; i++) {
+      if (errorLocator.evaluateAt(i) == 0) {
         result[e] = this.field.inverse(i);
         e++;
       }
     }
-    if (e != numErrors)
-    {
+    if (e != numErrors) {
       throw "Error locator degree does not match number of roots";
     }
     return result;
   }
-  this.findErrorMagnitudes=function( errorEvaluator,  errorLocations,  dataMatrix)
-  {
+  this.findErrorMagnitudes=function( errorEvaluator,  errorLocations,  dataMatrix) {
     // This is directly applying Forney's Formula
     var s = errorLocations.length;
     var result = new Array(s);
-    for (var i = 0; i < s; i++)
-    {
+    for (var i = 0; i < s; i++) {
       var xiInverse = this.field.inverse(errorLocations[i]);
       var denominator = 1;
-      for (var j = 0; j < s; j++)
-      {
-        if (i != j)
-        {
+      for (var j = 0; j < s; j++) {
+        if (i != j) {
           denominator = this.field.multiply(denominator, GF256.addOrSubtract(1, this.field.multiply(errorLocations[j], xiInverse)));
         }
       }
       result[i] = this.field.multiply(errorEvaluator.evaluateAt(xiInverse), this.field.inverse(denominator));
       // Thanks to sanfordsquires for this fix:
-      if (dataMatrix)
-      {
+      if (dataMatrix) {
         result[i] = this.field.multiply(result[i], xiInverse);
       }
     }
