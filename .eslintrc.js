@@ -12,6 +12,7 @@ module.exports = {
     'no-redeclare': 'off',
     'no-unused-vars': 'off',
 
+    'array-bracket-spacing': 'error',
     'indent': ['error', 'tab'],
   },
 };
