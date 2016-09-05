@@ -27,5 +27,6 @@ module.exports = {
     'no-unneeded-ternary': 'error',
     'object-curly-newline': 'error',
     'object-curly-spacing': 'error',
+    'operator-linebreak': 'error',
   },
 };
