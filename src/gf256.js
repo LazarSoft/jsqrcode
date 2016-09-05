@@ -40,9 +40,9 @@ function GF256( primitive) {
     this.logTable[this.expTable[i]] = i;
   }
   // logTable[0] == 0 but this should never be used
-  var at0=new Array(1);at0[0]=0;
+  var at0=new Array(1); at0[0]=0;
   this.zero = new GF256Poly(this, new Array(at0));
-  var at1=new Array(1);at1[0]=1;
+  var at1=new Array(1); at1[0]=1;
   this.one = new GF256Poly(this, new Array(at1));
 
   Object.defineProperty(this, "Zero", {
@@ -63,7 +63,7 @@ function GF256( primitive) {
       return this.zero;
     }
     var coefficients = new Array(degree + 1);
-    for (var i=0;i<coefficients.length;i++)coefficients[i]=0;
+    for (var i=0; i<coefficients.length; i++)coefficients[i]=0;
     coefficients[0] = coefficient;
     return new GF256Poly(this, coefficients);
   }

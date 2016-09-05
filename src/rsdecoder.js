@@ -30,7 +30,7 @@ function ReedSolomonDecoder(field) {
   this.decode=function(received,  twoS) {
     var poly = new GF256Poly(this.field, received);
     var syndromeCoefficients = new Array(twoS);
-    for (var i=0;i<syndromeCoefficients.length;i++)syndromeCoefficients[i]=0;
+    for (var i=0; i<syndromeCoefficients.length; i++)syndromeCoefficients[i]=0;
     var dataMatrix = false;//this.field.Equals(GF256.DATA_MATRIX_FIELD);
     var noError = true;
     for (var i = 0; i < twoS; i++) {
@@ -42,7 +42,7 @@ function ReedSolomonDecoder(field) {
       }
     }
     if (noError) {
-      return ;
+      return;
     }
     var syndrome = new GF256Poly(this.field, syndromeCoefficients);
     var sigmaOmega = this.runEuclideanAlgorithm(this.field.buildMonomial(twoS, 1), syndrome, twoS);

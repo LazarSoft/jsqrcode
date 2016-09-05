@@ -141,8 +141,8 @@ function QrCode() {
     var reader = Decoder.decode(qRCodeMatrix.bits);
     var data = reader.DataByte;
     var str="";
-    for (var i=0;i<data.length;i++) {
-      for (var j=0;j<data[i].length;j++)
+    for (var i=0; i<data.length; i++) {
+      for (var j=0; j<data[i].length; j++)
         str+=String.fromCharCode(data[i][j]);
     }
 

@@ -243,7 +243,7 @@ function QRCodeDataBlockReader(blocks,  version,  numErrorCorrectionCode) {
         //canvas.println("Mode: Figure");
           var temp_str = this.getFigureString(dataLength);
           var ta = new Array(temp_str.length);
-          for (var j=0;j<temp_str.length;j++)
+          for (var j=0; j<temp_str.length; j++)
             ta[j]=temp_str.charCodeAt(j);
           output.push(ta);
           break;
@@ -252,7 +252,7 @@ function QRCodeDataBlockReader(blocks,  version,  numErrorCorrectionCode) {
         //canvas.println("Mode: Roman&Figure");
           var temp_str = this.getRomanAndFigureString(dataLength);
           var ta = new Array(temp_str.length);
-          for (var j=0;j<temp_str.length;j++)
+          for (var j=0; j<temp_str.length; j++)
             ta[j]=temp_str.charCodeAt(j);
           output.push(ta );
         //output.Write(SystemUtils.ToByteArray(temp_sbyteArray2), 0, temp_sbyteArray2.length);

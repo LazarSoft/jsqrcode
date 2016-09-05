@@ -28,5 +28,6 @@ module.exports = {
     'object-curly-newline': 'error',
     'object-curly-spacing': 'error',
     'operator-linebreak': 'error',
+    'semi-spacing': 'error',
   },
 };
