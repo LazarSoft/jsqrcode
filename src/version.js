@@ -72,7 +72,7 @@ function ECBlocks( ecCodewordsPerBlock,  ecBlocks1,  ecBlocks2) {
 
   this.getECBlocks=function() {
     return this.ecBlocks;
-  }
+  };
 }
 
 function Version( versionNumber,  alignmentPatternCenters,  ecBlocks1,  ecBlocks2,  ecBlocks3,  ecBlocks4) {
@@ -148,10 +148,10 @@ function Version( versionNumber,  alignmentPatternCenters,  ecBlocks1,  ecBlocks
     }
 
     return bitMatrix;
-  }
+  };
   this.getECBlocksForLevel=function( ecLevel) {
     return this.ecBlocks[ecLevel.ordinal()];
-  }
+  };
 }
 
 Version.VERSION_DECODE_INFO = [
@@ -198,7 +198,7 @@ Version.getVersionForNumber=function( versionNumber) {
     throw "ArgumentException";
   }
   return Version.VERSIONS[versionNumber - 1];
-}
+};
 
 Version.getProvisionalVersionForDimension=function(dimension) {
   if (dimension % 4 != 1) {
@@ -209,7 +209,7 @@ Version.getProvisionalVersionForDimension=function(dimension) {
   } catch ( iae) {
     throw "Error getVersionForNumber";
   }
-}
+};
 
 Version.decodeVersionInformation=function( versionBits) {
   var bestDifference = 0xffffffff;
@@ -235,7 +235,7 @@ Version.decodeVersionInformation=function( versionBits) {
   }
   // If we didn't find a close enough match, fail
   return null;
-}
+};
 
 function buildVersions() {
   return [

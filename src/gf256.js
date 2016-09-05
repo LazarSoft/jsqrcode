@@ -66,22 +66,22 @@ function GF256( primitive) {
     for (var i=0; i<coefficients.length; i++)coefficients[i]=0;
     coefficients[0] = coefficient;
     return new GF256Poly(this, coefficients);
-  }
+  };
   this.exp=function( a) {
     return this.expTable[a];
-  }
+  };
   this.log=function( a) {
     if (a == 0) {
       throw "System.ArgumentException";
     }
     return this.logTable[a];
-  }
+  };
   this.inverse=function( a) {
     if (a == 0) {
       throw "System.ArithmeticException";
     }
     return this.expTable[255 - this.logTable[a]];
-  }
+  };
   this.multiply=function( a,  b) {
     if (a == 0 || b == 0) {
       return 0;
@@ -93,7 +93,7 @@ function GF256( primitive) {
       return a;
     }
     return this.expTable[(this.logTable[a] + this.logTable[b]) % 255];
-  }
+  };
 }
 
 GF256.QR_CODE_FIELD = new GF256(0x011D);
@@ -101,4 +101,4 @@ GF256.DATA_MATRIX_FIELD = new GF256(0x012D);
 
 GF256.addOrSubtract=function( a,  b) {
   return a ^ b;
-}
+};

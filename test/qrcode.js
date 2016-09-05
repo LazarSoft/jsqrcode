@@ -15,7 +15,7 @@ it('should work with basic image', function(done) {
 
       expect(result).to.equal('Test');
       done();
-    }
+    };
     qr.decode(p, data);
   });
 });
@@ -32,7 +32,7 @@ it('should work with imageData format', function(done) {
 
       expect(result).to.equal('Test');
       done();
-    }
+    };
     qr.decode({
       height: p.height,
       width: p.width,

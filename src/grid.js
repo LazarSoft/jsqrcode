@@ -77,7 +77,7 @@ GridSampler.checkAndNudgePoints=function( image,  points) {
       nudged = true;
     }
   }
-}
+};
 
 
 
@@ -114,4 +114,4 @@ GridSampler.sampleGrid3=function( image,  dimension,  transform) {
     }
   }
   return bits;
-}
+};

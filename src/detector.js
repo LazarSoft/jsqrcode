@@ -52,7 +52,7 @@ function PerspectiveTransform( a11,  a21,  a31,  a12,  a22,  a32,  a13,  a23,  a
       points[i] = (a11 * x + a21 * y + a31) / denominator;
       points[i + 1] = (a12 * x + a22 * y + a32) / denominator;
     }
-  }
+  };
   this. transformPoints2=function(xValues, yValues) {
     var n = xValues.length;
     for (var i = 0; i < n; i++) {
@@ -62,15 +62,15 @@ function PerspectiveTransform( a11,  a21,  a31,  a12,  a22,  a32,  a13,  a23,  a
       xValues[i] = (this.a11 * x + this.a21 * y + this.a31) / denominator;
       yValues[i] = (this.a12 * x + this.a22 * y + this.a32) / denominator;
     }
-  }
+  };
 
   this.buildAdjoint=function() {
     // Adjoint is the transpose of the cofactor matrix:
     return new PerspectiveTransform(this.a22 * this.a33 - this.a23 * this.a32, this.a23 * this.a31 - this.a21 * this.a33, this.a21 * this.a32 - this.a22 * this.a31, this.a13 * this.a32 - this.a12 * this.a33, this.a11 * this.a33 - this.a13 * this.a31, this.a12 * this.a31 - this.a11 * this.a32, this.a12 * this.a23 - this.a13 * this.a22, this.a13 * this.a21 - this.a11 * this.a23, this.a11 * this.a22 - this.a12 * this.a21);
-  }
+  };
   this.times=function( other) {
     return new PerspectiveTransform(this.a11 * other.a11 + this.a21 * other.a12 + this.a31 * other.a13, this.a11 * other.a21 + this.a21 * other.a22 + this.a31 * other.a23, this.a11 * other.a31 + this.a21 * other.a32 + this.a31 * other.a33, this.a12 * other.a11 + this.a22 * other.a12 + this.a32 * other.a13, this.a12 * other.a21 + this.a22 * other.a22 + this.a32 * other.a23, this.a12 * other.a31 + this.a22 * other.a32 + this.a32 * other.a33, this.a13 * other.a11 + this.a23 * other.a12 +this.a33 * other.a13, this.a13 * other.a21 + this.a23 * other.a22 + this.a33 * other.a23, this.a13 * other.a31 + this.a23 * other.a32 + this.a33 * other.a33);
-  }
+  };
 
 }
 
@@ -79,7 +79,7 @@ PerspectiveTransform.quadrilateralToQuadrilateral=function( x0,  y0,  x1,  y1,  
   var qToS = this.quadrilateralToSquare(x0, y0, x1, y1, x2, y2, x3, y3);
   var sToQ = this.squareToQuadrilateral(x0p, y0p, x1p, y1p, x2p, y2p, x3p, y3p);
   return sToQ.times(qToS);
-}
+};
 
 PerspectiveTransform.squareToQuadrilateral=function( x0,  y0,  x1,  y1,  x2,  y2,  x3,  y3) {
   var dy2 = y3 - y2;
@@ -96,12 +96,12 @@ PerspectiveTransform.squareToQuadrilateral=function( x0,  y0,  x1,  y1,  x2,  y2
     var a23 = (dx1 * dy3 - dx3 * dy1) / denominator;
     return new PerspectiveTransform(x1 - x0 + a13 * x1, x3 - x0 + a23 * x3, x0, y1 - y0 + a13 * y1, y3 - y0 + a23 * y3, y0, a13, a23, 1.0);
   }
-}
+};
 
 PerspectiveTransform.quadrilateralToSquare=function( x0,  y0,  x1,  y1,  x2,  y2,  x3,  y3) {
   // Here, the adjoint serves as the inverse:
   return this.squareToQuadrilateral(x0, y0, x1, y1, x2, y2, x3, y3).buildAdjoint();
-}
+};
 
 function DetectorResult(bits,  points) {
   this.bits = bits;
@@ -165,7 +165,7 @@ function Detector(image) {
     var diffX2 = toX - fromX;
     var diffY2 = toY - fromY;
     return  Math.sqrt( (diffX2 * diffX2 + diffY2 * diffY2));
-  }
+  };
 
 
   this.sizeOfBlackWhiteBlackRunBothWays=function( fromX,  fromY,  toX,  toY) {
@@ -196,7 +196,7 @@ function Detector(image) {
 
     result += this.sizeOfBlackWhiteBlackRun(fromX, fromY, otherToX, otherToY);
     return result - 1.0; // -1 because we counted the middle pixel twice
-  }
+  };
 
 
 
@@ -212,19 +212,19 @@ function Detector(image) {
     // Average them, and divide by 7 since we've counted the width of 3 black modules,
     // and 1 white and 1 black module on either side. Ergo, divide sum by 14.
     return (moduleSizeEst1 + moduleSizeEst2) / 14.0;
-  }
+  };
 
 
   this.calculateModuleSize=function( topLeft,  topRight,  bottomLeft) {
     // Take the average
     return (this.calculateModuleSizeOneWay(topLeft, topRight) + this.calculateModuleSizeOneWay(topLeft, bottomLeft)) / 2.0;
-  }
+  };
 
   this.distance=function( pattern1,  pattern2) {
     var xDiff = pattern1.X - pattern2.X;
     var yDiff = pattern1.Y - pattern2.Y;
     return  Math.sqrt( (xDiff * xDiff + yDiff * yDiff));
-  }
+  };
   this.computeDimension=function( topLeft,  topRight,  bottomLeft,  moduleSize) {
 
     var tltrCentersDimension = Math.round(this.distance(topLeft, topRight) / moduleSize);
@@ -246,7 +246,7 @@ function Detector(image) {
       throw "Error";
     }
     return dimension;
-  }
+  };
 
   this.findAlignmentInRegion=function( overallEstModuleSize,  estAlignmentX,  estAlignmentY,  allowanceFactor) {
     // Look for an alignment pattern (3 modules in size) around where it
@@ -263,7 +263,7 @@ function Detector(image) {
 
     var alignmentFinder = new AlignmentPatternFinder(this.image, alignmentAreaLeftX, alignmentAreaTopY, alignmentAreaRightX - alignmentAreaLeftX, alignmentAreaBottomY - alignmentAreaTopY, overallEstModuleSize, this.resultPointCallback);
     return alignmentFinder.find();
-  }
+  };
 
   this.createTransform=function( topLeft,  topRight,  bottomLeft, alignmentPattern, dimension) {
     var dimMinusThree =  dimension - 3.5;
@@ -285,13 +285,13 @@ function Detector(image) {
     var transform = PerspectiveTransform.quadrilateralToQuadrilateral(3.5, 3.5, dimMinusThree, 3.5, sourceBottomRightX, sourceBottomRightY, 3.5, dimMinusThree, topLeft.X, topLeft.Y, topRight.X, topRight.Y, bottomRightX, bottomRightY, bottomLeft.X, bottomLeft.Y);
 
     return transform;
-  }
+  };
 
   this.sampleGrid=function( image,  transform,  dimension) {
 
     var sampler = GridSampler;
     return sampler.sampleGrid3(image, dimension, transform);
-  }
+  };
 
   this.processFinderPatternInfo = function( info) {
 
@@ -347,7 +347,7 @@ function Detector(image) {
       points = [bottomLeft, topLeft, topRight, alignmentPattern];
     }
     return new DetectorResult(bits, points);
-  }
+  };
 
 
 
@@ -355,5 +355,5 @@ function Detector(image) {
     var info =  new FinderPatternFinder().findFinderPattern(this.image);
 
     return this.processFinderPatternInfo(info);
-  }
+  };
 }

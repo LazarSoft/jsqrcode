@@ -39,7 +39,7 @@ function ErrorCorrectionLevel(ordinal,  bits, name) {
   });
   this.ordinal=function() {
     return this.ordinal_Renamed_Field;
-  }
+  };
 }
 
 ErrorCorrectionLevel.forBits=function( bits) {
@@ -47,7 +47,7 @@ ErrorCorrectionLevel.forBits=function( bits) {
     throw "ArgumentException";
   }
   return FOR_BITS[bits];
-}
+};
 
 var FOR_BITS = [
   new ErrorCorrectionLevel(1, 0x00, "M"),

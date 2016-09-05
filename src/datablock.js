@@ -103,4 +103,4 @@ DataBlock.getDataBlocks=function(rawCodewords,  version,  ecLevel) {
     }
   }
   return result;
-}
+};

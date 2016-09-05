@@ -96,13 +96,13 @@ function QRCodeDataBlockReader(blocks,  version,  numErrorCorrectionCode) {
     } else {
       return 0;
     }
-  }
+  };
   this.NextMode=function() {
     if ((this.blockPointer > this.blocks.length - this.numErrorCorrectionCode - 2))
       return 0;
     else
       return this.getNextBits(4);
-  }
+  };
   this.getDataLength=function( modeIndicator) {
     var index = 0;
     while (true) {
@@ -112,7 +112,7 @@ function QRCodeDataBlockReader(blocks,  version,  numErrorCorrectionCode) {
     }
 
     return this.getNextBits(qrcode.sizeOfDataLengthInfo[this.dataLengthMode][index]);
-  }
+  };
   this.getRomanAndFigureString=function( dataLength) {
     var length = dataLength;
     var intData = 0;
@@ -135,7 +135,7 @@ function QRCodeDataBlockReader(blocks,  version,  numErrorCorrectionCode) {
     while (length > 0);
 
     return strData;
-  }
+  };
   this.getFigureString=function( dataLength) {
     var length = dataLength;
     var intData = 0;
@@ -162,7 +162,7 @@ function QRCodeDataBlockReader(blocks,  version,  numErrorCorrectionCode) {
     while (length > 0);
 
     return strData;
-  }
+  };
   this.get8bitByteArray=function( dataLength) {
     var length = dataLength;
     var intData = 0;
@@ -175,7 +175,7 @@ function QRCodeDataBlockReader(blocks,  version,  numErrorCorrectionCode) {
     }
     while (length > 0);
     return output;
-  }
+  };
   this.getKanjiString=function( dataLength) {
     var length = dataLength;
     var intData = 0;
@@ -206,7 +206,7 @@ function QRCodeDataBlockReader(blocks,  version,  numErrorCorrectionCode) {
 
 
     return unicodeString;
-  }
+  };
 
   Object.defineProperty(this, "DataByte", {
     get: function() {

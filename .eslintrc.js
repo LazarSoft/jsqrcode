@@ -29,5 +29,6 @@ module.exports = {
     'object-curly-spacing': 'error',
     'operator-linebreak': 'error',
     'semi-spacing': 'error',
+    'semi': 'error',
   },
 };

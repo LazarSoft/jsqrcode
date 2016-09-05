@@ -48,7 +48,7 @@ Decoder.correctErrors=function( codewordBytes,  numDataCodewords) {
   for (var i = 0; i < numDataCodewords; i++) {
     codewordBytes[i] =  codewordsInts[i];
   }
-}
+};
 
 Decoder.decode=function(bits) {
   var parser = new BitMatrixParser(bits);
@@ -84,4 +84,4 @@ Decoder.decode=function(bits) {
   var reader = new QRCodeDataBlockReader(resultBytes, version.VersionNumber, ecLevel.Bits);
   return reader;
   //return DecodedBitStreamParser.decode(resultBytes, version, ecLevel);
-}
+};

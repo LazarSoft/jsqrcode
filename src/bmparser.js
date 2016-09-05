@@ -35,7 +35,7 @@ function BitMatrixParser(bitMatrix) {
 
   this.copyBit=function( i,  j,  versionBits) {
     return this.bitMatrix.get_Renamed(i, j)?(versionBits << 1) | 0x1:versionBits << 1;
-  }
+  };
 
   this.readFormatInformation=function() {
     if (this.parsedFormatInfo != null) {
@@ -77,7 +77,7 @@ function BitMatrixParser(bitMatrix) {
       return this.parsedFormatInfo;
     }
     throw "Error readFormatInformation";
-  }
+  };
   this.readVersion=function() {
 
     if (this.parsedVersion != null) {
@@ -118,7 +118,7 @@ function BitMatrixParser(bitMatrix) {
       return this.parsedVersion;
     }
     throw "Error readVersion";
-  }
+  };
   this.readCodewords=function() {
 
     var formatInfo = this.readFormatInformation();
@@ -171,5 +171,5 @@ function BitMatrixParser(bitMatrix) {
       throw "Error readCodewords";
     }
     return result;
-  }
+  };
 }

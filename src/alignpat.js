@@ -51,14 +51,14 @@ function AlignmentPattern(posX, posY,  estimatedModuleSize) {
   });
   this.incrementCount = function() {
     this.count++;
-  }
+  };
   this.aboutEquals=function( moduleSize,  i,  j) {
     if (Math.abs(i - this.y) <= moduleSize && Math.abs(j - this.x) <= moduleSize) {
       var moduleSizeDiff = Math.abs(moduleSize - this.estimatedModuleSize);
       return moduleSizeDiff <= 1.0 || moduleSizeDiff / this.estimatedModuleSize <= 1.0;
     }
     return false;
-  }
+  };
 
 }
 
@@ -75,7 +75,7 @@ function AlignmentPatternFinder( image,  startX,  startY,  width,  height,  modu
 
   this.centerFromEnd=function(stateCount,  end) {
     return  (end - stateCount[2]) - stateCount[1] / 2.0;
-  }
+  };
   this.foundPatternCross = function(stateCount) {
     var moduleSize = this.moduleSize;
     var maxVariance = moduleSize / 2.0;
@@ -85,7 +85,7 @@ function AlignmentPatternFinder( image,  startX,  startY,  width,  height,  modu
       }
     }
     return true;
-  }
+  };
 
   this.crossCheckVertical=function( startI,  centerJ,  maxCount,  originalStateCountTotal) {
     var image = this.image;
@@ -137,7 +137,7 @@ function AlignmentPatternFinder( image,  startX,  startY,  width,  height,  modu
     }
 
     return this.foundPatternCross(stateCount)?this.centerFromEnd(stateCount, i):NaN;
-  }
+  };
 
   this.handlePossibleCenter=function( stateCount,  i,  j) {
     var stateCountTotal = stateCount[0] + stateCount[1] + stateCount[2];
@@ -161,7 +161,7 @@ function AlignmentPatternFinder( image,  startX,  startY,  width,  height,  modu
       }
     }
     return null;
-  }
+  };
 
   this.find = function() {
     var startX = this.startX;
@@ -235,6 +235,6 @@ function AlignmentPatternFinder( image,  startX,  startY,  width,  height,  modu
     }
 
     throw "Couldn't find enough alignment patterns";
-  }
+  };
 
 }

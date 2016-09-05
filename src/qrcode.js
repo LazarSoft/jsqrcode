@@ -64,11 +64,11 @@ function QrCode() {
     } else if (src.width != undefined) {
       /* decode from canvas canvas.context.getImageData */
 
-      this.width=src.width
-      this.height=src.height
-      this.imagedata={"data": data || src.data}
-      this.imagedata.width=src.width
-      this.imagedata.height=src.height
+      this.width=src.width;
+      this.height=src.height;
+      this.imagedata={"data": data || src.data};
+      this.imagedata.width=src.width;
+      this.imagedata.height=src.height;
 
       decode();
     } else {
@@ -113,7 +113,7 @@ function QrCode() {
   this.decode_utf8 = function ( s ) {
 
     return decodeURIComponent( escape( s ) );
-  }
+  };
 
   this.process = function(imageData) {
 
@@ -154,7 +154,7 @@ function QrCode() {
 
     return this.decode_utf8(str);
     //alert("Time:" + time + " Code: "+str);
-  }
+  };
 
   this.getPixel = function(imageData, x, y){
     if (imageData.width < x) {
@@ -165,7 +165,7 @@ function QrCode() {
     }
     var point = (x * 4) + (y * imageData.width * 4);
     return (imageData.data[point]*33 + imageData.data[point + 1]*34 + imageData.data[point + 2]*33)/100;
-  }
+  };
 
   this.binarize = function(th){
     var ret = new Array(this.width*this.height);
@@ -177,7 +177,7 @@ function QrCode() {
       }
     }
     return ret;
-  }
+  };
 
   this.getMiddleBrightnessPerArea=function(imageData) {
     var numSqrtArea = 4;
@@ -220,7 +220,7 @@ function QrCode() {
     //Console.out.println("");
 
     return middle;
-  }
+  };
 
   this.grayScaleToBitmap=function(grayScaleImageData) {
     var middle = this.getMiddleBrightnessPerArea(grayScaleImageData);
@@ -238,7 +238,7 @@ function QrCode() {
       }
     }
     return grayScaleImageData;
-  }
+  };
 
   this.grayscale = function(imageData){
     var ret = new Array(imageData.width*imageData.height);
@@ -256,7 +256,7 @@ function QrCode() {
       width: imageData.width,
       data: ret
     };
-  }
+  };
 
 }
 
