@@ -68,9 +68,9 @@ function ECBlocks( ecCodewordsPerBlock,  ecBlocks1,  ecBlocks2)
 	}});
 
 	this.getECBlocks=function()
-			{
-				return this.ecBlocks;
-			}
+	{
+		return this.ecBlocks;
+	}
 }
 
 function Version( versionNumber,  alignmentPatternCenters,  ecBlocks1,  ecBlocks2,  ecBlocks3,  ecBlocks4)
@@ -108,48 +108,48 @@ function Version( versionNumber,  alignmentPatternCenters,  ecBlocks1,  ecBlocks
 	}});
 
 	this.buildFunctionPattern=function()
+	{
+		var dimension = this.DimensionForVersion;
+		var bitMatrix = new BitMatrix(dimension);
+
+		// Top left finder pattern + separator + format
+		bitMatrix.setRegion(0, 0, 9, 9);
+		// Top right finder pattern + separator + format
+		bitMatrix.setRegion(dimension - 8, 0, 8, 9);
+		// Bottom left finder pattern + separator + format
+		bitMatrix.setRegion(0, dimension - 8, 9, 8);
+
+		// Alignment patterns
+		var max = this.alignmentPatternCenters.length;
+		for (var x = 0; x < max; x++)
 		{
-			var dimension = this.DimensionForVersion;
-			var bitMatrix = new BitMatrix(dimension);
-
-			// Top left finder pattern + separator + format
-			bitMatrix.setRegion(0, 0, 9, 9);
-			// Top right finder pattern + separator + format
-			bitMatrix.setRegion(dimension - 8, 0, 8, 9);
-			// Bottom left finder pattern + separator + format
-			bitMatrix.setRegion(0, dimension - 8, 9, 8);
-
-			// Alignment patterns
-			var max = this.alignmentPatternCenters.length;
-			for (var x = 0; x < max; x++)
+			var i = this.alignmentPatternCenters[x] - 2;
+			for (var y = 0; y < max; y++)
 			{
-				var i = this.alignmentPatternCenters[x] - 2;
-				for (var y = 0; y < max; y++)
+				if ((x == 0 && (y == 0 || y == max - 1)) || (x == max - 1 && y == 0))
 				{
-					if ((x == 0 && (y == 0 || y == max - 1)) || (x == max - 1 && y == 0))
-					{
-						// No alignment patterns near the three finder paterns
-						continue;
-					}
-					bitMatrix.setRegion(this.alignmentPatternCenters[y] - 2, i, 5, 5);
+					// No alignment patterns near the three finder paterns
+					continue;
 				}
+				bitMatrix.setRegion(this.alignmentPatternCenters[y] - 2, i, 5, 5);
 			}
-
-			// Vertical timing pattern
-			bitMatrix.setRegion(6, 9, 1, dimension - 17);
-			// Horizontal timing pattern
-			bitMatrix.setRegion(9, 6, dimension - 17, 1);
-
-			if (this.versionNumber > 6)
-			{
-				// Version info, top right
-				bitMatrix.setRegion(dimension - 11, 0, 3, 6);
-				// Version info, bottom left
-				bitMatrix.setRegion(0, dimension - 11, 6, 3);
-			}
-
-			return bitMatrix;
 		}
+
+		// Vertical timing pattern
+		bitMatrix.setRegion(6, 9, 1, dimension - 17);
+		// Horizontal timing pattern
+		bitMatrix.setRegion(9, 6, dimension - 17, 1);
+
+		if (this.versionNumber > 6)
+		{
+			// Version info, top right
+			bitMatrix.setRegion(dimension - 11, 0, 3, 6);
+			// Version info, bottom left
+			bitMatrix.setRegion(0, dimension - 11, 6, 3);
+		}
+
+		return bitMatrix;
+	}
 	this.getECBlocksForLevel=function( ecLevel)
 	{
 		return this.ecBlocks[ecLevel.ordinal()];
