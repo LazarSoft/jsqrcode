@@ -22,6 +22,7 @@
 * limitations under the License.
 */
 
+/* globals FormatInformation, Version, DataMask */
 
 function BitMatrixParser(bitMatrix)
 {

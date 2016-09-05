@@ -22,6 +22,7 @@
 * limitations under the License.
 */
 
+/* globals URShift */
 
 function BitMatrix( width,  height)
 {

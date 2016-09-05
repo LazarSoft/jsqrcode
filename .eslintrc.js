@@ -10,7 +10,6 @@ module.exports = {
     'no-console': 'off',
     'no-constant-condition': 'off',
     'no-redeclare': 'off',
-    'no-undef': 'off',
     'no-unused-vars': 'off',
 
     'indent': ['error', 'tab'],

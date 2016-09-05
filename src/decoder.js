@@ -22,6 +22,8 @@
 * limitations under the License.
 */
 
+/* globals ReedSolomonDecoder, GF256, BitMatrixParser, DataBlock, QRCodeDataBlockReader */
+
 
 var Decoder={};
 Decoder.rsDecoder = new ReedSolomonDecoder(GF256.QR_CODE_FIELD);

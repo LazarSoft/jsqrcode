@@ -22,6 +22,7 @@
 * limitations under the License.
 */
 
+/* globals BitMatrix */
 
 var GridSampler = {};
 

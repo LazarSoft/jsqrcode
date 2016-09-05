@@ -14,10 +14,13 @@
    limitations under the License.
 */
 
+/* globals Detector, Decoder */
+
+
 var qrcode = {};
 qrcode.sizeOfDataLengthInfo =  [  [ 10, 9, 8, 8 ],  [ 12, 11, 16, 10 ],  [ 14, 13, 16, 12 ] ];
 
-QrCode = function () {
+function QrCode() {
 
 	this.imagedata = null;
 	this.width = 0;

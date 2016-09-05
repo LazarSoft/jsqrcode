@@ -22,6 +22,8 @@
 * limitations under the License.
 */
 
+/* globals GF256, GF256Poly */
+
 
 function ReedSolomonDecoder(field)
 {

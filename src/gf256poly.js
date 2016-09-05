@@ -22,6 +22,7 @@
 * limitations under the License.
 */
 
+/* globals GF256 */
 
 function GF256Poly(field,  coefficients)
 {

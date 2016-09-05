@@ -22,6 +22,7 @@
 * limitations under the License.
 */
 
+/* globals BitMatrix, FormatInformation */
 
 
 function ECB(count,  dataCodewords)

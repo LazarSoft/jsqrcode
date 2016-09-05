@@ -22,6 +22,8 @@
 * limitations under the License.
 */
 
+/* globals GF256Poly */
+
 
 function GF256( primitive)
 {
