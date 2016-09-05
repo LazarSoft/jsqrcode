@@ -19,5 +19,6 @@ module.exports = {
     'comma-style': 'error',
     'eol-last': 'error',
     'indent': ['error', 2],
+    'key-spacing': 'error',
   },
 };
