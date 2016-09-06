@@ -30,18 +30,6 @@ export default function AlignmentPattern(posX, posY,  estimatedModuleSize) {
   this.estimatedModuleSize = estimatedModuleSize;
 }
 
-Object.defineProperty(AlignmentPattern.prototype, "EstimatedModuleSize", {
-  get: function() {
-    return this.estimatedModuleSize;
-  }
-});
-
-Object.defineProperty(AlignmentPattern.prototype, "Count", {
-  get: function() {
-    return this.count;
-  }
-});
-
 Object.defineProperty(AlignmentPattern.prototype, "X", {
   get: function() {
     return Math.floor(this.x);

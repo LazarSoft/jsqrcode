@@ -128,9 +128,9 @@ QrCode.prototype.process = function(imageData) {
 
   var qRCodeMatrix = detector.detect();
 
-  /*for (var y = 0; y < qRCodeMatrix.bits.Height; y++)
+  /*for (var y = 0; y < qRCodeMatrix.bits.height; y++)
    {
-   for (var x = 0; x < qRCodeMatrix.bits.Width; x++)
+   for (var x = 0; x < qRCodeMatrix.bits.width; x++)
    {
    var point = (x * 4*2) + (y*2 * imageData.width * 4);
    imageData.data[point] = qRCodeMatrix.bits.get_Renamed(x,y)?0:0;

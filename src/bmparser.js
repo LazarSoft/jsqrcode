@@ -129,14 +129,14 @@ BitMatrixParser.prototype.readCodewords = function() {
 
   // Get the data mask for the format used in this QR Code. This will exclude
   // some bits from reading as we wind through the bit matrix.
-  var dataMask = DataMask.forReference(formatInfo.DataMask);
+  var dataMask = DataMask.forReference(formatInfo.dataMask);
   var dimension = this.bitMatrix.Dimension;
   dataMask.unmaskBitMatrix(this.bitMatrix, dimension);
 
   var functionPattern = version.buildFunctionPattern();
 
   var readingUp = true;
-  var result = new Array(version.TotalCodewords);
+  var result = new Array(version.totalCodewords);
   var resultOffset = 0;
   var currentByte = 0;
   var bitsRead = 0;
@@ -170,7 +170,7 @@ BitMatrixParser.prototype.readCodewords = function() {
     }
     readingUp ^= true; // readingUp = !readingUp; // switch directions
   }
-  if (resultOffset != version.TotalCodewords) {
+  if (resultOffset != version.totalCodewords) {
     throw "Error readCodewords";
   }
   return result;

@@ -59,11 +59,6 @@ Object.defineProperty(GF256Poly.prototype, "Degree", {
     return this.coefficients.length - 1;
   }
 });
-Object.defineProperty(GF256Poly.prototype, "Coefficients", {
-  get: function() {
-    return this.coefficients;
-  }
-});
 
 GF256Poly.prototype.getCoefficient = function(degree) {
   return this.coefficients[this.coefficients.length - 1 - degree];

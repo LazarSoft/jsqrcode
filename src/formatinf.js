@@ -68,18 +68,6 @@ export default function FormatInformation(formatInfo) {
   this.dataMask =  (formatInfo & 0x07);
 }
 
-Object.defineProperty(FormatInformation.prototype, "ErrorCorrectionLevel", {
-  get: function() {
-    return this.errorCorrectionLevel;
-  }
-});
-
-Object.defineProperty(FormatInformation.prototype, "DataMask", {
-  get: function() {
-    return this.dataMask;
-  }
-});
-
 FormatInformation.prototype.GetHashCode = function() {
   return (this.errorCorrectionLevel.ordinal() << 3) |  this.dataMask;
 };

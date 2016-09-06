@@ -87,18 +87,6 @@ function FinderPattern(posX, posY,  estimatedModuleSize) {
   this.estimatedModuleSize = estimatedModuleSize;
 }
 
-Object.defineProperty(FinderPattern.prototype, "EstimatedModuleSize", {
-  get: function() {
-    return this.estimatedModuleSize;
-  }
-});
-
-Object.defineProperty(FinderPattern.prototype, "Count", {
-  get: function() {
-    return this.count;
-  }
-});
-
 Object.defineProperty(FinderPattern.prototype, "X", {
   get: function() {
     return this.x;
@@ -128,24 +116,6 @@ function FinderPatternInfo(patternCenters) {
   this.topLeft = patternCenters[1];
   this.topRight = patternCenters[2];
 }
-
-Object.defineProperty(FinderPatternInfo.prototype, "BottomLeft", {
-  get: function() {
-    return this.bottomLeft;
-  }
-});
-
-Object.defineProperty(FinderPatternInfo.prototype, "TopLeft", {
-  get: function() {
-    return this.topLeft;
-  }
-});
-
-Object.defineProperty(FinderPatternInfo.prototype, "TopRight", {
-  get: function() {
-    return this.topRight;
-  }
-});
 
 export function FinderPatternFinder() {
   this.image = null;
@@ -362,14 +332,14 @@ FinderPatternFinder.prototype.selectBestPatterns = function() {
     var totalModuleSize = 0.0;
     var square = 0.0;
     for (var i = 0; i < startSize; i++) {
-      var  centerValue = this.possibleCenters[i].EstimatedModuleSize;
+      var  centerValue = this.possibleCenters[i].estimatedModuleSize;
       totalModuleSize += centerValue;
       square += (centerValue * centerValue);
     }
     var average = totalModuleSize /  startSize;
     this.possibleCenters.sort(function(center1, center2) {
-      var dA = Math.abs(center2.EstimatedModuleSize - average);
-      var dB = Math.abs(center1.EstimatedModuleSize - average);
+      var dA = Math.abs(center2.estimatedModuleSize - average);
+      var dB = Math.abs(center1.estimatedModuleSize - average);
       if (dA < dB) {
         return (-1);
       } else if (dA == dB) {
@@ -383,7 +353,7 @@ FinderPatternFinder.prototype.selectBestPatterns = function() {
     var limit = Math.max(0.2 * average, stdDev);
     for (var i = 0; i < this.possibleCenters.length && this.possibleCenters.length > 3; i++) {
       var pattern =  this.possibleCenters[i];
-      if (Math.abs(pattern.EstimatedModuleSize - average) > limit) {
+      if (Math.abs(pattern.estimatedModuleSize - average) > limit) {
         this.possibleCenters.splice(i, 1);
         i--;
       }
@@ -410,7 +380,7 @@ FinderPatternFinder.prototype.findRowSkip = function() {
   var firstConfirmedCenter = null;
   for (var i = 0; i < max; i++) {
     var center =  this.possibleCenters[i];
-    if (center.Count >= CENTER_QUORUM) {
+    if (center.count >= CENTER_QUORUM) {
       if (firstConfirmedCenter == null) {
         firstConfirmedCenter = center;
       } else {
@@ -433,9 +403,9 @@ FinderPatternFinder.prototype.haveMultiplyConfirmedCenters = function() {
   var max = this.possibleCenters.length;
   for (var i = 0; i < max; i++) {
     var pattern =  this.possibleCenters[i];
-    if (pattern.Count >= CENTER_QUORUM) {
+    if (pattern.count >= CENTER_QUORUM) {
       confirmedCount++;
-      totalModuleSize += pattern.EstimatedModuleSize;
+      totalModuleSize += pattern.estimatedModuleSize;
     }
   }
   if (confirmedCount < 3) {
@@ -449,7 +419,7 @@ FinderPatternFinder.prototype.haveMultiplyConfirmedCenters = function() {
   var totalDeviation = 0.0;
   for (var i = 0; i < max; i++) {
     pattern = this.possibleCenters[i];
-    totalDeviation += Math.abs(pattern.EstimatedModuleSize - average);
+    totalDeviation += Math.abs(pattern.estimatedModuleSize - average);
   }
   return totalDeviation <= 0.05 * totalModuleSize;
 };

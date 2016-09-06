@@ -42,18 +42,6 @@ export default function BitMatrix(width,  height) {
     this.bits[i] = 0;
 }
 
-Object.defineProperty(BitMatrix.prototype, "Width", {
-  get: function() {
-    return this.width;
-  }
-});
-
-Object.defineProperty(BitMatrix.prototype, "Height", {
-  get: function() {
-    return this.height;
-  }
-});
-
 Object.defineProperty(BitMatrix.prototype, "Dimension", {
   get: function() {
     if (this.width != this.height) {

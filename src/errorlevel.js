@@ -29,18 +29,6 @@ export default function ErrorCorrectionLevel(ordinal,  bits, name) {
   this.name = name;
 }
 
-Object.defineProperty(ErrorCorrectionLevel.prototype, "Bits", {
-  get: function() {
-    return this.bits;
-  }
-});
-
-Object.defineProperty(ErrorCorrectionLevel.prototype, "Name", {
-  get: function() {
-    return this.name;
-  }
-});
-
 ErrorCorrectionLevel.prototype.ordinal = function() {
   return this.ordinal_Renamed_Field;
 };

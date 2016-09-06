@@ -295,9 +295,9 @@ Detector.prototype.sampleGrid = function(image,  transform,  dimension) {
 
 Detector.prototype.processFinderPatternInfo = function(info) {
 
-  var topLeft = info.TopLeft;
-  var topRight = info.TopRight;
-  var bottomLeft = info.BottomLeft;
+  var topLeft = info.topLeft;
+  var topRight = info.topRight;
+  var bottomLeft = info.bottomLeft;
 
   var moduleSize = this.calculateModuleSize(topLeft, topRight, bottomLeft);
   if (moduleSize < 1.0) {
@@ -309,7 +309,7 @@ Detector.prototype.processFinderPatternInfo = function(info) {
 
   var alignmentPattern = null;
   // Anything above version 1 has an alignment pattern
-  if (provisionalVersion.AlignmentPatternCenters.length > 0) {
+  if (provisionalVersion.alignmentPatternCenters.length > 0) {
 
     // Guess where a "bottom right" finder pattern would have been
     var bottomRightX = topRight.X - topLeft.X + bottomLeft.X;

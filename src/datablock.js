@@ -28,21 +28,9 @@ export default function DataBlock(numDataCodewords,  codewords) {
   this.codewords = codewords;
 }
 
-Object.defineProperty(DataBlock.prototype, "NumDataCodewords", {
-  get: function() {
-    return this.numDataCodewords;
-  }
-});
-
-Object.defineProperty(DataBlock.prototype, "Codewords", {
-  get: function() {
-    return this.codewords;
-  }
-});
-
 DataBlock.getDataBlocks = function(rawCodewords,  version,  ecLevel) {
 
-  if (rawCodewords.length != version.TotalCodewords) {
+  if (rawCodewords.length != version.totalCodewords) {
     throw "ArgumentException";
   }
 
@@ -54,7 +42,7 @@ DataBlock.getDataBlocks = function(rawCodewords,  version,  ecLevel) {
   var totalBlocks = 0;
   var ecBlockArray = ecBlocks.getECBlocks();
   for (var i = 0; i < ecBlockArray.length; i++) {
-    totalBlocks += ecBlockArray[i].Count;
+    totalBlocks += ecBlockArray[i].count;
   }
 
   // Now establish DataBlocks of the appropriate size and number of data codewords
@@ -62,9 +50,9 @@ DataBlock.getDataBlocks = function(rawCodewords,  version,  ecLevel) {
   var numResultBlocks = 0;
   for (var j = 0; j < ecBlockArray.length; j++) {
     var ecBlock = ecBlockArray[j];
-    for (var i = 0; i < ecBlock.Count; i++) {
-      var numDataCodewords = ecBlock.DataCodewords;
-      var numBlockCodewords = ecBlocks.ECCodewordsPerBlock + numDataCodewords;
+    for (var i = 0; i < ecBlock.count; i++) {
+      var numDataCodewords = ecBlock.dataCodewords;
+      var numBlockCodewords = ecBlocks.ecCodewordsPerBlock + numDataCodewords;
       result[numResultBlocks++] = new DataBlock(numDataCodewords, new Array(numBlockCodewords));
     }
   }
@@ -82,7 +70,7 @@ DataBlock.getDataBlocks = function(rawCodewords,  version,  ecLevel) {
   }
   longerBlocksStartAt++;
 
-  var shorterBlocksNumDataCodewords = shorterBlocksTotalCodewords - ecBlocks.ECCodewordsPerBlock;
+  var shorterBlocksNumDataCodewords = shorterBlocksTotalCodewords - ecBlocks.ecCodewordsPerBlock;
   // The last elements of result may be 1 element longer;
   // first fill out as many elements as all of them have
   var rawCodewordsOffset = 0;

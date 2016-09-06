@@ -45,7 +45,6 @@ export default function GF256(primitive) {
   this.one = new GF256Poly(this, new Array(at1));
 }
 
-
 Object.defineProperty(GF256.prototype, "Zero", {
   get: function() {
     return this.zero;

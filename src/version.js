@@ -30,18 +30,6 @@ function ECB(count,  dataCodewords) {
   this.dataCodewords = dataCodewords;
 }
 
-Object.defineProperty(ECB.prototype, "Count", {
-  get: function() {
-    return this.count;
-  }
-});
-
-Object.defineProperty(ECB.prototype, "DataCodewords", {
-  get: function() {
-    return this.dataCodewords;
-  }
-});
-
 function ECBlocks(ecCodewordsPerBlock,  ecBlocks1,  ecBlocks2) {
   this.ecCodewordsPerBlock = ecCodewordsPerBlock;
   if (ecBlocks2)
@@ -49,12 +37,6 @@ function ECBlocks(ecCodewordsPerBlock,  ecBlocks1,  ecBlocks2) {
   else
     this.ecBlocks = [ecBlocks1];
 }
-
-Object.defineProperty(ECBlocks.prototype, "ECCodewordsPerBlock", {
-  get: function() {
-    return this.ecCodewordsPerBlock;
-  }
-});
 
 Object.defineProperty(ECBlocks.prototype, "TotalECCodewords", {
   get: function() {
@@ -82,32 +64,14 @@ export default function Version(versionNumber,  alignmentPatternCenters,  ecBloc
   this.ecBlocks = [ecBlocks1, ecBlocks2, ecBlocks3, ecBlocks4];
 
   var total = 0;
-  var ecCodewords = ecBlocks1.ECCodewordsPerBlock;
+  var ecCodewords = ecBlocks1.ecCodewordsPerBlock;
   var ecbArray = ecBlocks1.getECBlocks();
   for (var i = 0; i < ecbArray.length; i++) {
     var ecBlock = ecbArray[i];
-    total += ecBlock.Count * (ecBlock.DataCodewords + ecCodewords);
+    total += ecBlock.count * (ecBlock.dataCodewords + ecCodewords);
   }
   this.totalCodewords = total;
 }
-
-Object.defineProperty(Version.prototype, "VersionNumber", {
-  get: function() {
-    return  this.versionNumber;
-  }
-});
-
-Object.defineProperty(Version.prototype, "AlignmentPatternCenters", {
-  get: function() {
-    return  this.alignmentPatternCenters;
-  }
-});
-
-Object.defineProperty(Version.prototype, "TotalCodewords", {
-  get: function() {
-    return  this.totalCodewords;
-  }
-});
 
 Object.defineProperty(Version.prototype, "DimensionForVersion", {
   get: function() {
