@@ -22,7 +22,7 @@
 * limitations under the License.
 */
 
-/* globals BitMatrix */
+import BitMatrix from './bitmat';
 
 var GridSampler = {};
 
@@ -114,3 +114,5 @@ GridSampler.sampleGrid3 = function(image,  dimension,  transform) {
   }
   return bits;
 };
+
+export default GridSampler;

@@ -14,13 +14,13 @@
    limitations under the License.
 */
 
-/* globals Detector, Decoder */
+import Detector from './detector';
+import Decoder from './decoder';
 
-
-var qrcode = {};
+export var qrcode = {};
 qrcode.sizeOfDataLengthInfo =  [[10, 9, 8, 8], [12, 11, 16, 10], [14, 13, 16, 12]];
 
-function QrCode() {
+export default function QrCode() {
 
   this.imagedata = null;
   this.width = 0;
@@ -254,7 +254,7 @@ function QrCode() {
 
 }
 
-function URShift(number,  bits) {
+export function URShift(number,  bits) {
   if (number >= 0)
     return number >> bits;
   else

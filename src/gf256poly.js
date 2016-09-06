@@ -22,9 +22,9 @@
 * limitations under the License.
 */
 
-/* globals GF256 */
+import GF256 from './gf256';
 
-function GF256Poly(field,  coefficients) {
+export default function GF256Poly(field,  coefficients) {
   if (coefficients == null || coefficients.length == 0) {
     throw "System.ArgumentException";
   }

@@ -22,7 +22,8 @@
 * limitations under the License.
 */
 
-/* globals ErrorCorrectionLevel, URShift */
+import {URShift} from './qrcode';
+import ErrorCorrectionLevel from './errorlevel';
 
 var FORMAT_INFO_MASK_QR = 0x5412;
 var FORMAT_INFO_DECODE_LOOKUP = [
@@ -62,7 +63,7 @@ var FORMAT_INFO_DECODE_LOOKUP = [
 var BITS_SET_IN_HALF_BYTE = [0, 1, 1, 2, 1, 2, 2, 3, 1, 2, 2, 3, 2, 3, 3, 4];
 
 
-function FormatInformation(formatInfo) {
+export default function FormatInformation(formatInfo) {
   this.errorCorrectionLevel = ErrorCorrectionLevel.forBits((formatInfo >> 3) & 0x03);
   this.dataMask =  (formatInfo & 0x07);
 

@@ -22,7 +22,10 @@
 * limitations under the License.
 */
 
-/* globals AlignmentPatternFinder, GridSampler, Version, FinderPatternFinder */
+import Version from './version';
+import {AlignmentPatternFinder} from './alignpat';
+import GridSampler from './grid';
+import {FinderPatternFinder} from './findpat';
 
 function PerspectiveTransform(a11,  a21,  a31,  a12,  a22,  a32,  a13,  a23,  a33) {
   this.a11 = a11;
@@ -109,7 +112,7 @@ function DetectorResult(bits,  points) {
 }
 
 
-function Detector(image) {
+export default function Detector(image) {
   this.image = image;
   this.resultPointCallback = null;
 

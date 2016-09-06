@@ -1,3 +1,3 @@
-/* globals QrCode */
+import QrCode from './qrcode';
 
-module.exports = QrCode;
+export default QrCode;

@@ -22,9 +22,9 @@
 * limitations under the License.
 */
 
-/* globals URShift */
+import {URShift} from './qrcode';
 
-function BitMatrix(width,  height) {
+export default function BitMatrix(width,  height) {
   if (!height)
     height = width;
   if (width < 1 || height < 1) {

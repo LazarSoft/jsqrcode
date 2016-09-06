@@ -22,10 +22,10 @@
 * limitations under the License.
 */
 
-/* globals GF256, GF256Poly */
+import GF256 from './gf256';
+import GF256Poly from './gf256poly';
 
-
-function ReedSolomonDecoder(field) {
+export default function ReedSolomonDecoder(field) {
   this.field = field;
   this.decode = function(received,  twoS) {
     var poly = new GF256Poly(this.field, received);
@@ -35,9 +35,9 @@ function ReedSolomonDecoder(field) {
     var noError = true;
     for (var i = 0; i < twoS; i++) {
       // Thanks to sanfordsquires for this fix:
-      var eval = poly.evaluateAt(this.field.exp(dataMatrix ? i + 1 : i));
-      syndromeCoefficients[syndromeCoefficients.length - 1 - i] = eval;
-      if (eval != 0) {
+      var _eval = poly.evaluateAt(this.field.exp(dataMatrix ? i + 1 : i));
+      syndromeCoefficients[syndromeCoefficients.length - 1 - i] = _eval;
+      if (_eval != 0) {
         noError = false;
       }
     }

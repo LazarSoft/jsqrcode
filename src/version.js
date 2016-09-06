@@ -22,8 +22,8 @@
 * limitations under the License.
 */
 
-/* globals BitMatrix, FormatInformation */
-
+import FormatInformation from './formatinf';
+import BitMatrix from './bitmat';
 
 function ECB(count,  dataCodewords) {
   this.count = count;
@@ -75,7 +75,7 @@ function ECBlocks(ecCodewordsPerBlock,  ecBlocks1,  ecBlocks2) {
   };
 }
 
-function Version(versionNumber,  alignmentPatternCenters,  ecBlocks1,  ecBlocks2,  ecBlocks3,  ecBlocks4) {
+export default function Version(versionNumber,  alignmentPatternCenters,  ecBlocks1,  ecBlocks2,  ecBlocks3,  ecBlocks4) {
   this.versionNumber = versionNumber;
   this.alignmentPatternCenters = alignmentPatternCenters;
   this.ecBlocks = [ecBlocks1, ecBlocks2, ecBlocks3, ecBlocks4];

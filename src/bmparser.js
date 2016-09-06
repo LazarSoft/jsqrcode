@@ -22,9 +22,11 @@
 * limitations under the License.
 */
 
-/* globals FormatInformation, Version, DataMask */
+import FormatInformation from './formatinf';
+import Version from './version';
+import DataMask from './datamask';
 
-function BitMatrixParser(bitMatrix) {
+export default function BitMatrixParser(bitMatrix) {
   var dimension = bitMatrix.Dimension;
   if (dimension < 21 || (dimension & 0x03) != 1) {
     throw "Error BitMatrixParser";

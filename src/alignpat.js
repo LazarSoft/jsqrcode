@@ -23,7 +23,7 @@
 */
 
 
-function AlignmentPattern(posX, posY,  estimatedModuleSize) {
+export default function AlignmentPattern(posX, posY,  estimatedModuleSize) {
   this.x = posX;
   this.y = posY;
   this.count = 1;
@@ -62,7 +62,7 @@ function AlignmentPattern(posX, posY,  estimatedModuleSize) {
 
 }
 
-function AlignmentPatternFinder(image,  startX,  startY,  width,  height,  moduleSize,  resultPointCallback) {
+export function AlignmentPatternFinder(image,  startX,  startY,  width,  height,  moduleSize,  resultPointCallback) {
   this.image = image;
   this.possibleCenters = [];
   this.startX = startX;

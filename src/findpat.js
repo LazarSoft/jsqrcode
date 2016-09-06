@@ -22,14 +22,12 @@
 * limitations under the License.
 */
 
-/* globals qrcode */
-
 var MIN_SKIP = 3;
 var MAX_MODULES = 57;
 var INTEGER_MATH_SHIFT = 8;
 var CENTER_QUORUM = 2;
 
-qrcode.orderBestPatterns = function(patterns) {
+function orderBestPatterns(patterns) {
 
   function distance(pattern1,  pattern2) {
     var xDiff = pattern1.X - pattern2.X;
@@ -79,7 +77,7 @@ qrcode.orderBestPatterns = function(patterns) {
   patterns[0] = pointA;
   patterns[1] = pointB;
   patterns[2] = pointC;
-};
+}
 
 
 function FinderPattern(posX, posY,  estimatedModuleSize) {
@@ -142,7 +140,7 @@ function FinderPatternInfo(patternCenters) {
   });
 }
 
-function FinderPatternFinder() {
+export function FinderPatternFinder() {
   this.image = null;
   this.possibleCenters = [];
   this.hasSkipped = false;
@@ -546,7 +544,7 @@ function FinderPatternFinder() {
     }
 
     var patternInfo = this.selectBestPatterns();
-    qrcode.orderBestPatterns(patternInfo);
+    orderBestPatterns(patternInfo);
 
     return new FinderPatternInfo(patternInfo);
   };

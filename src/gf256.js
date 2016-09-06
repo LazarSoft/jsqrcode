@@ -22,10 +22,9 @@
 * limitations under the License.
 */
 
-/* globals GF256Poly */
+import GF256Poly from './gf256poly';
 
-
-function GF256(primitive) {
+export default function GF256(primitive) {
   this.expTable = new Array(256);
   this.logTable = new Array(256);
   var x = 1;

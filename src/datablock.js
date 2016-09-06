@@ -23,7 +23,7 @@
 */
 
 
-function DataBlock(numDataCodewords,  codewords) {
+export default function DataBlock(numDataCodewords,  codewords) {
   this.numDataCodewords = numDataCodewords;
   this.codewords = codewords;
 

@@ -22,9 +22,9 @@
 * limitations under the License.
 */
 
-/* globals qrcode */
+import {qrcode} from './qrcode';
 
-function QRCodeDataBlockReader(blocks,  version,  numErrorCorrectionCode) {
+export default function QRCodeDataBlockReader(blocks,  version,  numErrorCorrectionCode) {
   this.blockPointer = 0;
   this.bitPointer = 7;
   this.dataLength = 0;
