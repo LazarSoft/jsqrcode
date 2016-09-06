@@ -27,20 +27,23 @@ export default function ErrorCorrectionLevel(ordinal,  bits, name) {
   this.ordinal_Renamed_Field = ordinal;
   this.bits = bits;
   this.name = name;
-  Object.defineProperty(this, "Bits", {
-    get: function() {
-      return this.bits;
-    }
-  });
-  Object.defineProperty(this, "Name", {
-    get: function() {
-      return this.name;
-    }
-  });
-  this.ordinal = function() {
-    return this.ordinal_Renamed_Field;
-  };
 }
+
+Object.defineProperty(ErrorCorrectionLevel.prototype, "Bits", {
+  get: function() {
+    return this.bits;
+  }
+});
+
+Object.defineProperty(ErrorCorrectionLevel.prototype, "Name", {
+  get: function() {
+    return this.name;
+  }
+});
+
+ErrorCorrectionLevel.prototype.ordinal = function() {
+  return this.ordinal_Renamed_Field;
+};
 
 ErrorCorrectionLevel.forBits = function(bits) {
   if (bits < 0 || bits >= FOR_BITS.length) {

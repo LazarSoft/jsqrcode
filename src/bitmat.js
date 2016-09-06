@@ -40,61 +40,67 @@ export default function BitMatrix(width,  height) {
   this.bits = new Array(rowSize * height);
   for (var i = 0; i < this.bits.length; i++)
     this.bits[i] = 0;
-
-  Object.defineProperty(this, "Width", {
-    get: function() {
-      return this.width;
-    }
-  });
-  Object.defineProperty(this, "Height", {
-    get: function() {
-      return this.height;
-    }
-  });
-  Object.defineProperty(this, "Dimension", {
-    get: function() {
-      if (this.width != this.height) {
-        throw "Can't call getDimension() on a non-square matrix";
-      }
-      return this.width;
-    }
-  });
-
-  this.get_Renamed = function(x,  y) {
-    var offset = y * this.rowSize + (x >> 5);
-    return ((URShift(this.bits[offset], (x & 0x1f))) & 1) != 0;
-  };
-  this.set_Renamed = function(x,  y) {
-    var offset = y * this.rowSize + (x >> 5);
-    this.bits[offset] |= 1 << (x & 0x1f);
-  };
-  this.flip = function(x,  y) {
-    var offset = y * this.rowSize + (x >> 5);
-    this.bits[offset] ^= 1 << (x & 0x1f);
-  };
-  this.clear = function() {
-    var max = this.bits.length;
-    for (var i = 0; i < max; i++) {
-      this.bits[i] = 0;
-    }
-  };
-  this.setRegion = function(left,  top,  width,  height) {
-    if (top < 0 || left < 0) {
-      throw "Left and top must be nonnegative";
-    }
-    if (height < 1 || width < 1) {
-      throw "Height and width must be at least 1";
-    }
-    var right = left + width;
-    var bottom = top + height;
-    if (bottom > this.height || right > this.width) {
-      throw "The region must fit inside the matrix";
-    }
-    for (var y = top; y < bottom; y++) {
-      var offset = y * this.rowSize;
-      for (var x = left; x < right; x++) {
-        this.bits[offset + (x >> 5)] |= 1 << (x & 0x1f);
-      }
-    }
-  };
 }
+
+Object.defineProperty(BitMatrix.prototype, "Width", {
+  get: function() {
+    return this.width;
+  }
+});
+
+Object.defineProperty(BitMatrix.prototype, "Height", {
+  get: function() {
+    return this.height;
+  }
+});
+
+Object.defineProperty(BitMatrix.prototype, "Dimension", {
+  get: function() {
+    if (this.width != this.height) {
+      throw "Can't call getDimension() on a non-square matrix";
+    }
+    return this.width;
+  }
+});
+
+BitMatrix.prototype.get_Renamed = function(x, y) {
+  var offset = y * this.rowSize + (x >> 5);
+  return ((URShift(this.bits[offset], (x & 0x1f))) & 1) != 0;
+};
+
+BitMatrix.prototype.set_Renamed = function(x, y) {
+  var offset = y * this.rowSize + (x >> 5);
+  this.bits[offset] |= 1 << (x & 0x1f);
+};
+
+BitMatrix.prototype.flip = function(x, y) {
+  var offset = y * this.rowSize + (x >> 5);
+  this.bits[offset] ^= 1 << (x & 0x1f);
+};
+
+BitMatrix.prototype.clear = function() {
+  var max = this.bits.length;
+  for (var i = 0; i < max; i++) {
+    this.bits[i] = 0;
+  }
+};
+
+BitMatrix.prototype.setRegion = function(left, top, width, height) {
+  if (top < 0 || left < 0) {
+    throw "Left and top must be nonnegative";
+  }
+  if (height < 1 || width < 1) {
+    throw "Height and width must be at least 1";
+  }
+  var right = left + width;
+  var bottom = top + height;
+  if (bottom > this.height || right > this.width) {
+    throw "The region must fit inside the matrix";
+  }
+  for (var y = top; y < bottom; y++) {
+    var offset = y * this.rowSize;
+    for (var x = left; x < right; x++) {
+      this.bits[offset + (x >> 5)] |= 1 << (x & 0x1f);
+    }
+  }
+};

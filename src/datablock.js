@@ -26,18 +26,19 @@
 export default function DataBlock(numDataCodewords,  codewords) {
   this.numDataCodewords = numDataCodewords;
   this.codewords = codewords;
-
-  Object.defineProperty(this, "NumDataCodewords", {
-    get: function() {
-      return this.numDataCodewords;
-    }
-  });
-  Object.defineProperty(this, "Codewords", {
-    get: function() {
-      return this.codewords;
-    }
-  });
 }
+
+Object.defineProperty(DataBlock.prototype, "NumDataCodewords", {
+  get: function() {
+    return this.numDataCodewords;
+  }
+});
+
+Object.defineProperty(DataBlock.prototype, "Codewords", {
+  get: function() {
+    return this.codewords;
+  }
+});
 
 DataBlock.getDataBlocks = function(rawCodewords,  version,  ecLevel) {
 
