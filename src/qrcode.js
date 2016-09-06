@@ -42,7 +42,7 @@ this.decode = function(src, data){
 		if (this.callback!=null) {
 
             this.callback(this.result,this.error);
-        };
+        }
 
         return this.result;
 
@@ -77,7 +77,6 @@ this.decode = function(src, data){
 	else {
 
 		var image = new Image();
-		var _this = this
 
         image.onload = (function() {
 
