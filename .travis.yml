@@ -7,3 +7,13 @@ node_js:
     - "0.12"
     - "4"
     - "6"
+
+before_install:
+  - nvm install 6
+  - nvm use 6
+
+install:
+  - npm install
+
+before_script:
+  - nvm use $TRAVIS_NODE_VERSION

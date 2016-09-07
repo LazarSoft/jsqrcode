@@ -22,7 +22,8 @@
 * limitations under the License.
 */
 
-/* globals ErrorCorrectionLevel, URShift */
+import {URShift} from './qrcode';
+import ErrorCorrectionLevel from './errorlevel';
 
 var FORMAT_INFO_MASK_QR = 0x5412;
 var FORMAT_INFO_DECODE_LOOKUP = [
@@ -62,28 +63,19 @@ var FORMAT_INFO_DECODE_LOOKUP = [
 var BITS_SET_IN_HALF_BYTE = [0, 1, 1, 2, 1, 2, 2, 3, 1, 2, 2, 3, 2, 3, 3, 4];
 
 
-function FormatInformation(formatInfo) {
+export default function FormatInformation(formatInfo) {
   this.errorCorrectionLevel = ErrorCorrectionLevel.forBits((formatInfo >> 3) & 0x03);
   this.dataMask =  (formatInfo & 0x07);
-
-  Object.defineProperty(this, "ErrorCorrectionLevel", {
-    get: function() {
-      return this.errorCorrectionLevel;
-    }
-  });
-  Object.defineProperty(this, "DataMask", {
-    get: function() {
-      return this.dataMask;
-    }
-  });
-  this.GetHashCode = function() {
-    return (this.errorCorrectionLevel.ordinal() << 3) |  this.dataMask;
-  };
-  this.Equals = function(o) {
-    var other =  o;
-    return this.errorCorrectionLevel == other.errorCorrectionLevel && this.dataMask == other.dataMask;
-  };
 }
+
+FormatInformation.prototype.GetHashCode = function() {
+  return (this.errorCorrectionLevel.ordinal() << 3) |  this.dataMask;
+};
+
+FormatInformation.prototype.Equals = function(o) {
+  var other =  o;
+  return this.errorCorrectionLevel == other.errorCorrectionLevel && this.dataMask == other.dataMask;
+};
 
 FormatInformation.numBitsDiffering = function(a,  b) {
   a ^= b; // a now has a 1 bit exactly where its bit differs with b's
