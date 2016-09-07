@@ -6,13 +6,14 @@
   "module": "src/index.js",
   "jsnext:main": "src/index.js",
   "scripts": {
-    "prebuild": "eslint src test",
     "build": "rollup -c",
     "watch": "rollup -c -w",
     "minify": "uglifyjs dist/index.js -o dist/index.min.js --compress --mangle",
-    "pretest": "npm run build",
+    "lint": "eslint src test",
+    "pretest": "npm run lint",
     "test": "mocha",
-    "prepublish": "npm test && npm run minify"
+    "build-and-test": "npm run build && npm test",
+    "prepublish": "npm run build && npm run minify"
   },
   "repository": {
     "type": "git",
