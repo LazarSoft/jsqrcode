@@ -97,7 +97,6 @@ function ReedSolomonDecoder(field) {
         var scale = this.field.multiply(r.getCoefficient(r.Degree), dltInverse);
         q = q.addOrSubtract(this.field.buildMonomial(degreeDiff, scale));
         r = r.addOrSubtract(rLast.multiplyByMonomial(degreeDiff, scale));
-        //r.EXE();
       }
 
       s = q.multiply1(sLast).addOrSubtract(sLastLast);

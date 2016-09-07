@@ -92,13 +92,12 @@ GridSampler.sampleGrid3 = function(image,  dimension,  transform) {
       points[x + 1] = iValue;
     }
     transform.transformPoints1(points);
-    // Quick check to see if points transformed to something inside the image;
+    // Quick check to see if points transformed to something inside the image
     // sufficient to check the endpoints
     GridSampler.checkAndNudgePoints(image, points);
     try {
       for (var x = 0; x < max; x += 2) {
         var bit = image.data[Math.floor(points[x]) + image.width * Math.floor(points[x + 1])];
-        //bits[x >> 1][ y]=bit;
         if (bit)
           bits.set_Renamed(x >> 1, y);
       }

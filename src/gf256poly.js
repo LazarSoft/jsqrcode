@@ -41,7 +41,6 @@ function GF256Poly(field,  coefficients) {
     } else {
       this.coefficients = new Array(coefficientsLength - firstNonZero);
       for (var i = 0; i < this.coefficients.length; i++) this.coefficients[i] = 0;
-      //Array.Copy(coefficients, firstNonZero, this.coefficients, 0, this.coefficients.length);
       for (var ci = 0; ci < this.coefficients.length; ci++) this.coefficients[ci] = coefficients[firstNonZero + ci];
     }
   } else {
@@ -110,7 +109,6 @@ function GF256Poly(field,  coefficients) {
     var sumDiff = new Array(largerCoefficients.length);
     var lengthDiff = largerCoefficients.length - smallerCoefficients.length;
     // Copy high-order terms only found in higher-degree polynomial's coefficients
-    //Array.Copy(largerCoefficients, 0, sumDiff, 0, lengthDiff);
     for (var ci = 0; ci < lengthDiff; ci++)sumDiff[ci] = largerCoefficients[ci];
 
     for (var i = lengthDiff; i < largerCoefficients.length; i++) {

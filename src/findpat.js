@@ -352,7 +352,6 @@ function FinderPatternFinder() {
       var totalModuleSize = 0.0;
       var square = 0.0;
       for (var i = 0; i < startSize; i++) {
-        //totalModuleSize +=  this.possibleCenters[i].EstimatedModuleSize;
         var  centerValue = this.possibleCenters[i].EstimatedModuleSize;
         totalModuleSize += centerValue;
         square += (centerValue * centerValue);
@@ -374,7 +373,6 @@ function FinderPatternFinder() {
       var limit = Math.max(0.2 * average, stdDev);
       for (var i = 0; i < this.possibleCenters.length && this.possibleCenters.length > 3; i++) {
         var pattern =  this.possibleCenters[i];
-        //if (Math.abs(pattern.EstimatedModuleSize - average) > 0.2 * average)
         if (Math.abs(pattern.EstimatedModuleSize - average) > limit) {
           this.possibleCenters.splice(i, 1);
           i--;

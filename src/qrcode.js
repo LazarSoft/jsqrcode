@@ -121,8 +121,6 @@ function QrCode() {
 
     var image = this.grayScaleToBitmap(this.grayscale(imageData));
 
-    //var finderPatternInfo = new FinderPatternFinder().findFinderPattern(image);
-
     var detector = new Detector(image);
 
     var qRCodeMatrix = detector.detect();
@@ -153,7 +151,6 @@ function QrCode() {
     }
 
     return this.decode_utf8(str);
-    //alert("Time:" + time + " Code: "+str);
   };
 
   this.getPixel = function(imageData, x, y) {
@@ -203,7 +200,6 @@ function QrCode() {
               minmax[ax][ay][1] = target;
           }
         }
-        //minmax[ax][ay][0] = (minmax[ax][ay][0] + minmax[ax][ay][1]) / 2;
       }
     }
     var middle = new Array(numSqrtArea);
@@ -213,11 +209,8 @@ function QrCode() {
     for (var ay = 0; ay < numSqrtArea; ay++) {
       for (var ax = 0; ax < numSqrtArea; ax++) {
         middle[ax][ay] = Math.floor((minmax[ax][ay][0] + minmax[ax][ay][1]) / 2);
-        //Console.out.print(middle[ax][ay] + ",");
       }
-      //Console.out.println("");
     }
-    //Console.out.println("");
 
     return middle;
   };

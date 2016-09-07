@@ -38,8 +38,6 @@ Decoder.correctErrors = function(codewordBytes,  numDataCodewords) {
   var numECCodewords = codewordBytes.length - numDataCodewords;
   try {
     Decoder.rsDecoder.decode(codewordsInts, numECCodewords);
-    //var corrector = new ReedSolomon(codewordsInts, numECCodewords);
-    //corrector.correct();
   } catch (rse) {
     throw rse;
   }
@@ -83,5 +81,4 @@ Decoder.decode = function(bits) {
   // Decode the contents of that stream of bytes
   var reader = new QRCodeDataBlockReader(resultBytes, version.VersionNumber, ecLevel.Bits);
   return reader;
-  //return DecodedBitStreamParser.decode(resultBytes, version, ecLevel);
 };
