@@ -1,4 +1,4 @@
-let pkg = require('./package.json');
+var pkg = require('./package.json');
 
 export default {
   entry: 'src/index.js',
