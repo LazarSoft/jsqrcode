@@ -6,7 +6,7 @@ module.exports = {
   },
   extends: 'eslint:recommended',
   rules: {
-  	'comma-dangle': 'off',
+    'comma-dangle': 'off',
     'no-console': 'off',
     'no-constant-condition': 'off',
     'no-redeclare': 'off',
