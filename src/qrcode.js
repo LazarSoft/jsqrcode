@@ -75,6 +75,7 @@ function QrCode() {
       /* decode from URL */
 
       var image = new Image();
+      image.crossOrigin = "Anonymous";
 
       image.onload = (function() {
 
