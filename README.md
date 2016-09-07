@@ -66,7 +66,7 @@ npm install
 To run the build process and generate a JavaScript file called `dist/index.js` you can run from node:
 
 ```
-npm run compile
+npm run build
 ```
 
 To run the tests:
@@ -78,16 +78,12 @@ npm test
 Make it work in the browser
 ===========================
 
-If this module was installed from the npm registry, it will already contain a `dist/browser.js`. Otherwise, it has to be built manually (after running `npm install`, see above):
-
-```
-npm run compile:browser
-```
+The generated file `dist/index.js` works in the browser.
 
 You will have access to the global variable `QrCode` if you do the following in your HTML:
 
 ```
-<script src="dist/browser.js"></script>
+<script src="dist/index.js"></script>
 ```
 
 See [examples/browser-upload/index.html](examples/browser-upload/index.html) for a very basic example using a file upload.
