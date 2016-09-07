@@ -4,7 +4,7 @@
   "description": "fork of lazarsoft's jsqrcode for node",
   "main": "dist/index.js",
   "scripts": {
-    "prepublish": "npm run compile:all",
+    "prepublish": "npm test",
     "lint": "eslint src test",
     "pretest": "npm run compile:all && npm run lint",
     "test": "mocha",
