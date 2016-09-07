@@ -6,7 +6,7 @@
   "scripts": {
     "prepublish": "npm run compile:all",
     "lint": "eslint src test",
-    "pretest": "npm run lint",
+    "pretest": "npm run compile:all && npm run lint",
     "test": "mocha",
     "compile": "gulp compile",
     "compile:browser": "gulp compile-browser",
