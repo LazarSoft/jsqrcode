@@ -1,17 +1,9 @@
-language: node_js
-
 sudo: false
 
-node_js:
-    - "0.12"
-    - "0.11"
-    - "0.10"
-    - "iojs"
-    - "4"
-    - "5"
+language: node_js
 
-before_script:
-    - "npm install -g npm"
-    - "npm install -g gulp"
-    - "npm install -g mocha"
-    - "gulp compile"
+node_js:
+    - "0.10"
+    - "0.12"
+    - "4"
+    - "6"

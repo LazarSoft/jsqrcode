@@ -1,1 +1,3 @@
-module.exports=QrCode;
+/* globals QrCode */
+
+module.exports = QrCode;
