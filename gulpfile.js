@@ -48,6 +48,7 @@ gulp.task('compile-browser', ['compile'], function(cb) {
     entry: './dist/index.js',
     output: {
       path: 'dist/',
+      library: 'QrCode',
       filename: 'browser.js'
     },
     plugins: [
