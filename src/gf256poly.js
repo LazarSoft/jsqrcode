@@ -22,8 +22,6 @@
 * limitations under the License.
 */
 
-import GF256 from './gf256';
-
 export default function GF256Poly(field,  coefficients) {
   if (coefficients == null || coefficients.length == 0) {
     throw "System.ArgumentException";
@@ -74,13 +72,13 @@ GF256Poly.prototype.evaluateAt = function(a) {
     // Just the sum of the coefficients
     var result = 0;
     for (var i = 0; i < size; i++) {
-      result = GF256.addOrSubtract(result, this.coefficients[i]);
+      result = this.field.addOrSubtract(result, this.coefficients[i]);
     }
     return result;
   }
   var result2 = this.coefficients[0];
   for (var i = 1; i < size; i++) {
-    result2 = GF256.addOrSubtract(this.field.multiply(a, result2), this.coefficients[i]);
+    result2 = this.field.addOrSubtract(this.field.multiply(a, result2), this.coefficients[i]);
   }
   return result2;
 };
@@ -109,7 +107,7 @@ GF256Poly.prototype.addOrSubtract = function(other) {
   for (var ci = 0; ci < lengthDiff; ci++)sumDiff[ci] = largerCoefficients[ci];
 
   for (var i = lengthDiff; i < largerCoefficients.length; i++) {
-    sumDiff[i] = GF256.addOrSubtract(smallerCoefficients[i - lengthDiff], largerCoefficients[i]);
+    sumDiff[i] = this.field.addOrSubtract(smallerCoefficients[i - lengthDiff], largerCoefficients[i]);
   }
 
   return new GF256Poly(this.field, sumDiff);
@@ -130,7 +128,7 @@ GF256Poly.prototype.multiply1 = function(other) {
   for (var i = 0; i < aLength; i++) {
     var aCoeff = aCoefficients[i];
     for (var j = 0; j < bLength; j++) {
-      product[i + j] = GF256.addOrSubtract(product[i + j], this.field.multiply(aCoeff, bCoefficients[j]));
+      product[i + j] = this.field.addOrSubtract(product[i + j], this.field.multiply(aCoeff, bCoefficients[j]));
     }
   }
   return new GF256Poly(this.field, product);
