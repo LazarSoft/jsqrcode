@@ -88,6 +88,10 @@ GF256.prototype.inverse = function(a) {
   return this.expTable[255 - this.logTable[a]];
 };
 
+GF256.prototype.addOrSubtract = function(a,  b) {
+  return a ^ b;
+};
+
 GF256.prototype.multiply = function(a,  b) {
   if (a == 0 || b == 0) {
     return 0;
@@ -103,7 +107,3 @@ GF256.prototype.multiply = function(a,  b) {
 
 GF256.QR_CODE_FIELD = new GF256(0x011D);
 GF256.DATA_MATRIX_FIELD = new GF256(0x012D);
-
-GF256.addOrSubtract = function(a,  b) {
-  return a ^ b;
-};
