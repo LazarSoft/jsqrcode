@@ -9,6 +9,7 @@ Usage:
 
 Include the scripts in the following order:
 
+```html
 <script type="text/javascript" src="grid.js"></script>
 <script type="text/javascript" src="version.js"></script>
 <script type="text/javascript" src="detector.js"></script>
@@ -26,11 +27,12 @@ Include the scripts in the following order:
 <script type="text/javascript" src="findpat.js"></script>
 <script type="text/javascript" src="alignpat.js"></script>
 <script type="text/javascript" src="databr.js"></script>
+```
 
-Set qrcode.callback to function "func(data)", where data will get the decoded information.
+Set `qrcode.callback` to `function func(data) { }`, where data will get the decoded information.
 
-Decode image with: qrcode.decode(url or DataURL).
-Decode from canvas with "qr-canvas" ID: qrcode.decode()
+Decode image with: `qrcode.decode(url or DataURL)`
+Decode from canvas with `qr-canvas` ID: `qrcode.decode()`
 
 [new from 2014.01.09]
 For webcam qrcode decoding (included in the test.html) you will need a browser with getUserMedia (WebRTC) capability.
