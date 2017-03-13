@@ -214,7 +214,7 @@ function QRCodeDataBlockReader(blocks,  version,  numErrorCorrectionCode)
 			var unicodeString = "";
 			do 
 			{
-				intData = getNextBits(13);
+				intData = this.getNextBits(13);
 				var lowerByte = intData % 0xC0;
 				var higherByte = intData / 0xC0;
 				
