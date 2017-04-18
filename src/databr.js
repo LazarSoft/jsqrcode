@@ -214,7 +214,7 @@ function QRCodeDataBlockReader(blocks,  version,  numErrorCorrectionCode)
 			var unicodeString = "";
 			do 
 			{
-				intData = getNextBits(13);
+				intData = this.getNextBits(13);
 				var lowerByte = intData % 0xC0;
 				var higherByte = intData / 0xC0;
 				
@@ -244,12 +244,33 @@ function QRCodeDataBlockReader(blocks,  version,  numErrorCorrectionCode)
 			return unicodeString;
 		}
 
+	this.parseECIValue = function ()
+	{
+		var intData = 0;
+		var firstByte = this.getNextBits(8);
+		if ((firstByte & 0x80) == 0) {
+			intData = firstByte & 0x7F;
+		}
+		if ((firstByte & 0xC0) == 0x80) {
+			// two bytes
+			var secondByte = this.getNextBits(8);
+			intData = ((firstByte & 0x3F) << 8) | secondByte;
+		}
+		if ((firstByte & 0xE0) == 0xC0) {
+			// three bytes
+			var secondThirdBytes = this.getNextBits(8);;
+			intData = ((firstByte & 0x1F) << 16) | secondThirdBytes;
+		}
+		return intData;
+	}
+
 	this.__defineGetter__("DataByte", function()
 	{
 		var output = new Array();
 		var MODE_NUMBER = 1;
 	    var MODE_ROMAN_AND_NUMBER = 2;
 	    var MODE_8BIT_BYTE = 4;
+		var MODE_ECI = 7;
 	    var MODE_KANJI = 8;
 		do 
 					{
@@ -262,62 +283,52 @@ function QRCodeDataBlockReader(blocks,  version,  numErrorCorrectionCode)
 							else
 								throw "Empty data block";
 						}
-						//if (mode != 1 && mode != 2 && mode != 4 && mode != 8)
-						//	break;
-						//}
-						if (mode != MODE_NUMBER && mode != MODE_ROMAN_AND_NUMBER && mode != MODE_8BIT_BYTE && mode != MODE_KANJI)
+						if (mode != MODE_NUMBER && mode != MODE_ROMAN_AND_NUMBER && mode != MODE_8BIT_BYTE && mode != MODE_KANJI && mode != MODE_ECI)
 						{
-							/*					canvas.println("Invalid mode: " + mode);
-							mode = guessMode(mode);
-							canvas.println("Guessed mode: " + mode); */
 							throw "Invalid mode: " + mode + " in (block:" + this.blockPointer + " bit:" + this.bitPointer + ")";
 						}
-						dataLength = this.getDataLength(mode);
-						if (dataLength < 1)
-							throw "Invalid data length: " + dataLength;
-						//canvas.println("length: " + dataLength);
-						switch (mode)
+
+						if(mode == MODE_ECI)
 						{
-							
-							case MODE_NUMBER: 
-								//canvas.println("Mode: Figure");
-								var temp_str = this.getFigureString(dataLength);
-								var ta = new Array(temp_str.length);
-								for(var j=0;j<temp_str.length;j++)
-									ta[j]=temp_str.charCodeAt(j);
-								output.push(ta);
-								break;
-							
-							case MODE_ROMAN_AND_NUMBER: 
-								//canvas.println("Mode: Roman&Figure");
-								var temp_str = this.getRomanAndFigureString(dataLength);
-								var ta = new Array(temp_str.length);
-								for(var j=0;j<temp_str.length;j++)
-									ta[j]=temp_str.charCodeAt(j);
-								output.push(ta );
-								//output.Write(SystemUtils.ToByteArray(temp_sbyteArray2), 0, temp_sbyteArray2.Length);
-								break;
-							
-							case MODE_8BIT_BYTE: 
-								//canvas.println("Mode: 8bit Byte");
-								//sbyte[] temp_sbyteArray3;
-								var temp_sbyteArray3 = this.get8bitByteArray(dataLength);
-								output.push(temp_sbyteArray3);
-								//output.Write(SystemUtils.ToByteArray(temp_sbyteArray3), 0, temp_sbyteArray3.Length);
-								break;
-							
-							case MODE_KANJI: 
-								//canvas.println("Mode: Kanji");
-								//sbyte[] temp_sbyteArray4;
-								//temp_sbyteArray4 = SystemUtils.ToSByteArray(SystemUtils.ToByteArray(getKanjiString(dataLength)));
-								//output.Write(SystemUtils.ToByteArray(temp_sbyteArray4), 0, temp_sbyteArray4.Length);
-                                var temp_str = this.getKanjiString(dataLength);
-								output.push(temp_str);
-								break;
+							var temp_sbyteArray3 = this.parseECIValue();
+							//output.push(temp_sbyteArray3);
+						}
+						else
+						{
+
+							var dataLength = this.getDataLength(mode);
+							if (dataLength < 1)
+								throw "Invalid data length: " + dataLength;
+							switch (mode)
+							{
+								
+								case MODE_NUMBER: 
+									var temp_str = this.getFigureString(dataLength);
+									var ta = new Array(temp_str.length);
+									for(var j=0;j<temp_str.length;j++)
+										ta[j]=temp_str.charCodeAt(j);
+									output.push(ta);
+									break;
+								
+								case MODE_ROMAN_AND_NUMBER: 
+									var temp_str = this.getRomanAndFigureString(dataLength);
+									var ta = new Array(temp_str.length);
+									for(var j=0;j<temp_str.length;j++)
+										ta[j]=temp_str.charCodeAt(j);
+									output.push(ta );
+									break;
+								
+								case MODE_8BIT_BYTE: 
+									var temp_sbyteArray3 = this.get8bitByteArray(dataLength);
+									output.push(temp_sbyteArray3);
+									break;
+								
+								case MODE_KANJI: 
+									var temp_str = this.getKanjiString(dataLength);
+									output.push(temp_str);
+									break;
 							}
-						//			
-						//canvas.println("DataLength: " + dataLength);
-						//Console.out.println(dataString);
+						}
 					}
 					while (true);
 		return output;
