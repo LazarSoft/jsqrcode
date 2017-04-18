@@ -1,0 +1,57 @@
+<html>
+    <head>
+        <title>QR Test</title>
+    </head>
+    <body>
+        <button id="start">Start</button>
+        <video autoplay></video>
+        <button id="capture">Capture</button>
+        <script type="text/javascript" src="src/grid.js"></script>
+        <script type="text/javascript" src="src/version.js"></script>
+        <script type="text/javascript" src="src/detector.js"></script>
+        <script type="text/javascript" src="src/formatinf.js"></script>
+        <script type="text/javascript" src="src/errorlevel.js"></script>
+        <script type="text/javascript" src="src/bitmat.js"></script>
+        <script type="text/javascript" src="src/datablock.js"></script>
+        <script type="text/javascript" src="src/bmparser.js"></script>
+        <script type="text/javascript" src="src/datamask.js"></script>
+        <script type="text/javascript" src="src/rsdecoder.js"></script>
+        <script type="text/javascript" src="src/gf256poly.js"></script>
+        <script type="text/javascript" src="src/gf256.js"></script>
+        <script type="text/javascript" src="src/decoder.js"></script>
+        <script type="text/javascript" src="src/qrcode.js"></script>
+        <script type="text/javascript" src="src/findpat.js"></script>
+        <script type="text/javascript" src="src/alignpat.js"></script>
+        <script type="text/javascript" src="src/databr.js"></script>
+        <script type="text/javascript">
+            navigator.getUserMedia = navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
+            canvas = document.createElement("canvas");
+            ctx = canvas.getContext("2d");
+            
+            qrcode.callback = function (data) {
+               window.parent.postMessage(data, "*");
+            };
+            
+            var video = document.querySelector("video");
+            
+            // setting up start button
+            var start = document.querySelector("#start");
+            start.addEventListener("click", function (e) {
+                navigator.getUserMedia({"video":true, "audio":false}, function (stream) {
+                    video.src = window.URL.createObjectURL(stream);
+                }); 
+            }, false);
+            
+            // setting up capture button
+            var capture = document.querySelector("#capture");
+            capture.addEventListener("click", function (e) {
+                canvas.width = video.videoWidth;
+                canvas.height = video.videoHeight;
+                ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+                data_url = canvas.toDataURL('image/png');
+                //console.log(data_url);
+                qrcode.decode(data_url);
+            }, false);
+        </script>
+    </body>
+</html>
