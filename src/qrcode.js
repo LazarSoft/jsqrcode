@@ -161,7 +161,10 @@ qrcode.decode = function(src){
     else
     {
         var image = new Image();
-        image.crossOrigin = "Anonymous";
+       // fixes Cross-origin image load denied by Cross-Origin Resource Sharing policy in Safari
+        if(src.indexOf('data:image') !== 0) {
+            image.crossOrigin = 'Anonymous';
+        }
         image.onload=function(){
             //var canvas_qr = document.getElementById("qr-canvas");
             var canvas_out = document.getElementById("out-canvas");
