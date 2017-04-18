@@ -1,0 +1,24 @@
+{
+  "name": "jsqrcode",
+  "version": "0.0.1",
+  "homepage": "https://github.com/LazarSoft/jsqrcode",
+  "authors": [
+    "Lazar Laszlo (http://lazarsoft.info)"
+  ],
+  "description": "JavaScript QRCode reader for HTML5 enabled browser",
+  "main": "dist/qrcode.js",
+  "keywords": [
+    "jsqrcode",
+    "qrcode",
+    "reader",
+    "scanner"
+  ],
+  "license": "Apache License Version 2.0",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
