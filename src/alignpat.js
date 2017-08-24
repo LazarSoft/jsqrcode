@@ -21,9 +21,9 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
+import qrcode from './qrcode';
 
-
-function AlignmentPattern(posX, posY,  estimatedModuleSize)
+export default function AlignmentPattern(posX, posY,  estimatedModuleSize)
 {
 	this.x=posX;
 	this.y=posY;
@@ -62,7 +62,7 @@ function AlignmentPattern(posX, posY,  estimatedModuleSize)
 	
 }
 
-function AlignmentPatternFinder( image,  startX,  startY,  width,  height,  moduleSize,  resultPointCallback)
+export function AlignmentPatternFinder( image,  startX,  startY,  width,  height,  moduleSize,  resultPointCallback)
 {
 	this.image = image;
 	this.possibleCenters = new Array();

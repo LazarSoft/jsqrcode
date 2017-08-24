@@ -21,8 +21,8 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-
-
+import BitMatrix from './bitmat';
+import qrcode from './qrcode'
 var GridSampler = {};
 
 GridSampler.checkAndNudgePoints=function( image,  points)
@@ -150,3 +150,5 @@ GridSampler.sampleGridx=function( image,  dimension,  p1ToX,  p1ToY,  p2ToX,  p2
 			
 	return GridSampler.sampleGrid3(image, dimension, transform);
 }
+
+export default GridSampler;

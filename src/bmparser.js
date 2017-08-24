@@ -21,9 +21,11 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
+import FormatInformation from './formatinf'
+import Version from './version'
+import DataMask from './datamask'
 
-
-function BitMatrixParser(bitMatrix)
+export default function BitMatrixParser(bitMatrix)
 {
 	var dimension = bitMatrix.Dimension;
 	if (dimension < 21 || (dimension & 0x03) != 1)

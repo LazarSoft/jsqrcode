@@ -21,7 +21,7 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-
+import {URShift} from './qrcode'
 
 var DataMask = {};
 
@@ -205,3 +205,4 @@ function DataMask111()
 
 DataMask.DATA_MASKS = new Array(new DataMask000(), new DataMask001(), new DataMask010(), new DataMask011(), new DataMask100(), new DataMask101(), new DataMask110(), new DataMask111());
 
+export default DataMask;

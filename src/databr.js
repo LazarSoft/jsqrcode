@@ -21,9 +21,9 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
+import qrcode from './qrcode'
 
-
-function QRCodeDataBlockReader(blocks,  version,  numErrorCorrectionCode)
+export default function QRCodeDataBlockReader(blocks,  version,  numErrorCorrectionCode)
 {
 	this.blockPointer = 0;
 	this.bitPointer = 7;
