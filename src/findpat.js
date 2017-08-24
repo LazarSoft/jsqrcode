@@ -21,14 +21,14 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-
+import qrcode from './qrcode'
 
 var MIN_SKIP = 3;
 var MAX_MODULES = 57;
 var INTEGER_MATH_SHIFT = 8;
 var CENTER_QUORUM = 2;
 
-qrcode.orderBestPatterns=function(patterns)
+function orderBestPatterns(patterns)
 		{
 			
 			function distance( pattern1,  pattern2)
@@ -148,7 +148,7 @@ function FinderPatternInfo(patternCenters)
 	}); 
 }
 
-function FinderPatternFinder()
+export function FinderPatternFinder()
 {
 	this.image=null;
 	this.possibleCenters = [];
@@ -644,7 +644,7 @@ function FinderPatternFinder()
 		}
 		
 		var patternInfo = this.selectBestPatterns();
-		qrcode.orderBestPatterns(patternInfo);
+		orderBestPatterns(patternInfo);
 		
 		return new FinderPatternInfo(patternInfo);
 	};

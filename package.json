@@ -1,0 +1,46 @@
+{
+  "name": "jsqrcode-modules",
+  "version": "0.3.1",
+  "description": "fork of lazarsoft's jsqrcode for node",
+  "main": "lib/qrcode.js",
+  "scripts": {
+    "build": "webpack --env build",
+    "dev": "webpack --progress --colors --watch --env dev",
+    "test": "mocha --compilers js:babel-core/register --colors ./test/*.spec.js",
+    "test:watch": "mocha --compilers js:babel-core/register --colors -w ./test/*.spec.js"
+  },
+  "devDependencies": {
+    "babel-cli": "6.24.1",
+    "babel-core": "6.24.1",
+    "babel-eslint": "7.2.3",
+    "babel-loader": "7.0.0",
+    "babel-plugin-add-module-exports": "0.2.1",
+    "babel-preset-es2015": "6.24.1",
+    "chai": "3.5.0",
+    "eslint": "3.19.0",
+    "eslint-loader": "1.7.1",
+    "mocha": "3.3.0",
+    "webpack": "3.1.0",
+    "yargs": "7.1.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Alucrad/jsqrcode.git"
+  },
+  "keywords": [
+    "webpack",
+    "es6",
+    "qrcode",
+    "webcam",
+    "reader",
+    "decoder",
+    "umd",
+    "commonjs"
+  ],
+  "author": "Lazar Laszlo, Dwiki Riyadi <wiki.riyadi@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Alucrad/jsqrcode/issues"
+  },
+  "homepage": "https://github.com/Alucrad/jsqrcode/"
+}

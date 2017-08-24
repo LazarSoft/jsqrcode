@@ -21,7 +21,11 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-
+import ReedSolomonDecoder from './rsdecoder';
+import GF256 from './gf256';
+import BitMatrixParser from './bmparser';
+import DataBlock from './datablock';
+import QRCodeDataBlockReader from './databr';
 
 var Decoder={};
 Decoder.rsDecoder = new ReedSolomonDecoder(GF256.QR_CODE_FIELD);
@@ -93,3 +97,5 @@ Decoder.decode=function(bits)
 	return reader;
 	//return DecodedBitStreamParser.decode(resultBytes, version, ecLevel);
 }
+
+export default Decoder;

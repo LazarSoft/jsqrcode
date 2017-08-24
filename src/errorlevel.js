@@ -23,7 +23,7 @@
 */
 
 
-function ErrorCorrectionLevel(ordinal,  bits, name)
+export default function ErrorCorrectionLevel(ordinal,  bits, name)
 {
 	this.ordinal_Renamed_Field = ordinal;
 	this.bits = bits;

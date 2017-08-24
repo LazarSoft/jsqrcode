@@ -21,9 +21,9 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
+import GF256 from './gf256'
 
-
-function GF256Poly(field,  coefficients)
+export default function GF256Poly(field,  coefficients)
 {
 	if (coefficients == null || coefficients.length == 0)
 	{
