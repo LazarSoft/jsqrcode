@@ -30,10 +30,10 @@ function ReedSolomonDecoder(field)
 	{
 			var poly = new GF256Poly(this.field, received);
 			var syndromeCoefficients = new Array(twoS);
-			for(var i=0;i<syndromeCoefficients.length;i++)syndromeCoefficients[i]=0;
+			syndromeCoefficients.fill(0);
 			var dataMatrix = false;//this.field.Equals(GF256.DATA_MATRIX_FIELD);
 			var noError = true;
-			for (var i = 0; i < twoS; i++)
+			for (var i = 0; i < twoS; ++i)
 			{
 				// Thanks to sanfordsquires for this fix:
 				var evalu = poly.evaluateAt(this.field.exp(dataMatrix?i + 1:i));
@@ -53,7 +53,7 @@ function ReedSolomonDecoder(field)
 			var omega = sigmaOmega[1];
 			var errorLocations = this.findErrorLocations(sigma);
 			var errorMagnitudes = this.findErrorMagnitudes(omega, errorLocations, dataMatrix);
-			for (var i = 0; i < errorLocations.length; i++)
+			for (var i = 0; i < errorLocations.length; ++i)
 			{
 				var position = received.length - 1 - this.field.log(errorLocations[i]);
 				if (position < 0)
@@ -136,12 +136,12 @@ function ReedSolomonDecoder(field)
 			}
 			var result = new Array(numErrors);
 			var e = 0;
-			for (var i = 1; i < 256 && e < numErrors; i++)
+			for (var i = 1; i < 256 && e < numErrors; ++i)
 			{
 				if (errorLocator.evaluateAt(i) == 0)
 				{
 					result[e] = this.field.inverse(i);
-					e++;
+					++e;
 				}
 			}
 			if (e != numErrors)
@@ -155,11 +155,11 @@ function ReedSolomonDecoder(field)
 			// This is directly applying Forney's Formula
 			var s = errorLocations.length;
 			var result = new Array(s);
-			for (var i = 0; i < s; i++)
+			for (var i = 0; i < s; ++i)
 			{
 				var xiInverse = this.field.inverse(errorLocations[i]);
 				var denominator = 1;
-				for (var j = 0; j < s; j++)
+				for (var j = 0; j < s; ++j)
 				{
 					if (i != j)
 					{

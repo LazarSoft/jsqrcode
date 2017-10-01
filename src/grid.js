@@ -101,7 +101,7 @@ GridSampler.sampleGrid3=function( image,  dimension,  transform)
 		{
 			var bits = new BitMatrix(dimension);
 			var points = new Array(dimension << 1);
-			for (var y = 0; y < dimension; y++)
+			for (var y = 0; y < dimension; ++y)
 			{
 				var max = points.length;
 				var iValue =  y + 0.5;

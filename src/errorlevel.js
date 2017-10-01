@@ -55,4 +55,4 @@ var L = new ErrorCorrectionLevel(0, 0x01, "L");
 var M = new ErrorCorrectionLevel(1, 0x00, "M");
 var Q = new ErrorCorrectionLevel(2, 0x03, "Q");
 var H = new ErrorCorrectionLevel(3, 0x02, "H");
-var FOR_BITS = new Array( M, L, H, Q);
+var FOR_BITS = [M, L, H, Q];
