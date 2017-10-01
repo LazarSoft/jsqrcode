@@ -150,7 +150,6 @@ function FinderPatternInfo(patternCenters)
 
 function FinderPatternFinder()
 {
-	this.image=null;
 	this.possibleCenters = [];
 	this.hasSkipped = false;
 	this.crossCheckStateCount = [0,0,0,0,0];
@@ -191,16 +190,14 @@ function FinderPatternFinder()
 		{
 			return  (end - stateCount[4] - stateCount[3]) - stateCount[2] / 2.0;
 		}
-	this.crossCheckVertical=function( startI,  centerJ,  maxCount,  originalStateCountTotal)
+	this.crossCheckVertical=function( startI,  centerJ,  maxCount,  originalStateCountTotal, img)
 		{
-			var image = this.image;
-			
 			var maxI = qrcode.height;
 			var stateCount = this.CrossCheckStateCount;
 			
 			// Start counting up from center
 			var i = startI;
-			while (i >= 0 && image[centerJ + i*qrcode.width])
+			while (i >= 0 && img[centerJ + i*qrcode.width])
 			{
 				++stateCount[2];
 				--i;
@@ -209,7 +206,7 @@ function FinderPatternFinder()
 			{
 				return NaN;
 			}
-			while (i >= 0 && !image[centerJ +i*qrcode.width] && stateCount[1] <= maxCount)
+			while (i >= 0 && !img[centerJ +i*qrcode.width] && stateCount[1] <= maxCount)
 			{
 				++stateCount[1];
 				--i;
@@ -219,7 +216,7 @@ function FinderPatternFinder()
 			{
 				return NaN;
 			}
-			while (i >= 0 && image[centerJ + i*qrcode.width] && stateCount[0] <= maxCount)
+			while (i >= 0 && img[centerJ + i*qrcode.width] && stateCount[0] <= maxCount)
 			{
 				++stateCount[0];
 				--i;
@@ -231,7 +228,7 @@ function FinderPatternFinder()
 			
 			// Now also count down from center
 			i = startI + 1;
-			while (i < maxI && image[centerJ +i*qrcode.width])
+			while (i < maxI && img[centerJ +i*qrcode.width])
 			{
 				++stateCount[2];
 				++i;
@@ -240,7 +237,7 @@ function FinderPatternFinder()
 			{
 				return NaN;
 			}
-			while (i < maxI && !image[centerJ + i*qrcode.width] && stateCount[3] < maxCount)
+			while (i < maxI && !img[centerJ + i*qrcode.width] && stateCount[3] < maxCount)
 			{
 				++stateCount[3];
 				++i;
@@ -249,7 +246,7 @@ function FinderPatternFinder()
 			{
 				return NaN;
 			}
-			while (i < maxI && image[centerJ + i*qrcode.width] && stateCount[4] < maxCount)
+			while (i < maxI && img[centerJ + i*qrcode.width] && stateCount[4] < maxCount)
 			{
 				++stateCount[4];
 				++i;
@@ -269,15 +266,13 @@ function FinderPatternFinder()
 			
 			return this.foundPatternCross(stateCount)?this.centerFromEnd(stateCount, i):NaN;
 		}
-	this.crossCheckHorizontal=function( startJ,  centerI,  maxCount, originalStateCountTotal)
-		{
-			var image = this.image;
-			
+	this.crossCheckHorizontal=function( startJ,  centerI,  maxCount, originalStateCountTotal, img)
+		{			
 			var maxJ = qrcode.width;
 			var stateCount = this.CrossCheckStateCount;
 			
 			var j = startJ;
-			while (j >= 0 && image[j+ centerI*qrcode.width])
+			while (j >= 0 && img[j+ centerI*qrcode.width])
 			{
 				++stateCount[2];
 				--j;
@@ -286,7 +281,7 @@ function FinderPatternFinder()
 			{
 				return NaN;
 			}
-			while (j >= 0 && !image[j+ centerI*qrcode.width] && stateCount[1] <= maxCount)
+			while (j >= 0 && !img[j+ centerI*qrcode.width] && stateCount[1] <= maxCount)
 			{
 				++stateCount[1];
 				--j;
@@ -295,7 +290,7 @@ function FinderPatternFinder()
 			{
 				return NaN;
 			}
-			while (j >= 0 && image[j+ centerI*qrcode.width] && stateCount[0] <= maxCount)
+			while (j >= 0 && img[j+ centerI*qrcode.width] && stateCount[0] <= maxCount)
 			{
 				++stateCount[0];
 				--j;
@@ -306,7 +301,7 @@ function FinderPatternFinder()
 			}
 			
 			j = startJ + 1;
-			while (j < maxJ && image[j+ centerI*qrcode.width])
+			while (j < maxJ && img[j+ centerI*qrcode.width])
 			{
 				++stateCount[2];
 				++j;
@@ -315,7 +310,7 @@ function FinderPatternFinder()
 			{
 				return NaN;
 			}
-			while (j < maxJ && !image[j+ centerI*qrcode.width] && stateCount[3] < maxCount)
+			while (j < maxJ && !img[j+ centerI*qrcode.width] && stateCount[3] < maxCount)
 			{
 				++stateCount[3];
 				++j;
@@ -324,7 +319,7 @@ function FinderPatternFinder()
 			{
 				return NaN;
 			}
-			while (j < maxJ && image[j+ centerI*qrcode.width] && stateCount[4] < maxCount)
+			while (j < maxJ && img[j+ centerI*qrcode.width] && stateCount[4] < maxCount)
 			{
 				++stateCount[4];
 				++j;
@@ -344,15 +339,15 @@ function FinderPatternFinder()
 			
 			return this.foundPatternCross(stateCount)?this.centerFromEnd(stateCount, j):NaN;
 		}
-	this.handlePossibleCenter=function( stateCount,  i,  j)
+	this.handlePossibleCenter=function( stateCount,  i,  j, img)
 		{
 			var stateCountTotal = stateCount[0] + stateCount[1] + stateCount[2] + stateCount[3] + stateCount[4];
 			var centerJ = this.centerFromEnd(stateCount, j); //float
-			var centerI = this.crossCheckVertical(i, Math.floor( centerJ), stateCount[2], stateCountTotal); //float
+			var centerI = this.crossCheckVertical(i, Math.floor( centerJ), stateCount[2], stateCountTotal, img); //float
 			if (!isNaN(centerI))
 			{
 				// Re-cross check
-				centerJ = this.crossCheckHorizontal(Math.floor( centerJ), Math.floor( centerI), stateCount[2], stateCountTotal);
+				centerJ = this.crossCheckHorizontal(Math.floor( centerJ), Math.floor( centerI), stateCount[2], stateCountTotal, img);
 				if (!isNaN(centerJ))
 				{
 					var estimatedModuleSize =   stateCountTotal / 7.0;
@@ -446,7 +441,7 @@ function FinderPatternFinder()
 				});
 			}
 			
-			return new Array( this.possibleCenters[0],  this.possibleCenters[1],  this.possibleCenters[2]);
+			return [this.possibleCenters[0],  this.possibleCenters[1],  this.possibleCenters[2]];
 		}
 		
 	this.findRowSkip=function()
@@ -513,9 +508,8 @@ function FinderPatternFinder()
 			return totalDeviation <= 0.05 * totalModuleSize;
 		}
 		
-	this.findFinderPattern = function(image){
+	this.findFinderPattern = function(img){
 		var tryHarder = false;
-		this.image=image;
 		var maxI = qrcode.height;
 		var maxJ = qrcode.width;
 		var iSkip = Math.floor((3 * maxI) / (4 * MAX_MODULES));
@@ -537,7 +531,7 @@ function FinderPatternFinder()
 			var currentState = 0;
 			for (var j = 0; j < maxJ; ++j)
 			{
-				if (image[j+i*qrcode.width] )
+				if (img[j+i*qrcode.width] )
 				{
 					// Black pixel
 					if ((currentState & 1) == 1)
@@ -559,7 +553,7 @@ function FinderPatternFinder()
 							if (this.foundPatternCross(stateCount))
 							{
 								// Yes
-								var confirmed = this.handlePossibleCenter(stateCount, i, j);
+								var confirmed = this.handlePossibleCenter(stateCount, i, j, img);
 								if (confirmed)
 								{
 									// Start examining every other line. Checking each line turned out to be too
@@ -594,7 +588,7 @@ function FinderPatternFinder()
 									{
 										++j;
 									}
-									while (j < maxJ && !image[j + i*qrcode.width]);
+									while (j < maxJ && !img[j + i*qrcode.width]);
 									--j; // back up to that last white pixel
 								}
 								// Clear state to start looking again
@@ -630,7 +624,7 @@ function FinderPatternFinder()
 			}
 			if (this.foundPatternCross(stateCount))
 			{
-				var confirmed = this.handlePossibleCenter(stateCount, i, maxJ);
+				var confirmed = this.handlePossibleCenter(stateCount, i, maxJ, img);
 				if (confirmed)
 				{
 					iSkip = stateCount[0];
