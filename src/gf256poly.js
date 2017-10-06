@@ -191,7 +191,7 @@ function GF256Poly(field,  coefficients)
 			}
 			var size = this.coefficients.length;
 			var product = new Array(size + degree);
-			for(var i=0;i<product.length;++i)product[i]=0;
+			product.fill(0);
 			for (var i = 0; i < size; ++i)
 			{
 				product[i] = this.field.multiply(this.coefficients[i], coefficient);

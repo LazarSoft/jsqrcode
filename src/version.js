@@ -43,7 +43,7 @@ function ECBlocks( ecCodewordsPerBlock,  ecBlocks1,  ecBlocks2)
 {
 	this.ecCodewordsPerBlock = ecCodewordsPerBlock;
 	if(ecBlocks2)
-		this.ecBlocks = new Array(ecBlocks1, ecBlocks2);
+		this.ecBlocks = [ecBlocks1, ecBlocks2];
 	else
 		this.ecBlocks = new Array(ecBlocks1);
 	
