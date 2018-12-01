@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html>
+    <head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta charset="utf-8">
+        <title>Decode QRCode from image using javascript</title>
+		<link type="text/css" href="style.css" rel="stylesheet">
+    </head>
+    <body>
+		<!-- scripts for decode qr-code-->
+        <script type="text/javascript" src="grid.js"></script>
+        <script type="text/javascript" src="version.js"></script>
+        <script type="text/javascript" src="detector.js"></script>
+        <script type="text/javascript" src="formatinf.js"></script>
+        <script type="text/javascript" src="errorlevel.js"></script>
+        <script type="text/javascript" src="bitmat.js"></script>
+        <script type="text/javascript" src="datablock.js"></script>
+        <script type="text/javascript" src="bmparser.js"></script>
+        <script type="text/javascript" src="datamask.js"></script>
+        <script type="text/javascript" src="rsdecoder.js"></script>
+        <script type="text/javascript" src="gf256poly.js"></script>
+        <script type="text/javascript" src="gf256.js"></script>
+        <script type="text/javascript" src="decoder.js"></script>
+        <script type="text/javascript" src="qrcode.js"></script>
+        <script type="text/javascript" src="findpat.js"></script>
+        <script type="text/javascript" src="alignpat.js"></script>
+        <script type="text/javascript" src="databr.js"></script>
+		<script type="text/javascript" src="qrcode-generator.js"></script>
+		
+				<div id="main">
+			<table id="upload">
+				<tbody>
+					<tr>
+						<td><div id="step1" style="display:inline;">Step 1. </div></td>
+						<td>Enter an image URL:</td>
+						<td>
+							<!-- image from url -->
+							<input id="url" type="text" placeholder="'relative path' or 'http://...' or 'https://...'"
+							value="https://chart.googleapis.com/chart?chs=300x300&cht=qr&chl=0x1876D8BC60DEc8b8e30d52498faD5b5552F2f57f&choe=UTF-8" size="50">
+							<br>
+						</td>
+						<td>
+							<input type="submit" onclick="change_url(document.getElementById('url').value);">
+						</td>
+					</tr>
+					<tr>
+						<td colspan="4">
+							<!--result image from url-->
+							<a id="download" href="qrcode.png" download="file.png">
+								<img id="image_from_url" style="display:none" src="qrcode.png">
+								<div id="download_text"></div></a>
+							<br>
+							<div id="set_filename" style="display:none">
+								Set filename:<input id="new_filename" type="text" value="file.png">
+								<input type="submit" onclick="change_filename(document.getElementById('new_filename').value);">
+							</div>
+						</td>
+					<tr>
+					<tr>
+						<td>
+							<div id="step2" style="display:none;"></div>
+						</td>
+						<td>
+							<div id="upload_file" style="display:inline;">Or upload the existing file (&lt;10MB, &lt;10MP):</div>
+						</td>
+						<td>
+							Select file...
+						</td>
+						<td>
+							<!-- input file and read as base64 data url -->
+							<input id="inp" type='file'>
+						</td>
+					</tr>
+					<tr>
+						<td colspan="4">
+							<!-- result dataURL for selected file-->
+							<div id="file_result" style="display:none;">
+								Image:<br>
+								<img id="img" height="150">
+								<br>
+								Base64:<br>
+								<textarea id="b64" readonly="readonly" rows="10" cols="70"></textarea>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<!--button for decode QR-code-->
+						<td><div id="Step3"><!-- step 2 by default -->Step 2.</div></td>
+						<td>Base64 QR-code -&gt; to value</td>
+						<td>
+							Decode base64 encoded QR-code.
+						</td>
+						<td>
+							<input type="button" id="action" value="Decode base64 encoded QR-code."/>
+						</td>
+					</tr>
+					<tr>
+						<td colspan="4">
+							<!-- result of decoding qr-code from base64-->
+							Result (change this value to generate new qr-code):<br>
+							<textarea id="result" rows="1" cols="100" onchange="generate_qr_code();"></textarea>
+							<a id="new_generated_qr_code" download="qrcode.gif" style="display:none;" title="Click to download as file."></a>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		
+		<br>
+		<hr>
+		Also, you can do capture qr-code from webcam,
+		with <a href="https://github.com/username1565/html5-qrcode">this
+		client-side javascript qrcode-scanner.</a>
+		<br>
+		<br>
+		<br>
+		
+		<script>
+			/*
+				1.	Select file, or enter the URL for image.
+				2.	If URL entered - download picture as image, and select file on step2.
+				3.	Get base64 from uploaded file.
+				4.	Decode QR-code value from base64 of selected file with QR-code picture.
+			*/
+
+			function change_filename(filename){
+				var download_link = document.getElementById("download");										//link element
+				download_link.href = document.getElementById("image_from_url").src;																	//change href
+				download_link.download = filename;												//set filename in download attribute
+				download_link.title = "Click here to download picture "+document.getElementById("image_from_url").src+"\n"+
+										"as file with filename: \n"+
+										"\""+filename+"\"";								//add title tooltip
+			}
+
+			function change_url(url){	
+				var img = document.getElementById("image_from_url");											//image element
+				img.src = url;
+				img.style.display = 'block';
+				var src = img.src;																				//url from src
+				var find_extension = src.split(".");															//split to find extension
+				//console.log(find_extension, find_extension.length, find_extension[find_extension.length-1]);	//display array, length and extension, as last element
+				var extension = find_extension[find_extension.length-1];										//copy extension
+				var find_filename = find_extension[find_extension.length-2].split("/");
+				//console.log(find_filename, find_filename.length, find_filename[find_filename.length-1]);		//display array, length and filename, as last element
+				var filename = find_filename[find_filename.length-1];											//copy filename
+
+				change_filename(filename+"."+extension);
+	
+				var set_filename = document.getElementById("set_filename");
+				set_filename.style.display = 'block';
+
+				download_text = document.getElementById("download_text");
+				download_text.innerHTML = '<br>Download picture as file.';										//add text
+	
+				var upload_file = document.getElementById("upload_file");
+				upload_file.innerHTML = 'Upload the downloaded file (&lt;10MB, &lt;10MP):';
+	
+				var step2 = document.getElementById("step2");
+				step2.style.display = 'inline';
+				step2.innerHTML = "Step 2.";
+
+				var Step3 = document.getElementById("Step3");
+				Step3.style.display = 'inline';
+				Step3.innerHTML = 		'Step 3.';	
+			}							
+
+
+
+
+			//script for encode qr-code as base64 dataURL
+			function readFile() {
+				if (this.files && this.files[0]) {
+					var FR= new FileReader();
+					FR.addEventListener("load", function(e) {
+						document.getElementById("img").src       = e.target.result;
+						document.getElementById("b64").innerHTML = e.target.result;
+					}); 
+					FR.readAsDataURL( this.files[0] );
+				}
+				document.getElementById("file_result").style.display = 'inline';
+			}
+		
+			document.getElementById("inp").addEventListener("change", readFile);
+			
+		</script>
+
+
+        <script>
+			//script for decode qr-code from dataURL (base64 encoded image)
+		
+			// A qrcode with "ourcodeworld.com" as value in format base64 encoded
+			//gif
+			//            var imageURI = "data:image/gif;base64,R0lGODdhlACUAIAAAAAAAP///ywAAAAAlACUAAAC/4yPqcvtD6OctNqLs968+w+G4kiW5omm6sq27gvH8kzX9o3n+s73/g8MCofEovGIVAGWzKbzCaVApwApk0HNUknartPqrU6a2LCXa+6Cz+PrIq0ewbXruIT8nm/lbgvekIbwFzCIUdi2hJZ4MRh40NiXcXgXCTIZARkmGHm5Zlj50fmQyQbICeqHiqnKQTq1uWga2yAqCwcrZvv6yLrhGsU7W0vYq2uGi7trq5hLnIUc3Fw2O30bnQy8zCdMd+3tMKzX/PsELUL+9Z0wjC3O/b6nfX76rG6+6p4u7xzPz9yuz18eaqPyBURH6l80ZQIVsFto8J6dhiEQ0huXrQI6CP8W4Sk0Vk4dQ08QCTq8yPBhKngpURaj5dLkupgHX35imXEjI5ocaSbcJg0RRo8l+wH8uTKoB5Uzie5zdLLePpLzZPZ0ShFq035M71myOXCo2KMZyWKlWtEg0qwXJbYtKo6ZWrdY19pVCzbpXJFvn/Zli1dph8B1/94tHJjI2jplk1Qdu1OqY6BehY6c/PWs5cZGWsq8DM5nztGSQacNObUoWq2euXI+XfPz62pmY9tu3TWy7WpMO94WjdPqi3CkXWsK2ztvCuKo+eHuFjXgVcEwmP9urhUgWhrWfde+ZJr28Jfhw7ZStdjeiu7Kc0cXnzr+cvKzzftC/7eyEvrNp5//l62ZfJkJlh5I10m3GXaGKbcdXwAaZ1SCuzlI3X0P6udcceWFVtqCwmkAXn5wAVchhxDSVaIkDFKIYVwF9WefgBamCB9gBOoxnXUY/kdjjDbydsyLCL6n3lIr+hVghseZqGORgxXn34w5ikikC61FCSJ/E5pYHZRC8jhlkjuecOWXUgpZ4FZdwsilkxvClORejyUXZ31tyicnbHRCFp17PyKHI1B7tmgnnHxu5eKc0Bmq3YhL2jjRmEY+WuNzc6AYqZMDZlqlkmIlCumikj5JqY+WWoNkKWqO12GrPfaJn4J1fqinhl7qFeuWFI26qa2yvoporofdSGuvv5aJ64PD/9aIQpp76kQJm4yyeiivql0b7ZDTWknlrmjyJGGD+80K7KmMFatpKLnWVqmHEGaHLWztSoYipr6q2uhj80aYqr3HBgkruknta9qyjn4KcLACk6oru9+KCSi5LCCrsLb5estkt37e1PDBYVb7MMgyKkrumxR/TOjC4lYMb7+mEnbxgB+3/GenhCGsslAzJ1zvy4nFK3PINDtLImuF4sCesjxHTCyw3GkZ4qUhM/tD0k3THHO6OlgNZKkBNy1XRCxqzfKtnq6JV88jl/1r1uOmPfba37m78Yx5GpztRNC24GfUh1KcptoYM8zxvhfjvW3N8upmeLyINy4345LbDK7La+w/rm5wHRs4bMGBWr445xov6h3TencLpsdukk5i16oGfqboJZvNqaenQ5yl5p2v67ioZKPtcKp+H+575NzqTjfvBga/6tatUzh87/T+Ti3z0QtftPK2ox779hJDn/2Fqhuv0fN4Jo+8tKWTvxrr4mOfvrbrD576wAfvTXz8VOs7ufcHuu4v+R2pfDmD37uEhT4BFpCATgOfq/y2O/UN8FzuGNWp8Mc0a+UObpe7Fwa/pkEV/ayD/yphik4mKLGR8EAfrFgIMQPDGMpwhjSsoQ1viMMc6nCHPOyhD38IxCAKcYhELKIRj4jEJNKwAAA7";
+			//png
+			//            var imageURI = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJwAAACcAQMAAACwdlAOAAAABlBMVEUAAAD///+l2Z/dAAAA3klEQVRIS+3Uu3FFIRAE0c5g8s+yM2gZ9/1U8nQxZGgtOAZbDFvQz5J//GMo4NJreQZL11Sv3QEUvW6hnMNI8Cy2bTuHpW4t6xACPur7a/4eq5zKc3MARQsbkyMoDXmk4hGsQaYrdgal7UpkH4HcQTcsc9uz0V2UseameghzRXNsZ5A2F5RxBBPXUCdnUGqDR9Jn0GBsE9shNLq+Fl8DdhdTpgrvAbuFz7OBdyA3USCtUHcGy8L0o9FNFN2YwqvRAWyZ2zOdI5iOzwG7h2WNmZ1C4Pr8YHQEf9Q//i38AljoedjJU0bzAAAAAElFTkSuQmCC";
+
+            /**
+             * The function decodeImageFromBase64 expects as first parameter a base64 string from a QRCode.
+             * As second parameter the callback that expects the data from the QRCode as first parameter.
+             */
+            function decodeImageFromBase64(data, callback){
+                // set callback
+                qrcode.callback = callback;
+                // Start decoding
+                qrcode.decode(data)
+            }
+
+            // On button click, decode the qrCode from the base64 format.
+            document.getElementById("action").addEventListener(
+				'click',
+				function(){
+					var imageURI = document.getElementById("b64").innerHTML;
+					decodeImageFromBase64(imageURI,function(decodedInformation){
+						var result = document.getElementById("result");
+						result.innerHTML = decodedInformation;
+					
+						//add title if my Ethereum address
+						if(decodedInformation==='0x1876D8BC60DEc8b8e30d52498faD5b5552F2f57f'){
+							result.title = "You can donate Ethereum or some tokens by this addres, for me."
+						}
+					});
+				},false
+			);
+			
+			//if text in result textarea modified - regenerate qr-code.
+			function generate_qr_code(){
+				var qrCode = qrcode_gen(10, 'L');
+				var text = document.getElementById("result").value;
+				console.log(text);
+				text = text.replace(/^[\s\u3000]+|[\s\u3000]+$/g, '');
+				qrCode.addData(text);
+				qrCode.make();
+				var link = document.getElementById("new_generated_qr_code");
+				link.innerHTML = qrCode.createImgTag(6);
+				link.style.display = "block";
+				
+				//get value of "src"-attribute for child tag "img" of "link" element and copy to "href"
+				link.href = link.getElementsByTagName('img')[0].src;
+				link.innerHTML = "Regenerated QR-code:<br>" + link.innerHTML;
+				
+			}
+			
+			var area = document.getElementById("result");
+			if (area.addEventListener) {
+				area.addEventListener('input', function() {
+					// event handling code for sane browsers
+					generate_qr_code();
+				}, false);
+			} else if (area.attachEvent) {
+				area.attachEvent('onpropertychange', function() {
+					// IE-specific event handling code
+					generate_qr_code();
+				});
+			}
+        </script>
+		
+    </body>
+</html>
+
