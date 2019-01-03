@@ -416,7 +416,7 @@ function FinderPatternFinder()
 					});
 
 				var stdDev = Math.sqrt(square / startSize - average * average);
-				var limit = Math.max(0.2 * average, stdDev);
+				var limit = Math.max(0.01 * average, stdDev);
 				for (var i = 0; i < this.possibleCenters.length && this.possibleCenters.length > 3; )
 				{
 					var pattern =  this.possibleCenters[i];
@@ -497,7 +497,7 @@ function FinderPatternFinder()
 			// OK, we have at least 3 confirmed centers, but, it's possible that one is a "false positive"
 			// and that we need to keep looking. We detect this by asking if the estimated module sizes
 			// vary too much. We arbitrarily say that when the total deviation from average exceeds
-			// 5% of the total module size estimates, it's too much.
+			// 5‰ of the total module size estimates, it's too much.
 			var average = totalModuleSize / max;
 			var totalDeviation = 0.0;
 			for (var i = 0; i < max; ++i)
@@ -505,7 +505,7 @@ function FinderPatternFinder()
 				pattern = this.possibleCenters[i];
 				totalDeviation += Math.abs(pattern.EstimatedModuleSize - average);
 			}
-			return totalDeviation <= 0.05 * totalModuleSize;
+			return totalDeviation <= 0.005 * totalModuleSize;
 		}
 		
 	this.findFinderPattern = function(img){
@@ -584,11 +584,7 @@ function FinderPatternFinder()
 								else
 								{
 									// Advance to next black pixel
-									do 
-									{
-										++j;
-									}
-									while (j < maxJ && !img[j + i*qrcode.width]);
+									while (++j < maxJ && !img[j + i*qrcode.width]);
 									--j; // back up to that last white pixel
 								}
 								// Clear state to start looking again
