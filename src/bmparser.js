@@ -48,7 +48,7 @@ function BitMatrixParser(bitMatrix)
 			
 			// Read top-left format info bits
 			var formatInfoBits = 0;
-			for (var i = 0; i < 6; i++)
+			for (var i = 0; i < 6; ++i)
 			{
 				formatInfoBits = this.copyBit(i, 8, formatInfoBits);
 			}
@@ -57,7 +57,7 @@ function BitMatrixParser(bitMatrix)
 			formatInfoBits = this.copyBit(8, 8, formatInfoBits);
 			formatInfoBits = this.copyBit(8, 7, formatInfoBits);
 			// .. and skip a bit in the timing pattern ...
-			for (var j = 5; j >= 0; j--)
+			for (var j = 5; j >= 0; --j)
 			{
 				formatInfoBits = this.copyBit(8, j, formatInfoBits);
 			}
@@ -72,11 +72,11 @@ function BitMatrixParser(bitMatrix)
 			var dimension = this.bitMatrix.Dimension;
 			formatInfoBits = 0;
 			var iMin = dimension - 8;
-			for (var i = dimension - 1; i >= iMin; i--)
+			for (var i = dimension - 1; i >= iMin; --i)
 			{
 				formatInfoBits = this.copyBit(i, 8, formatInfoBits);
 			}
-			for (var j = dimension - 7; j < dimension; j++)
+			for (var j = dimension - 7; j < dimension; ++j)
 			{
 				formatInfoBits = this.copyBit(8, j, formatInfoBits);
 			}
@@ -107,9 +107,9 @@ function BitMatrixParser(bitMatrix)
 			// Read top-right version info: 3 wide by 6 tall
 			var versionBits = 0;
 			var ijMin = dimension - 11;
-			for (var j = 5; j >= 0; j--)
+			for (var j = 5; j >= 0; --j)
 			{
-				for (var i = dimension - 9; i >= ijMin; i--)
+				for (var i = dimension - 9; i >= ijMin; --i)
 				{
 					versionBits = this.copyBit(i, j, versionBits);
 				}
@@ -123,9 +123,9 @@ function BitMatrixParser(bitMatrix)
 			
 			// Hmm, failed. Try bottom left: 6 wide by 3 tall
 			versionBits = 0;
-			for (var i = 5; i >= 0; i--)
+			for (var i = 5; i >= 0; --i)
 			{
-				for (var j = dimension - 9; j >= ijMin; j--)
+				for (var j = dimension - 9; j >= ijMin; --j)
 				{
 					versionBits = this.copyBit(i, j, versionBits);
 				}
@@ -164,19 +164,19 @@ function BitMatrixParser(bitMatrix)
 				{
 					// Skip whole column with vertical alignment pattern;
 					// saves time and makes the other code proceed more cleanly
-					j--;
+					--j;
 				}
 				// Read alternatingly from bottom to top then top to bottom
-				for (var count = 0; count < dimension; count++)
+				for (var count = 0; count < dimension; ++count)
 				{
 					var i = readingUp?dimension - 1 - count:count;
-					for (var col = 0; col < 2; col++)
+					for (var col = 0; col < 2; ++col)
 					{
 						// Ignore bits covered by the function pattern
 						if (!functionPattern.get_Renamed(j - col, i))
 						{
 							// Read a bit
-							bitsRead++;
+							++bitsRead;
 							currentByte <<= 1;
 							if (this.bitMatrix.get_Renamed(j - col, i))
 							{

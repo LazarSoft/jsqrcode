@@ -36,12 +36,11 @@ function BitMatrix( width,  height)
 	var rowSize = width >> 5;
 	if ((width & 0x1f) != 0)
 	{
-		rowSize++;
+		++rowSize;
 	}
 	this.rowSize = rowSize;
 	this.bits = new Array(rowSize * height);
-	for(var i=0;i<this.bits.length;i++)
-		this.bits[i]=0;
+	this.bits.fill(0);
 	
 	this.__defineGetter__("Width", function()
 	{
@@ -77,11 +76,7 @@ function BitMatrix( width,  height)
 		}
 	this.clear=function()
 		{
-			var max = this.bits.length;
-			for (var i = 0; i < max; i++)
-			{
-				this.bits[i] = 0;
-			}
+			this.bits.fill(0);
 		}
 	this.setRegion=function( left,  top,  width,  height)
 		{
@@ -99,10 +94,10 @@ function BitMatrix( width,  height)
 			{
 				throw "The region must fit inside the matrix";
 			}
-			for (var y = top; y < bottom; y++)
+			for (var y = top; y < bottom; ++y)
 			{
 				var offset = y * this.rowSize;
-				for (var x = left; x < right; x++)
+				for (var x = left; x < right; ++x)
 				{
 					this.bits[offset + (x >> 5)] |= 1 << (x & 0x1f);
 				}

@@ -53,7 +53,7 @@ DataBlock.getDataBlocks=function(rawCodewords,  version,  ecLevel)
 	// First count the total number of data blocks
 	var totalBlocks = 0;
 	var ecBlockArray = ecBlocks.getECBlocks();
-	for (var i = 0; i < ecBlockArray.length; i++)
+	for (var i = 0; i < ecBlockArray.length; ++i)
 	{
 		totalBlocks += ecBlockArray[i].Count;
 	}
@@ -61,10 +61,10 @@ DataBlock.getDataBlocks=function(rawCodewords,  version,  ecLevel)
 	// Now establish DataBlocks of the appropriate size and number of data codewords
 	var result = new Array(totalBlocks);
 	var numResultBlocks = 0;
-	for (var j = 0; j < ecBlockArray.length; j++)
+	for (var j = 0; j < ecBlockArray.length; ++j)
 	{
 		var ecBlock = ecBlockArray[j];
-		for (var i = 0; i < ecBlock.Count; i++)
+		for (var i = 0; i < ecBlock.Count; ++i)
 		{
 			var numDataCodewords = ecBlock.DataCodewords;
 			var numBlockCodewords = ecBlocks.ECCodewordsPerBlock + numDataCodewords;
@@ -83,31 +83,31 @@ DataBlock.getDataBlocks=function(rawCodewords,  version,  ecLevel)
 		{
 			break;
 		}
-		longerBlocksStartAt--;
+		--longerBlocksStartAt;
 	}
-	longerBlocksStartAt++;
+	++longerBlocksStartAt;
 	
 	var shorterBlocksNumDataCodewords = shorterBlocksTotalCodewords - ecBlocks.ECCodewordsPerBlock;
 	// The last elements of result may be 1 element longer;
 	// first fill out as many elements as all of them have
 	var rawCodewordsOffset = 0;
-	for (var i = 0; i < shorterBlocksNumDataCodewords; i++)
+	for (var i = 0; i < shorterBlocksNumDataCodewords; ++i)
 	{
-		for (var j = 0; j < numResultBlocks; j++)
+		for (var j = 0; j < numResultBlocks; ++j)
 		{
 			result[j].codewords[i] = rawCodewords[rawCodewordsOffset++];
 		}
 	}
 	// Fill out the last data block in the longer ones
-	for (var j = longerBlocksStartAt; j < numResultBlocks; j++)
+	for (var j = longerBlocksStartAt; j < numResultBlocks; ++j)
 	{
 		result[j].codewords[shorterBlocksNumDataCodewords] = rawCodewords[rawCodewordsOffset++];
 	}
 	// Now add in error correction blocks
 	var max = result[0].codewords.length;
-	for (var i = shorterBlocksNumDataCodewords; i < max; i++)
+	for (var i = shorterBlocksNumDataCodewords; i < max; ++i)
 	{
-		for (var j = 0; j < numResultBlocks; j++)
+		for (var j = 0; j < numResultBlocks; ++j)
 		{
 			var iOffset = j < longerBlocksStartAt?i:i + 1;
 			result[j].codewords[iOffset] = rawCodewords[rawCodewordsOffset++];

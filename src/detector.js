@@ -58,7 +58,7 @@ function PerspectiveTransform( a11,  a21,  a31,  a12,  a22,  a32,  a13,  a23,  a
 	this. transformPoints2=function(xValues, yValues)
 		{
 			var n = xValues.length;
-			for (var i = 0; i < n; i++)
+			for (var i = 0; i < n; ++i)
 			{
 				var x = xValues[i];
 				var y = yValues[i];
@@ -158,14 +158,14 @@ function Detector(image)
 					// In white pixels, looking for black
 					if (this.image[realX + realY*qrcode.width])
 					{
-						state++;
+						++state;
 					}
 				}
 				else
 				{
 					if (!this.image[realX + realY*qrcode.width])
 					{
-						state++;
+						++state;
 					}
 				}
 				
@@ -273,12 +273,12 @@ function Detector(image)
 				
 				// mod 4
 				case 0: 
-					dimension++;
+					++dimension;
 					break;
 					// 1? do nothing
 				
 				case 2: 
-					dimension--;
+					--dimension;
 					break;
 				
 				case 3: 

@@ -56,7 +56,7 @@ function drop(e) {
 function handleFiles(f)
 {
 	var o=[];
-	for(var i =0;i<f.length;i++)
+	for(var i =0;i<f.length;++i)
 	{
 	  var reader = new FileReader();
 
@@ -104,7 +104,7 @@ function initCanvas(ww,hh)
 
 		var coll = stringPixels.split("-");
 	
-		for(var i=0;i<320;i++) { 
+		for(var i=0;i<320;++i) { 
 			var intVal = parseInt(coll[i]);
 			r = (intVal >> 16) & 0xff;
 			g = (intVal >> 8) & 0xff;

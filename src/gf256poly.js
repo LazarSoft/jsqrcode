@@ -37,7 +37,7 @@ function GF256Poly(field,  coefficients)
 		var firstNonZero = 1;
 		while (firstNonZero < coefficientsLength && coefficients[firstNonZero] == 0)
 		{
-			firstNonZero++;
+			++firstNonZero;
 		}
 		if (firstNonZero == coefficientsLength)
 		{
@@ -46,9 +46,9 @@ function GF256Poly(field,  coefficients)
 		else
 		{
 			this.coefficients = new Array(coefficientsLength - firstNonZero);
-			for(var i=0;i<this.coefficients.length;i++)this.coefficients[i]=0;
-			//Array.Copy(coefficients, firstNonZero, this.coefficients, 0, this.coefficients.length);
-			for(var ci=0;ci<this.coefficients.length;ci++)this.coefficients[ci]=coefficients[firstNonZero+ci];
+			this.coefficients.fill(0);
+			for(var ci=0;ci<this.coefficients.length;++ci)
+				this.coefficients[ci]=coefficients[firstNonZero+ci];
 		}
 	}
 	else
@@ -86,14 +86,14 @@ function GF256Poly(field,  coefficients)
 		{
 			// Just the sum of the coefficients
 			var result = 0;
-			for (var i = 0; i < size; i++)
+			for (var i = 0; i < size; ++i)
 			{
 				result = GF256.addOrSubtract(result, this.coefficients[i]);
 			}
 			return result;
 		}
 		var result2 = this.coefficients[0];
-		for (var i = 1; i < size; i++)
+		for (var i = 1; i < size; ++i)
 		{
 			result2 = GF256.addOrSubtract(this.field.multiply(a, result2), this.coefficients[i]);
 		}
@@ -127,9 +127,9 @@ function GF256Poly(field,  coefficients)
 			var lengthDiff = largerCoefficients.length - smallerCoefficients.length;
 			// Copy high-order terms only found in higher-degree polynomial's coefficients
 			//Array.Copy(largerCoefficients, 0, sumDiff, 0, lengthDiff);
-			for(var ci=0;ci<lengthDiff;ci++)sumDiff[ci]=largerCoefficients[ci];
+			for(var ci=0;ci<lengthDiff;++ci)sumDiff[ci]=largerCoefficients[ci];
 			
-			for (var i = lengthDiff; i < largerCoefficients.length; i++)
+			for (var i = lengthDiff; i < largerCoefficients.length; ++i)
 			{
 				sumDiff[i] = GF256.addOrSubtract(smallerCoefficients[i - lengthDiff], largerCoefficients[i]);
 			}
@@ -151,10 +151,10 @@ function GF256Poly(field,  coefficients)
 			var bCoefficients = other.coefficients;
 			var bLength = bCoefficients.length;
 			var product = new Array(aLength + bLength - 1);
-			for (var i = 0; i < aLength; i++)
+			for (var i = 0; i < aLength; ++i)
 			{
 				var aCoeff = aCoefficients[i];
-				for (var j = 0; j < bLength; j++)
+				for (var j = 0; j < bLength; ++j)
 				{
 					product[i + j] = GF256.addOrSubtract(product[i + j], this.field.multiply(aCoeff, bCoefficients[j]));
 				}
@@ -173,7 +173,7 @@ function GF256Poly(field,  coefficients)
 			}
 			var size = this.coefficients.length;
 			var product = new Array(size);
-			for (var i = 0; i < size; i++)
+			for (var i = 0; i < size; ++i)
 			{
 				product[i] = this.field.multiply(this.coefficients[i], scalar);
 			}
@@ -191,8 +191,8 @@ function GF256Poly(field,  coefficients)
 			}
 			var size = this.coefficients.length;
 			var product = new Array(size + degree);
-			for(var i=0;i<product.length;i++)product[i]=0;
-			for (var i = 0; i < size; i++)
+			product.fill(0);
+			for (var i = 0; i < size; ++i)
 			{
 				product[i] = this.field.multiply(this.coefficients[i], coefficient);
 			}
@@ -225,6 +225,6 @@ function GF256Poly(field,  coefficients)
 				remainder = remainder.addOrSubtract(term);
 			}
 			
-			return new Array(quotient, remainder);
+			return [quotient, remainder];
 		}
 }

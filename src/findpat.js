@@ -115,7 +115,7 @@ function FinderPattern(posX, posY,  estimatedModuleSize)
 	});
 	this.incrementCount = function()
 	{
-		this.count++;
+		++this.count;
 	}
 	this.aboutEquals=function( moduleSize,  i,  j)
 		{
@@ -150,10 +150,9 @@ function FinderPatternInfo(patternCenters)
 
 function FinderPatternFinder()
 {
-	this.image=null;
 	this.possibleCenters = [];
 	this.hasSkipped = false;
-	this.crossCheckStateCount = new Array(0,0,0,0,0);
+	this.crossCheckStateCount = [0,0,0,0,0];
 	this.resultPointCallback = null;
 	
 	this.__defineGetter__("CrossCheckStateCount", function()
@@ -169,7 +168,7 @@ function FinderPatternFinder()
 	this.foundPatternCross=function( stateCount)
 		{
 			var totalModuleSize = 0;
-			for (var i = 0; i < 5; i++)
+			for (var i = 0; i < 5; ++i)
 			{
 				var count = stateCount[i];
 				if (count == 0)
@@ -191,38 +190,36 @@ function FinderPatternFinder()
 		{
 			return  (end - stateCount[4] - stateCount[3]) - stateCount[2] / 2.0;
 		}
-	this.crossCheckVertical=function( startI,  centerJ,  maxCount,  originalStateCountTotal)
+	this.crossCheckVertical=function( startI,  centerJ,  maxCount,  originalStateCountTotal, img)
 		{
-			var image = this.image;
-			
 			var maxI = qrcode.height;
 			var stateCount = this.CrossCheckStateCount;
 			
 			// Start counting up from center
 			var i = startI;
-			while (i >= 0 && image[centerJ + i*qrcode.width])
+			while (i >= 0 && img[centerJ + i*qrcode.width])
 			{
-				stateCount[2]++;
-				i--;
+				++stateCount[2];
+				--i;
 			}
 			if (i < 0)
 			{
 				return NaN;
 			}
-			while (i >= 0 && !image[centerJ +i*qrcode.width] && stateCount[1] <= maxCount)
+			while (i >= 0 && !img[centerJ +i*qrcode.width] && stateCount[1] <= maxCount)
 			{
-				stateCount[1]++;
-				i--;
+				++stateCount[1];
+				--i;
 			}
 			// If already too many modules in this state or ran off the edge:
 			if (i < 0 || stateCount[1] > maxCount)
 			{
 				return NaN;
 			}
-			while (i >= 0 && image[centerJ + i*qrcode.width] && stateCount[0] <= maxCount)
+			while (i >= 0 && img[centerJ + i*qrcode.width] && stateCount[0] <= maxCount)
 			{
-				stateCount[0]++;
-				i--;
+				++stateCount[0];
+				--i;
 			}
 			if (stateCount[0] > maxCount)
 			{
@@ -231,28 +228,28 @@ function FinderPatternFinder()
 			
 			// Now also count down from center
 			i = startI + 1;
-			while (i < maxI && image[centerJ +i*qrcode.width])
+			while (i < maxI && img[centerJ +i*qrcode.width])
 			{
-				stateCount[2]++;
-				i++;
+				++stateCount[2];
+				++i;
 			}
 			if (i == maxI)
 			{
 				return NaN;
 			}
-			while (i < maxI && !image[centerJ + i*qrcode.width] && stateCount[3] < maxCount)
+			while (i < maxI && !img[centerJ + i*qrcode.width] && stateCount[3] < maxCount)
 			{
-				stateCount[3]++;
-				i++;
+				++stateCount[3];
+				++i;
 			}
 			if (i == maxI || stateCount[3] >= maxCount)
 			{
 				return NaN;
 			}
-			while (i < maxI && image[centerJ + i*qrcode.width] && stateCount[4] < maxCount)
+			while (i < maxI && img[centerJ + i*qrcode.width] && stateCount[4] < maxCount)
 			{
-				stateCount[4]++;
-				i++;
+				++stateCount[4];
+				++i;
 			}
 			if (stateCount[4] >= maxCount)
 			{
@@ -269,36 +266,34 @@ function FinderPatternFinder()
 			
 			return this.foundPatternCross(stateCount)?this.centerFromEnd(stateCount, i):NaN;
 		}
-	this.crossCheckHorizontal=function( startJ,  centerI,  maxCount, originalStateCountTotal)
-		{
-			var image = this.image;
-			
+	this.crossCheckHorizontal=function( startJ,  centerI,  maxCount, originalStateCountTotal, img)
+		{			
 			var maxJ = qrcode.width;
 			var stateCount = this.CrossCheckStateCount;
 			
 			var j = startJ;
-			while (j >= 0 && image[j+ centerI*qrcode.width])
+			while (j >= 0 && img[j+ centerI*qrcode.width])
 			{
-				stateCount[2]++;
-				j--;
+				++stateCount[2];
+				--j;
 			}
 			if (j < 0)
 			{
 				return NaN;
 			}
-			while (j >= 0 && !image[j+ centerI*qrcode.width] && stateCount[1] <= maxCount)
+			while (j >= 0 && !img[j+ centerI*qrcode.width] && stateCount[1] <= maxCount)
 			{
-				stateCount[1]++;
-				j--;
+				++stateCount[1];
+				--j;
 			}
 			if (j < 0 || stateCount[1] > maxCount)
 			{
 				return NaN;
 			}
-			while (j >= 0 && image[j+ centerI*qrcode.width] && stateCount[0] <= maxCount)
+			while (j >= 0 && img[j+ centerI*qrcode.width] && stateCount[0] <= maxCount)
 			{
-				stateCount[0]++;
-				j--;
+				++stateCount[0];
+				--j;
 			}
 			if (stateCount[0] > maxCount)
 			{
@@ -306,28 +301,28 @@ function FinderPatternFinder()
 			}
 			
 			j = startJ + 1;
-			while (j < maxJ && image[j+ centerI*qrcode.width])
+			while (j < maxJ && img[j+ centerI*qrcode.width])
 			{
-				stateCount[2]++;
-				j++;
+				++stateCount[2];
+				++j;
 			}
 			if (j == maxJ)
 			{
 				return NaN;
 			}
-			while (j < maxJ && !image[j+ centerI*qrcode.width] && stateCount[3] < maxCount)
+			while (j < maxJ && !img[j+ centerI*qrcode.width] && stateCount[3] < maxCount)
 			{
-				stateCount[3]++;
-				j++;
+				++stateCount[3];
+				++j;
 			}
 			if (j == maxJ || stateCount[3] >= maxCount)
 			{
 				return NaN;
 			}
-			while (j < maxJ && image[j+ centerI*qrcode.width] && stateCount[4] < maxCount)
+			while (j < maxJ && img[j+ centerI*qrcode.width] && stateCount[4] < maxCount)
 			{
-				stateCount[4]++;
-				j++;
+				++stateCount[4];
+				++j;
 			}
 			if (stateCount[4] >= maxCount)
 			{
@@ -344,21 +339,21 @@ function FinderPatternFinder()
 			
 			return this.foundPatternCross(stateCount)?this.centerFromEnd(stateCount, j):NaN;
 		}
-	this.handlePossibleCenter=function( stateCount,  i,  j)
+	this.handlePossibleCenter=function( stateCount,  i,  j, img)
 		{
 			var stateCountTotal = stateCount[0] + stateCount[1] + stateCount[2] + stateCount[3] + stateCount[4];
 			var centerJ = this.centerFromEnd(stateCount, j); //float
-			var centerI = this.crossCheckVertical(i, Math.floor( centerJ), stateCount[2], stateCountTotal); //float
+			var centerI = this.crossCheckVertical(i, Math.floor( centerJ), stateCount[2], stateCountTotal, img); //float
 			if (!isNaN(centerI))
 			{
 				// Re-cross check
-				centerJ = this.crossCheckHorizontal(Math.floor( centerJ), Math.floor( centerI), stateCount[2], stateCountTotal);
+				centerJ = this.crossCheckHorizontal(Math.floor( centerJ), Math.floor( centerI), stateCount[2], stateCountTotal, img);
 				if (!isNaN(centerJ))
 				{
 					var estimatedModuleSize =   stateCountTotal / 7.0;
 					var found = false;
 					var max = this.possibleCenters.length;
-					for (var index = 0; index < max; index++)
+					for (var index = 0; index < max; ++index)
 					{
 						var center = this.possibleCenters[index];
 						// Look for about the same center and module size:
@@ -400,7 +395,7 @@ function FinderPatternFinder()
 				// But we can only afford to do so if we have at least 4 possibilities to choose from
 				var totalModuleSize = 0.0;
                 var square = 0.0;
-				for (var i = 0; i < startSize; i++)
+				for (var i = 0; i < startSize; ++i)
 				{
 					//totalModuleSize +=  this.possibleCenters[i].EstimatedModuleSize;
                     var	centerValue=this.possibleCenters[i].EstimatedModuleSize;
@@ -421,17 +416,17 @@ function FinderPatternFinder()
 					});
 
 				var stdDev = Math.sqrt(square / startSize - average * average);
-				var limit = Math.max(0.2 * average, stdDev);
-				//for (var i = 0; i < this.possibleCenters.length && this.possibleCenters.length > 3; i++)
-				for (var i = this.possibleCenters.length - 1; i >= 0 ; i--)
+				var limit = Math.max(0.01 * average, stdDev);
+				for (var i = 0; i < this.possibleCenters.length && this.possibleCenters.length > 3; )
 				{
 					var pattern =  this.possibleCenters[i];
-					//if (Math.abs(pattern.EstimatedModuleSize - average) > 0.2 * average)
                     if (Math.abs(pattern.EstimatedModuleSize - average) > limit)
 					{
-						//this.possibleCenters.remove(i);
 						this.possibleCenters.splice(i,1);
-						//i--;
+					}
+					else
+					{
+						++i;
 					}
 				}
 			}
@@ -446,7 +441,7 @@ function FinderPatternFinder()
 				});
 			}
 			
-			return new Array( this.possibleCenters[0],  this.possibleCenters[1],  this.possibleCenters[2]);
+			return [this.possibleCenters[0],  this.possibleCenters[1],  this.possibleCenters[2]];
 		}
 		
 	this.findRowSkip=function()
@@ -457,7 +452,7 @@ function FinderPatternFinder()
 				return 0;
 			}
 			var firstConfirmedCenter = null;
-			for (var i = 0; i < max; i++)
+			for (var i = 0; i < max; ++i)
 			{
 				var center =  this.possibleCenters[i];
 				if (center.Count >= CENTER_QUORUM)
@@ -486,12 +481,12 @@ function FinderPatternFinder()
 			var confirmedCount = 0;
 			var totalModuleSize = 0.0;
 			var max = this.possibleCenters.length;
-			for (var i = 0; i < max; i++)
+			for (var i = 0; i < max; ++i)
 			{
 				var pattern =  this.possibleCenters[i];
 				if (pattern.Count >= CENTER_QUORUM)
 				{
-					confirmedCount++;
+					++confirmedCount;
 					totalModuleSize += pattern.EstimatedModuleSize;
 				}
 			}
@@ -502,20 +497,19 @@ function FinderPatternFinder()
 			// OK, we have at least 3 confirmed centers, but, it's possible that one is a "false positive"
 			// and that we need to keep looking. We detect this by asking if the estimated module sizes
 			// vary too much. We arbitrarily say that when the total deviation from average exceeds
-			// 5% of the total module size estimates, it's too much.
+			// 5‰ of the total module size estimates, it's too much.
 			var average = totalModuleSize / max;
 			var totalDeviation = 0.0;
-			for (var i = 0; i < max; i++)
+			for (var i = 0; i < max; ++i)
 			{
 				pattern = this.possibleCenters[i];
 				totalDeviation += Math.abs(pattern.EstimatedModuleSize - average);
 			}
-			return totalDeviation <= 0.05 * totalModuleSize;
+			return totalDeviation <= 0.005 * totalModuleSize;
 		}
 		
-	this.findFinderPattern = function(image){
+	this.findFinderPattern = function(img){
 		var tryHarder = false;
-		this.image=image;
 		var maxI = qrcode.height;
 		var maxJ = qrcode.width;
 		var iSkip = Math.floor((3 * maxI) / (4 * MAX_MODULES));
@@ -525,7 +519,7 @@ function FinderPatternFinder()
 		}
 		
 		var done = false;
-		var stateCount = new Array(5);
+		var stateCount = [0,0,0,0,0];
 		for (var i = iSkip - 1; i < maxI && !done; i += iSkip)
 		{
 			// Get a row of black/white values
@@ -535,17 +529,17 @@ function FinderPatternFinder()
 			stateCount[3] = 0;
 			stateCount[4] = 0;
 			var currentState = 0;
-			for (var j = 0; j < maxJ; j++)
+			for (var j = 0; j < maxJ; ++j)
 			{
-				if (image[j+i*qrcode.width] )
+				if (img[j+i*qrcode.width] )
 				{
 					// Black pixel
 					if ((currentState & 1) == 1)
 					{
 						// Counting white pixels
-						currentState++;
+						++currentState;
 					}
-					stateCount[currentState]++;
+					++stateCount[currentState];
 				}
 				else
 				{
@@ -559,7 +553,7 @@ function FinderPatternFinder()
 							if (this.foundPatternCross(stateCount))
 							{
 								// Yes
-								var confirmed = this.handlePossibleCenter(stateCount, i, j);
+								var confirmed = this.handlePossibleCenter(stateCount, i, j, img);
 								if (confirmed)
 								{
 									// Start examining every other line. Checking each line turned out to be too
@@ -590,12 +584,8 @@ function FinderPatternFinder()
 								else
 								{
 									// Advance to next black pixel
-									do 
-									{
-										j++;
-									}
-									while (j < maxJ && !image[j + i*qrcode.width]);
-									j--; // back up to that last white pixel
+									while (++j < maxJ && !img[j + i*qrcode.width]);
+									--j; // back up to that last white pixel
 								}
 								// Clear state to start looking again
 								currentState = 0;
@@ -618,19 +608,19 @@ function FinderPatternFinder()
 						}
 						else
 						{
-							stateCount[++currentState]++;
+							++stateCount[++currentState];
 						}
 					}
 					else
 					{
 						// Counting white pixels
-						stateCount[currentState]++;
+						++stateCount[currentState];
 					}
 				}
 			}
 			if (this.foundPatternCross(stateCount))
 			{
-				var confirmed = this.handlePossibleCenter(stateCount, i, maxJ);
+				var confirmed = this.handlePossibleCenter(stateCount, i, maxJ, img);
 				if (confirmed)
 				{
 					iSkip = stateCount[0];

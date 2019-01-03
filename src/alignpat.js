@@ -48,7 +48,7 @@ function AlignmentPattern(posX, posY,  estimatedModuleSize)
 	});
 	this.incrementCount = function()
 	{
-		this.count++;
+		++this.count;
 	}
 	this.aboutEquals=function( moduleSize,  i,  j)
 		{
@@ -65,13 +65,13 @@ function AlignmentPattern(posX, posY,  estimatedModuleSize)
 function AlignmentPatternFinder( image,  startX,  startY,  width,  height,  moduleSize,  resultPointCallback)
 {
 	this.image = image;
-	this.possibleCenters = new Array();
+	this.possibleCenters = [];
 	this.startX = startX;
 	this.startY = startY;
 	this.width = width;
 	this.height = height;
 	this.moduleSize = moduleSize;
-	this.crossCheckStateCount = new Array(0,0,0);
+	this.crossCheckStateCount = [0,0,0];
 	this.resultPointCallback = resultPointCallback;
 	
 	this.centerFromEnd=function(stateCount,  end)
@@ -82,7 +82,7 @@ function AlignmentPatternFinder( image,  startX,  startY,  width,  height,  modu
 		{
 			var moduleSize = this.moduleSize;
 			var maxVariance = moduleSize / 2.0;
-			for (var i = 0; i < 3; i++)
+			for (var i = 0; i < 3; ++i)
 			{
 				if (Math.abs(moduleSize - stateCount[i]) >= maxVariance)
 				{
@@ -106,8 +106,8 @@ function AlignmentPatternFinder( image,  startX,  startY,  width,  height,  modu
 			var i = startI;
 			while (i >= 0 && image[centerJ + i*qrcode.width] && stateCount[1] <= maxCount)
 			{
-				stateCount[1]++;
-				i--;
+				++stateCount[1];
+				--i;
 			}
 			// If already too many modules in this state or ran off the edge:
 			if (i < 0 || stateCount[1] > maxCount)
@@ -116,8 +116,8 @@ function AlignmentPatternFinder( image,  startX,  startY,  width,  height,  modu
 			}
 			while (i >= 0 && !image[centerJ + i*qrcode.width] && stateCount[0] <= maxCount)
 			{
-				stateCount[0]++;
-				i--;
+				++stateCount[0];
+				--i;
 			}
 			if (stateCount[0] > maxCount)
 			{
@@ -128,8 +128,8 @@ function AlignmentPatternFinder( image,  startX,  startY,  width,  height,  modu
 			i = startI + 1;
 			while (i < maxI && image[centerJ + i*qrcode.width] && stateCount[1] <= maxCount)
 			{
-				stateCount[1]++;
-				i++;
+				++stateCount[1];
+				++i;
 			}
 			if (i == maxI || stateCount[1] > maxCount)
 			{
@@ -137,8 +137,8 @@ function AlignmentPatternFinder( image,  startX,  startY,  width,  height,  modu
 			}
 			while (i < maxI && !image[centerJ + i*qrcode.width] && stateCount[2] <= maxCount)
 			{
-				stateCount[2]++;
-				i++;
+				++stateCount[2];
+				++i;
 			}
 			if (stateCount[2] > maxCount)
 			{
@@ -163,7 +163,7 @@ function AlignmentPatternFinder( image,  startX,  startY,  width,  height,  modu
 			{
 				var estimatedModuleSize = (stateCount[0] + stateCount[1] + stateCount[2]) / 3.0;
 				var max = this.possibleCenters.length;
-				for (var index = 0; index < max; index++)
+				for (var index = 0; index < max; ++index)
 				{
 					var center =  this.possibleCenters[index];
 					// Look for about the same center and module size:
@@ -191,8 +191,8 @@ function AlignmentPatternFinder( image,  startX,  startY,  width,  height,  modu
 			var middleI = startY + (height >> 1);
 			// We are looking for black/white/black modules in 1:1:1 ratio;
 			// this tracks the number of black/white/black modules seen so far
-			var stateCount = new Array(0,0,0);
-			for (var iGen = 0; iGen < height; iGen++)
+			var stateCount = [0,0,0];
+			for (var iGen = 0; iGen < height; ++iGen)
 			{
 				// Search from middle outwards
 				var i = middleI + ((iGen & 0x01) == 0?((iGen + 1) >> 1):- ((iGen + 1) >> 1));
@@ -205,7 +205,7 @@ function AlignmentPatternFinder( image,  startX,  startY,  width,  height,  modu
 				// white run continued to the left of the start point
 				while (j < maxJ && !image[j + qrcode.width* i])
 				{
-					j++;
+					++j;
 				}
 				var currentState = 0;
 				while (j < maxJ)
@@ -216,7 +216,7 @@ function AlignmentPatternFinder( image,  startX,  startY,  width,  height,  modu
 						if (currentState == 1)
 						{
 							// Counting black pixels
-							stateCount[currentState]++;
+							++stateCount[currentState];
 						}
 						else
 						{
@@ -240,7 +240,7 @@ function AlignmentPatternFinder( image,  startX,  startY,  width,  height,  modu
 							}
 							else
 							{
-								stateCount[++currentState]++;
+								++stateCount[++currentState];
 							}
 						}
 					}
@@ -250,11 +250,11 @@ function AlignmentPatternFinder( image,  startX,  startY,  width,  height,  modu
 						if (currentState == 1)
 						{
 							// Counting black pixels
-							currentState++;
+							++currentState;
 						}
-						stateCount[currentState]++;
+						++stateCount[currentState];
 					}
-					j++;
+					++j;
 				}
 				if (this.foundPatternCross(stateCount))
 				{
