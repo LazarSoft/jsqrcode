@@ -356,6 +356,11 @@ function FinderPatternFinder(qrcode)
 				if (!isNaN(centerJ))
 				{
 					var estimatedModuleSize =   stateCountTotal / 7.0;
+					// Check for one extra vertical.
+					var eVertC = 0;
+					if (centerJ + estimatedModuleSize < qrcode.width && this.crossCheckVertical(Math.floor(centerI), Math.floor(centerJ + estimatedModuleSize), stateCount[2], stateCountTotal) != NaN) eVertC ++;
+					if (centerJ - estimatedModuleSize >= 0 && this.crossCheckVertical(Math.floor(centerI), Math.floor(centerJ - estimatedModuleSize), stateCount[2], stateCountTotal) != NaN) eVertC ++;
+					if (eVertC == 0) return false;
 					var found = false;
 					var max = this.possibleCenters.length;
 					for (var index = 0; index < max; index++)
@@ -555,8 +560,10 @@ function FinderPatternFinder(qrcode)
 						// Counting black pixels
 						if (currentState == 4)
 						{
+							var aggStateCount = 0;
+							stateCount.forEach(function (val) { aggStateCount += val; });
 							// A winner?
-							if (this.foundPatternCross(stateCount))
+							if (this.foundPatternCross(stateCount) && this.crossCheckVertical( i, j - aggStateCount / 2, aggStateCount, aggStateCount))
 							{
 								// Yes
 								var confirmed = this.handlePossibleCenter(stateCount, i, j);
