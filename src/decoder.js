@@ -23,10 +23,11 @@
 */
 
 
-var Decoder={};
-Decoder.rsDecoder = new ReedSolomonDecoder(GF256.QR_CODE_FIELD);
+function DecoderBase() {
+	this.rsDecoder = new ReedSolomonDecoder(GF256.QR_CODE_FIELD);
+}
 
-Decoder.correctErrors=function( codewordBytes,  numDataCodewords)
+DecoderBase.prototype.correctErrors=function( codewordBytes,  numDataCodewords)
 {
 	var numCodewords = codewordBytes.length;
 	// First read into an array of ints
@@ -54,7 +55,7 @@ Decoder.correctErrors=function( codewordBytes,  numDataCodewords)
 	}
 }
 
-Decoder.decode=function(bits)
+DecoderBase.prototype.decode=function(qrcode, bits)
 {
 	var parser = new BitMatrixParser(bits);
 	var version = parser.readVersion();
@@ -89,7 +90,10 @@ Decoder.decode=function(bits)
 	}
 	
 	// Decode the contents of that stream of bytes
-	var reader = new QRCodeDataBlockReader(resultBytes, version.VersionNumber, ecLevel.Bits);
+	var reader = new QRCodeDataBlockReader(qrcode, resultBytes, version.VersionNumber, ecLevel.Bits);
 	return reader;
 	//return DecodedBitStreamParser.decode(resultBytes, version, ecLevel);
 }
+
+var Decoder= new DecoderBase();
+

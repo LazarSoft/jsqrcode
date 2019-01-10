@@ -25,7 +25,7 @@
 
 var GridSampler = {};
 
-GridSampler.checkAndNudgePoints=function( image,  points)
+GridSampler.checkAndNudgePoints=function( qrcode, image, points)
 		{
 			var width = qrcode.width;
 			var height = qrcode.height;
@@ -97,7 +97,7 @@ GridSampler.checkAndNudgePoints=function( image,  points)
 	
 
 
-GridSampler.sampleGrid3=function( image,  dimension,  transform)
+GridSampler.sampleGrid3=function( qrcode, image,  dimension,  transform)
 		{
 			var bits = new BitMatrix(dimension);
 			var points = new Array(dimension << 1);
@@ -113,7 +113,7 @@ GridSampler.sampleGrid3=function( image,  dimension,  transform)
 				transform.transformPoints1(points);
 				// Quick check to see if points transformed to something inside the image;
 				// sufficient to check the endpoints
-				GridSampler.checkAndNudgePoints(image, points);
+				GridSampler.checkAndNudgePoints(qrcode, image, points);
 				try
 				{
 					for (var x = 0; x < max; x += 2)
