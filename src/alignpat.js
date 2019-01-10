@@ -62,7 +62,7 @@ function AlignmentPattern(posX, posY,  estimatedModuleSize)
 	
 }
 
-function AlignmentPatternFinder( image,  startX,  startY,  width,  height,  moduleSize,  resultPointCallback)
+function AlignmentPatternFinder( qrcode, image,  startX,  startY,  width,  height,  moduleSize,  resultPointCallback)
 {
 	this.image = image;
 	this.possibleCenters = new Array();

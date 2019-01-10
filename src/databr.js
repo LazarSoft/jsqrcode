@@ -23,7 +23,7 @@
 */
 
 
-function QRCodeDataBlockReader(blocks,  version,  numErrorCorrectionCode)
+function QRCodeDataBlockReader(qrcode, blocks,  version,  numErrorCorrectionCode)
 {
 	this.blockPointer = 0;
 	this.bitPointer = 7;

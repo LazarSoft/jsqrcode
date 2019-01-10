@@ -80,7 +80,7 @@ function PerspectiveTransform( a11,  a21,  a31,  a12,  a22,  a32,  a13,  a23,  a
 
 }
 
-PerspectiveTransform.quadrilateralToQuadrilateral=function( x0,  y0,  x1,  y1,  x2,  y2,  x3,  y3,  x0p,  y0p,  x1p,  y1p,  x2p,  y2p,  x3p,  y3p)
+PerspectiveTransform.prototype.quadrilateralToQuadrilateral=function( x0,  y0,  x1,  y1,  x2,  y2,  x3,  y3,  x0p,  y0p,  x1p,  y1p,  x2p,  y2p,  x3p,  y3p)
 {
 	
 	var qToS = this.quadrilateralToSquare(x0, y0, x1, y1, x2, y2, x3, y3);
@@ -88,7 +88,7 @@ PerspectiveTransform.quadrilateralToQuadrilateral=function( x0,  y0,  x1,  y1,  
 	return sToQ.times(qToS);
 }
 
-PerspectiveTransform.squareToQuadrilateral=function( x0,  y0,  x1,  y1,  x2,  y2,  x3,  y3)
+PerspectiveTransform.prototype.squareToQuadrilateral=function( x0,  y0,  x1,  y1,  x2,  y2,  x3,  y3)
 {
 	var dy2 = y3 - y2;
 	var dy3 = y0 - y1 + y2 - y3;
@@ -109,7 +109,7 @@ PerspectiveTransform.squareToQuadrilateral=function( x0,  y0,  x1,  y1,  x2,  y2
 	}
 }
 
-PerspectiveTransform.quadrilateralToSquare=function( x0,  y0,  x1,  y1,  x2,  y2,  x3,  y3)
+PerspectiveTransform.prototype.quadrilateralToSquare=function( x0,  y0,  x1,  y1,  x2,  y2,  x3,  y3)
 {
 	// Here, the adjoint serves as the inverse:
 	return this.squareToQuadrilateral(x0, y0, x1, y1, x2, y2, x3, y3).buildAdjoint();
@@ -122,7 +122,7 @@ function DetectorResult(bits,  points)
 }
 
 
-function Detector(image)
+function Detector(qrcode, image)
 {
 	this.image=image;
 	this.resultPointCallback = null;
@@ -282,7 +282,7 @@ function Detector(image)
 					break;
 				
 				case 3: 
-					throw "Error";
+					throw "Error finding dimension";
 				}
 			return dimension;
 		}
@@ -302,7 +302,7 @@ function Detector(image)
 			var alignmentAreaTopY = Math.max(0, estAlignmentY - allowance);
 			var alignmentAreaBottomY = Math.min(qrcode.height - 1, estAlignmentY + allowance);
 			
-			var alignmentFinder = new AlignmentPatternFinder(this.image, alignmentAreaLeftX, alignmentAreaTopY, alignmentAreaRightX - alignmentAreaLeftX, alignmentAreaBottomY - alignmentAreaTopY, overallEstModuleSize, this.resultPointCallback);
+			var alignmentFinder = new AlignmentPatternFinder(qrcode, this.image, alignmentAreaLeftX, alignmentAreaTopY, alignmentAreaRightX - alignmentAreaLeftX, alignmentAreaBottomY - alignmentAreaTopY, overallEstModuleSize, this.resultPointCallback);
 			return alignmentFinder.find();
 		}
 		
@@ -336,7 +336,7 @@ function Detector(image)
 		{
 			
 			var sampler = GridSampler;
-			return sampler.sampleGrid3(image, dimension, transform);
+			return sampler.sampleGrid3(qrcode, image, dimension, transform);
 		}
 	
 	this.processFinderPatternInfo = function( info)
@@ -406,7 +406,7 @@ function Detector(image)
 	
 	this.detect=function()
 	{
-		var info =  new FinderPatternFinder().findFinderPattern(this.image);
+		var info =  new FinderPatternFinder(qrcode).findFinderPattern(this.image);
 			
 		return this.processFinderPatternInfo(info); 
 	}
