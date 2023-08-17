@@ -23,7 +23,7 @@
 */
 
 
-var DataMask = {};
+let DataMask = {};
 
 DataMask.forReference = function(reference)
 {
@@ -38,9 +38,9 @@ function DataMask000()
 {
 	this.unmaskBitMatrix=function(bits,  dimension)
 	{
-		for (var i = 0; i < dimension; i++)
+		for (let i = 0; i < dimension; i++)
 		{
-			for (var j = 0; j < dimension; j++)
+			for (let j = 0; j < dimension; j++)
 			{
 				if (this.isMasked(i, j))
 				{
@@ -59,9 +59,9 @@ function DataMask001()
 {
 	this.unmaskBitMatrix=function(bits,  dimension)
 	{
-		for (var i = 0; i < dimension; i++)
+		for (let i = 0; i < dimension; i++)
 		{
-			for (var j = 0; j < dimension; j++)
+			for (let j = 0; j < dimension; j++)
 			{
 				if (this.isMasked(i, j))
 				{
@@ -80,9 +80,9 @@ function DataMask010()
 {
 	this.unmaskBitMatrix=function(bits,  dimension)
 	{
-		for (var i = 0; i < dimension; i++)
+		for (let i = 0; i < dimension; i++)
 		{
-			for (var j = 0; j < dimension; j++)
+			for (let j = 0; j < dimension; j++)
 			{
 				if (this.isMasked(i, j))
 				{
@@ -101,9 +101,9 @@ function DataMask011()
 {
 	this.unmaskBitMatrix=function(bits,  dimension)
 	{
-		for (var i = 0; i < dimension; i++)
+		for (let i = 0; i < dimension; i++)
 		{
-			for (var j = 0; j < dimension; j++)
+			for (let j = 0; j < dimension; j++)
 			{
 				if (this.isMasked(i, j))
 				{
@@ -122,9 +122,9 @@ function DataMask100()
 {
 	this.unmaskBitMatrix=function(bits,  dimension)
 	{
-		for (var i = 0; i < dimension; i++)
+		for (let i = 0; i < dimension; i++)
 		{
-			for (var j = 0; j < dimension; j++)
+			for (let j = 0; j < dimension; j++)
 			{
 				if (this.isMasked(i, j))
 				{
@@ -143,9 +143,9 @@ function DataMask101()
 {
 	this.unmaskBitMatrix=function(bits,  dimension)
 	{
-		for (var i = 0; i < dimension; i++)
+		for (let i = 0; i < dimension; i++)
 		{
-			for (var j = 0; j < dimension; j++)
+			for (let j = 0; j < dimension; j++)
 			{
 				if (this.isMasked(i, j))
 				{
@@ -156,7 +156,7 @@ function DataMask101()
 	}
 	this.isMasked=function( i,  j)
 	{
-		var temp = i * j;
+		let temp = i * j;
 		return (temp & 0x01) + (temp % 3) == 0;
 	}
 }
@@ -165,9 +165,9 @@ function DataMask110()
 {
 	this.unmaskBitMatrix=function(bits,  dimension)
 	{
-		for (var i = 0; i < dimension; i++)
+		for (let i = 0; i < dimension; i++)
 		{
-			for (var j = 0; j < dimension; j++)
+			for (let j = 0; j < dimension; j++)
 			{
 				if (this.isMasked(i, j))
 				{
@@ -178,7 +178,7 @@ function DataMask110()
 	}
 	this.isMasked=function( i,  j)
 	{
-		var temp = i * j;
+		let temp = i * j;
 		return (((temp & 0x01) + (temp % 3)) & 0x01) == 0;
 	}
 }
@@ -186,9 +186,9 @@ function DataMask111()
 {
 	this.unmaskBitMatrix=function(bits,  dimension)
 	{
-		for (var i = 0; i < dimension; i++)
+		for (let i = 0; i < dimension; i++)
 		{
-			for (var j = 0; j < dimension; j++)
+			for (let j = 0; j < dimension; j++)
 			{
 				if (this.isMasked(i, j))
 				{
