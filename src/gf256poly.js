@@ -30,11 +30,11 @@ function GF256Poly(field,  coefficients)
 		throw "System.ArgumentException";
 	}
 	this.field = field;
-	var coefficientsLength = coefficients.length;
+	let coefficientsLength = coefficients.length;
 	if (coefficientsLength > 1 && coefficients[0] == 0)
 	{
 		// Leading term must be non-zero for anything except the constant polynomial "0"
-		var firstNonZero = 1;
+		let firstNonZero = 1;
 		while (firstNonZero < coefficientsLength && coefficients[firstNonZero] == 0)
 		{
 			firstNonZero++;
@@ -46,9 +46,9 @@ function GF256Poly(field,  coefficients)
 		else
 		{
 			this.coefficients = new Array(coefficientsLength - firstNonZero);
-			for(var i=0;i<this.coefficients.length;i++)this.coefficients[i]=0;
+			for(let i=0;i<this.coefficients.length;i++)this.coefficients[i]=0;
 			//Array.Copy(coefficients, firstNonZero, this.coefficients, 0, this.coefficients.length);
-			for(var ci=0;ci<this.coefficients.length;ci++)this.coefficients[ci]=coefficients[firstNonZero+ci];
+			for(let ci=0;ci<this.coefficients.length;ci++)this.coefficients[ci]=coefficients[firstNonZero+ci];
 		}
 	}
 	else
@@ -81,19 +81,19 @@ function GF256Poly(field,  coefficients)
 			// Just return the x^0 coefficient
 			return this.getCoefficient(0);
 		}
-		var size = this.coefficients.length;
+		let size = this.coefficients.length;
 		if (a == 1)
 		{
 			// Just the sum of the coefficients
-			var result = 0;
-			for (var i = 0; i < size; i++)
+			let result = 0;
+			for (let i = 0; i < size; i++)
 			{
 				result = GF256.addOrSubtract(result, this.coefficients[i]);
 			}
 			return result;
 		}
-		var result2 = this.coefficients[0];
-		for (var i = 1; i < size; i++)
+		let result2 = this.coefficients[0];
+		for (let i = 1; i < size; i++)
 		{
 			result2 = GF256.addOrSubtract(this.field.multiply(a, result2), this.coefficients[i]);
 		}
@@ -115,21 +115,21 @@ function GF256Poly(field,  coefficients)
 				return this;
 			}
 			
-			var smallerCoefficients = this.coefficients;
-			var largerCoefficients = other.coefficients;
+			let smallerCoefficients = this.coefficients;
+			let largerCoefficients = other.coefficients;
 			if (smallerCoefficients.length > largerCoefficients.length)
 			{
-				var temp = smallerCoefficients;
+				let temp = smallerCoefficients;
 				smallerCoefficients = largerCoefficients;
 				largerCoefficients = temp;
 			}
-			var sumDiff = new Array(largerCoefficients.length);
-			var lengthDiff = largerCoefficients.length - smallerCoefficients.length;
+			let sumDiff = new Array(largerCoefficients.length);
+			let lengthDiff = largerCoefficients.length - smallerCoefficients.length;
 			// Copy high-order terms only found in higher-degree polynomial's coefficients
 			//Array.Copy(largerCoefficients, 0, sumDiff, 0, lengthDiff);
-			for(var ci=0;ci<lengthDiff;ci++)sumDiff[ci]=largerCoefficients[ci];
+			for(let ci=0;ci<lengthDiff;ci++)sumDiff[ci]=largerCoefficients[ci];
 			
-			for (var i = lengthDiff; i < largerCoefficients.length; i++)
+			for (let i = lengthDiff; i < largerCoefficients.length; i++)
 			{
 				sumDiff[i] = GF256.addOrSubtract(smallerCoefficients[i - lengthDiff], largerCoefficients[i]);
 			}
@@ -146,15 +146,15 @@ function GF256Poly(field,  coefficients)
 			{
 				return this.field.Zero;
 			}
-			var aCoefficients = this.coefficients;
-			var aLength = aCoefficients.length;
-			var bCoefficients = other.coefficients;
-			var bLength = bCoefficients.length;
-			var product = new Array(aLength + bLength - 1);
-			for (var i = 0; i < aLength; i++)
+			let aCoefficients = this.coefficients;
+			let aLength = aCoefficients.length;
+			let bCoefficients = other.coefficients;
+			let bLength = bCoefficients.length;
+			let product = new Array(aLength + bLength - 1);
+			for (let i = 0; i < aLength; i++)
 			{
-				var aCoeff = aCoefficients[i];
-				for (var j = 0; j < bLength; j++)
+				let aCoeff = aCoefficients[i];
+				for (let j = 0; j < bLength; j++)
 				{
 					product[i + j] = GF256.addOrSubtract(product[i + j], this.field.multiply(aCoeff, bCoefficients[j]));
 				}
@@ -171,9 +171,9 @@ function GF256Poly(field,  coefficients)
 			{
 				return this;
 			}
-			var size = this.coefficients.length;
-			var product = new Array(size);
-			for (var i = 0; i < size; i++)
+			let size = this.coefficients.length;
+			let product = new Array(size);
+			for (let i = 0; i < size; i++)
 			{
 				product[i] = this.field.multiply(this.coefficients[i], scalar);
 			}
@@ -189,10 +189,10 @@ function GF256Poly(field,  coefficients)
 			{
 				return this.field.Zero;
 			}
-			var size = this.coefficients.length;
-			var product = new Array(size + degree);
-			for(var i=0;i<product.length;i++)product[i]=0;
-			for (var i = 0; i < size; i++)
+			let size = this.coefficients.length;
+			let product = new Array(size + degree);
+			for(let i=0;i<product.length;i++)product[i]=0;
+			for (let i = 0; i < size; i++)
 			{
 				product[i] = this.field.multiply(this.coefficients[i], coefficient);
 			}
@@ -209,18 +209,18 @@ function GF256Poly(field,  coefficients)
 				throw "Divide by 0";
 			}
 			
-			var quotient = this.field.Zero;
-			var remainder = this;
+			let quotient = this.field.Zero;
+			let remainder = this;
 			
-			var denominatorLeadingTerm = other.getCoefficient(other.Degree);
-			var inverseDenominatorLeadingTerm = this.field.inverse(denominatorLeadingTerm);
+			let denominatorLeadingTerm = other.getCoefficient(other.Degree);
+			let inverseDenominatorLeadingTerm = this.field.inverse(denominatorLeadingTerm);
 			
 			while (remainder.Degree >= other.Degree && !remainder.Zero)
 			{
-				var degreeDifference = remainder.Degree - other.Degree;
-				var scale = this.field.multiply(remainder.getCoefficient(remainder.Degree), inverseDenominatorLeadingTerm);
-				var term = other.multiplyByMonomial(degreeDifference, scale);
-				var iterationQuotient = this.field.buildMonomial(degreeDifference, scale);
+				let degreeDifference = remainder.Degree - other.Degree;
+				let scale = this.field.multiply(remainder.getCoefficient(remainder.Degree), inverseDenominatorLeadingTerm);
+				let term = other.multiplyByMonomial(degreeDifference, scale);
+				let iterationQuotient = this.field.buildMonomial(degreeDifference, scale);
 				quotient = quotient.addOrSubtract(iterationQuotient);
 				remainder = remainder.addOrSubtract(term);
 			}
