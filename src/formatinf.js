@@ -23,9 +23,9 @@
 */
 
 
-var FORMAT_INFO_MASK_QR = 0x5412;
-var FORMAT_INFO_DECODE_LOOKUP = new Array(new Array(0x5412, 0x00), new Array(0x5125, 0x01), new Array(0x5E7C, 0x02), new Array(0x5B4B, 0x03), new Array(0x45F9, 0x04), new Array(0x40CE, 0x05), new Array(0x4F97, 0x06), new Array(0x4AA0, 0x07), new Array(0x77C4, 0x08), new Array(0x72F3, 0x09), new Array(0x7DAA, 0x0A), new Array(0x789D, 0x0B), new Array(0x662F, 0x0C), new Array(0x6318, 0x0D), new Array(0x6C41, 0x0E), new Array(0x6976, 0x0F), new Array(0x1689, 0x10), new Array(0x13BE, 0x11), new Array(0x1CE7, 0x12), new Array(0x19D0, 0x13), new Array(0x0762, 0x14), new Array(0x0255, 0x15), new Array(0x0D0C, 0x16), new Array(0x083B, 0x17), new Array(0x355F, 0x18), new Array(0x3068, 0x19), new Array(0x3F31, 0x1A), new Array(0x3A06, 0x1B), new Array(0x24B4, 0x1C), new Array(0x2183, 0x1D), new Array(0x2EDA, 0x1E), new Array(0x2BED, 0x1F));
-var BITS_SET_IN_HALF_BYTE = new Array(0, 1, 1, 2, 1, 2, 2, 3, 1, 2, 2, 3, 2, 3, 3, 4);
+let FORMAT_INFO_MASK_QR = 0x5412;
+let FORMAT_INFO_DECODE_LOOKUP = new Array(new Array(0x5412, 0x00), new Array(0x5125, 0x01), new Array(0x5E7C, 0x02), new Array(0x5B4B, 0x03), new Array(0x45F9, 0x04), new Array(0x40CE, 0x05), new Array(0x4F97, 0x06), new Array(0x4AA0, 0x07), new Array(0x77C4, 0x08), new Array(0x72F3, 0x09), new Array(0x7DAA, 0x0A), new Array(0x789D, 0x0B), new Array(0x662F, 0x0C), new Array(0x6318, 0x0D), new Array(0x6C41, 0x0E), new Array(0x6976, 0x0F), new Array(0x1689, 0x10), new Array(0x13BE, 0x11), new Array(0x1CE7, 0x12), new Array(0x19D0, 0x13), new Array(0x0762, 0x14), new Array(0x0255, 0x15), new Array(0x0D0C, 0x16), new Array(0x083B, 0x17), new Array(0x355F, 0x18), new Array(0x3068, 0x19), new Array(0x3F31, 0x1A), new Array(0x3A06, 0x1B), new Array(0x24B4, 0x1C), new Array(0x2183, 0x1D), new Array(0x2EDA, 0x1E), new Array(0x2BED, 0x1F));
+let BITS_SET_IN_HALF_BYTE = new Array(0, 1, 1, 2, 1, 2, 2, 3, 1, 2, 2, 3, 2, 3, 3, 4);
 
 
 function FormatInformation(formatInfo)
@@ -61,7 +61,7 @@ FormatInformation.numBitsDiffering=function( a,  b)
 
 FormatInformation.decodeFormatInformation=function( maskedFormatInfo)
 {
-	var formatInfo = FormatInformation.doDecodeFormatInformation(maskedFormatInfo);
+	let formatInfo = FormatInformation.doDecodeFormatInformation(maskedFormatInfo);
 	if (formatInfo != null)
 	{
 		return formatInfo;
@@ -74,18 +74,18 @@ FormatInformation.decodeFormatInformation=function( maskedFormatInfo)
 FormatInformation.doDecodeFormatInformation=function( maskedFormatInfo)
 {
 	// Find the int in FORMAT_INFO_DECODE_LOOKUP with fewest bits differing
-	var bestDifference = 0xffffffff;
-	var bestFormatInfo = 0;
-	for (var i = 0; i < FORMAT_INFO_DECODE_LOOKUP.length; i++)
+	let bestDifference = 0xffffffff;
+	let bestFormatInfo = 0;
+	for (let i = 0; i < FORMAT_INFO_DECODE_LOOKUP.length; i++)
 	{
-		var decodeInfo = FORMAT_INFO_DECODE_LOOKUP[i];
-		var targetInfo = decodeInfo[0];
+		let decodeInfo = FORMAT_INFO_DECODE_LOOKUP[i];
+		let targetInfo = decodeInfo[0];
 		if (targetInfo == maskedFormatInfo)
 		{
 			// Found an exact match
 			return new FormatInformation(decodeInfo[1]);
 		}
-		var bitsDifference = this.numBitsDiffering(maskedFormatInfo, targetInfo);
+		let bitsDifference = this.numBitsDiffering(maskedFormatInfo, targetInfo);
 		if (bitsDifference < bestDifference)
 		{
 			bestFormatInfo = decodeInfo[1];
