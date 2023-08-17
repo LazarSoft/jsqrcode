@@ -59,8 +59,8 @@ function ECBlocks( ecCodewordsPerBlock,  ecBlocks1,  ecBlocks2)
 	
 	this.__defineGetter__("NumBlocks", function()
 	{
-		var total = 0;
-		for (var i = 0; i < this.ecBlocks.length; i++)
+		let total = 0;
+		for (let i = 0; i < this.ecBlocks.length; i++)
 		{
 			total += this.ecBlocks[i].length;
 		}
@@ -79,12 +79,12 @@ function Version( versionNumber,  alignmentPatternCenters,  ecBlocks1,  ecBlocks
 	this.alignmentPatternCenters = alignmentPatternCenters;
 	this.ecBlocks = new Array(ecBlocks1, ecBlocks2, ecBlocks3, ecBlocks4);
 	
-	var total = 0;
-	var ecCodewords = ecBlocks1.ECCodewordsPerBlock;
-	var ecbArray = ecBlocks1.getECBlocks();
-	for (var i = 0; i < ecbArray.length; i++)
+	let total = 0;
+	let ecCodewords = ecBlocks1.ECCodewordsPerBlock;
+	let ecbArray = ecBlocks1.getECBlocks();
+	for (let i = 0; i < ecbArray.length; i++)
 	{
-		var ecBlock = ecbArray[i];
+		let ecBlock = ecbArray[i];
 		total += ecBlock.Count * (ecBlock.DataCodewords + ecCodewords);
 	}
 	this.totalCodewords = total;
@@ -109,8 +109,8 @@ function Version( versionNumber,  alignmentPatternCenters,  ecBlocks1,  ecBlocks
 	
 	this.buildFunctionPattern=function()
 		{
-			var dimension = this.DimensionForVersion;
-			var bitMatrix = new BitMatrix(dimension);
+			let dimension = this.DimensionForVersion;
+			let bitMatrix = new BitMatrix(dimension);
 			
 			// Top left finder pattern + separator + format
 			bitMatrix.setRegion(0, 0, 9, 9);
@@ -120,11 +120,11 @@ function Version( versionNumber,  alignmentPatternCenters,  ecBlocks1,  ecBlocks
 			bitMatrix.setRegion(0, dimension - 8, 9, 8);
 			
 			// Alignment patterns
-			var max = this.alignmentPatternCenters.length;
-			for (var x = 0; x < max; x++)
+			let max = this.alignmentPatternCenters.length;
+			for (let x = 0; x < max; x++)
 			{
-				var i = this.alignmentPatternCenters[x] - 2;
-				for (var y = 0; y < max; y++)
+				let i = this.alignmentPatternCenters[x] - 2;
+				for (let y = 0; y < max; y++)
 				{
 					if ((x == 0 && (y == 0 || y == max - 1)) || (x == max - 1 && y == 0))
 					{
@@ -187,11 +187,11 @@ Version.getProvisionalVersionForDimension=function(dimension)
 
 Version.decodeVersionInformation=function( versionBits)
 {
-	var bestDifference = 0xffffffff;
-	var bestVersion = 0;
-	for (var i = 0; i < Version.VERSION_DECODE_INFO.length; i++)
+	let bestDifference = 0xffffffff;
+	let bestVersion = 0;
+	for (let i = 0; i < Version.VERSION_DECODE_INFO.length; i++)
 	{
-		var targetVersion = Version.VERSION_DECODE_INFO[i];
+		let targetVersion = Version.VERSION_DECODE_INFO[i];
 		// Do the version info bits match exactly? done.
 		if (targetVersion == versionBits)
 		{
@@ -199,7 +199,7 @@ Version.decodeVersionInformation=function( versionBits)
 		}
 		// Otherwise see if this is the closest to a real version info bit string
 		// we have seen so far
-		var bitsDifference = FormatInformation.numBitsDiffering(versionBits, targetVersion);
+		let bitsDifference = FormatInformation.numBitsDiffering(versionBits, targetVersion);
 		if (bitsDifference < bestDifference)
 		{
 			bestVersion = i + 7;
